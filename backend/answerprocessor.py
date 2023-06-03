@@ -15,7 +15,7 @@ class AnswerProcessor:
             if currProb > bestAns[1]:
                 bestAns = (card, currProb)
 
-        if bestAns[1] > 0.9 or len(questionData.QuestionBank) == 0:
+        if bestAns[1] > 0.75 or len(questionData.QuestionBank) == 0:
             return bestAns[0]
         else:
             return ""

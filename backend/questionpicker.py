@@ -3,16 +3,9 @@ from data import questionbank as questionData
 from backend import beyestheoremcalc as beyes
 import math
 
-YES_PROB_FINAL = .4
-NO_PROB_FINAL = .4
-MAYBE_PROB_FINAL = .2
+MAYBE_WEIGHT_FINAL = 0.1
 TOTAL_CARDS_FINAL = cardData.TotalCards
 POSSIBLE_ANSWERS_FINAL = ["yes", "no", "maybe"]
-ENTROPY_WEIGHT_FINAL = {
-    "yes": 0.45,
-    "no": 0.45,
-    "maybe": 0.10
-}
 class QuestionPicker:
     def __init__(self):
         self.beyestheoremcalc = beyes.BeyesTheoremCalc()
@@ -21,6 +14,12 @@ class QuestionPicker:
         for question in questionData.QuestionBank:
             newQuestionList = list(questionList)
             newQuestionList.append(question)
+
+            entropy_weight_map = {
+                "yes": cardData.CategoryCount[question] / TOTAL_CARDS_FINAL * (1 - MAYBE_WEIGHT_FINAL),
+                "no": (TOTAL_CARDS_FINAL - cardData.CategoryCount[question]) / TOTAL_CARDS_FINAL * (1 - MAYBE_WEIGHT_FINAL),
+                "maybe": MAYBE_WEIGHT_FINAL
+            }
 
             entropy_map = {
                 "yes": 0,
@@ -37,7 +36,7 @@ class QuestionPicker:
 
             totalEntropy = 0
             for key in entropy_map:
-                totalEntropy += entropy_map[key] * ENTROPY_WEIGHT_FINAL[key]
+                totalEntropy += entropy_map[key] * entropy_weight_map[key]
             print((question, totalEntropy))
             if totalEntropy < bestQuestion[1]:
                 bestQuestion = (question, totalEntropy)
