@@ -2,10 +2,10 @@ import pandas as pd
 import numpy as np
 import json
 
-from questionbank import generate_all_answers, generate_all_possible_questions
-from models.questiontypes import QuestionTypes
-from models.cardproperties import CardTypes
-from models.cardmodel import CardModel
+from data.questionbank import generate_all_answers, generate_all_possible_questions
+from data.models.questiontypes import QuestionTypes
+from data.models.cardproperties import CardTypes
+from data.models.cardmodel import CardModel
 
 """
 HOW TO: Running this file will generate three files: 
@@ -43,12 +43,10 @@ QUESTIONS_TO_COLUMNS_MAP = {
 Converts JSON file into CSV, only including columns defined in CHOSEN_COLUMNS_FROM_CSV
 """
 def create_cardsdata_csv():
-    card_dataframe = pd.read_json('./files/cardsdata.json')
-    card_dataframe.to_csv('files/cardsdata_csv',
+    card_dataframe = pd.read_json('./data/files/cardsdata.json')
+    card_dataframe.to_csv('./data/files/cardsdata_csv',
                         columns=CHOSEN_COLUMNS_FROM_CSV,
                         index=False)
-
-create_cardsdata_csv()
 
 """
 Returns range of values for each column in cardsdata_csv.
@@ -59,7 +57,7 @@ Note: Make sure that columnData.unique().tolist is used,
 """
 def spread_range_per_column():
     range_set_per_key = {}
-    cardcsv_dataframe = pd.read_csv('./files/cardsdata_csv')
+    cardcsv_dataframe = pd.read_csv('./data/files/cardsdata_csv')
     for columnName, columnData in cardcsv_dataframe.transpose().iterrows():
         range_set_per_key[columnName] = columnData.unique().tolist()
     return range_set_per_key
@@ -71,10 +69,8 @@ generating questions in the future.
 """
 def create_range_cardsdata_json():
     range_dict = spread_range_per_column()
-    with open('./files/cardsdata_range.json', 'w') as fp:
+    with open('./data/files/cardsdata_range.json', 'w') as fp:
         json.dump(range_dict, fp)
-
-create_range_cardsdata_json()
 
 """
 Takes available questions from questionbank, and K valid answer choices and 
@@ -86,35 +82,51 @@ for whether a card satisfies the question.
 """
 def generate_correct_answers_per_card():
     name_to_card_answer_map = {}
-    cardsdata_df = pd.read_csv('./files/cardsdata_csv')
+    cardsdata_df = pd.read_csv('./data/files/cardsdata_csv')
     for _, cardrow in cardsdata_df.iterrows():
         card = CardModel(cardrow)
         card_answers = generate_all_answers(card)
         name_to_card_answer_map[card.name] = card_answers
     return name_to_card_answer_map
 
-def format_csv_from_answers(card_answer_map):
+def create_cardsdata_live_csv():
+    card_answer_map = generate_correct_answers_per_card()
     data = {}
     for card_name, card_answer_map in card_answer_map.items():
-        values = card_answer_map.values()
+        values = [card_name] + list(card_answer_map.values())
         data[card_name] = values
-    category_columns = card_answer_map.keys()
+    category_columns = ['name'] + list(card_answer_map.keys())
     card_df = pd.DataFrame.from_dict(data, orient='index',
                     columns=category_columns)
+    card_df.set_index('name')
     
-    card_df.to_csv("files/cardsdata_live.csv",)
-    return
-
-ans_dict = generate_correct_answers_per_card()
-format_csv_from_answers(ans_dict)
-
-"""
-Returns the validator that returns True or False, for whether a card satisfies
-a condition from within a column
-"""
-def return_column_validator():
+    card_df.to_csv("./data/files/cardsdata_live.csv",)
     return
 
 """
-
+Main function for generating database script.
 """
+
+#TODO: Error handling if necessary files do not exist.
+def setup():
+    replace = (input("Do you want to recreate all existing data files? y/n")).lower() == "y"
+    if replace:
+        print("Recreating all files...")
+        create_cardsdata_csv()
+        create_range_cardsdata_json()
+        create_cardsdata_live_csv()
+    else:
+        list_of_funcs = {
+            "cardsdata.csv": create_cardsdata_csv, 
+            "cardsdata_range.json": create_range_cardsdata_json, 
+            "cardsdata_live.csv": create_cardsdata_live_csv
+        }
+        for file_name, func in list_of_funcs.items():
+            csv_create = (input(f'Do you want to recreate {file_name}? y/n')).lower() == "y"
+            if csv_create:
+                print("Recreating cardsdata_csv...")
+                func()
+            else:
+                print(f'Skipping recreating {file_name}...')
+
+setup()
