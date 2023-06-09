@@ -1,5 +1,5 @@
-import models.validator as val
-import models.questiontypes as qt
+from . import validator as val
+from . import questiontypes as qt
 
 class QuestionModel():
     def __init__(self, parameters):

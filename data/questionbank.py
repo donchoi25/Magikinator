@@ -1,6 +1,6 @@
-import models.questionmodel as qm
-import models.questiontypes as qt
-import models.cardproperties as cp
+from .models import questionmodel as qm
+from .models import questiontypes as qt
+from .models import cardproperties as cp
 
 QuestionMap = {
     # TODO: Pull from cardsdata_range.json and for each column, 
