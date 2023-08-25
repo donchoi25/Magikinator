@@ -35,9 +35,12 @@ CHOSEN_COLUMNS_FROM_CSV = ['name', 'mana_cost', 'cmc', 'type_line', 'power', 'to
 
 QUESTIONS_TO_COLUMNS_MAP = {
     "colors": QuestionTypes.IS_COLOR,
-    "type_line": QuestionTypes.IS_CARD_TYPE
+    "type_line": QuestionTypes.IS_CARD_TYPE,
+    # "cmc": QuestionTypes.IS_CMC
     #TODO: Find a way to move this to the validator instead of mapping this here.
 }
+
+TOTAL_NUMBER_OF_CARDS = 100
 
 """
 Converts JSON file into CSV, only including columns defined in CHOSEN_COLUMNS_FROM_CSV
@@ -83,7 +86,11 @@ for whether a card satisfies the question.
 def generate_correct_answers_per_card():
     name_to_card_answer_map = {}
     cardsdata_df = pd.read_csv('./data/files/cardsdata_csv')
+    cur_card = 0
     for _, cardrow in cardsdata_df.iterrows():
+        cur_card += 1
+        if cur_card > TOTAL_NUMBER_OF_CARDS:
+            break
         card = CardModel(cardrow)
         card_answers = generate_all_answers(card)
         name_to_card_answer_map[card.name] = card_answers
@@ -113,8 +120,11 @@ def setup():
     if replace:
         print("Recreating all files...")
         create_cardsdata_csv()
+        print("Created cardsdata_csv successfully")
         create_range_cardsdata_json()
+        print("Created range_cardsdata_json successfully")
         create_cardsdata_live_csv()
+        print("Created cardsdata_live_csv successfully")
     else:
         list_of_funcs = {
             "cardsdata.csv": create_cardsdata_csv, 

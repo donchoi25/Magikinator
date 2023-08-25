@@ -9,7 +9,9 @@ class FrontEnd:
         self.ansList = []
 
     def askQuestion(self):
+        #TODO: modify this so that we always ask the best question
         question = self.questionPicker.getBestQuestion(self.questionList, self.ansList)
+
         # answer = ""
         # while answer == "":
         #     answer = input("Is your card a " + question + " card?"+ " Answer yes, no, or maybe: ")
@@ -29,4 +31,4 @@ class FrontEnd:
             finalAns = self.askQuestion()
             break
 
-        print("Your card is: " + finalAns)
+        print("Your card is: " + str(finalAns))
