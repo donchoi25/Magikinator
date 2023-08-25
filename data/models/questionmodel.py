@@ -19,6 +19,8 @@ class IsQuestion(QuestionModel):
             return val.ColorValidator()
         if questionType == qt.QuestionTypes.IS_CARD_TYPE:
             return val.CardTypeValidator()
+        if questionType == qt.QuestionTypes.IS_CMC:
+            return val.CardTypeValidator()
         #TODO: Add a new validator for each column in cardsdata_csv
         return val.DefaultValidator()
     
