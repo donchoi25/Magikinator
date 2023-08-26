@@ -12,6 +12,8 @@ class AnswerProcessor:
         self.ansCount = 0
     def processAnswer(self, questionList, ansList, newQuestion, newAnswer):
         bestAns = ("Invalid", 0)
+
+        #go through every card and calculate its probability
         for card in self.cardData:
             currProb = self.beyestheoremcalc.calculateCardProb(card, questionList, ansList, newQuestion, newAnswer)
 
@@ -24,6 +26,8 @@ class AnswerProcessor:
         ansList.append(newAnswer)
         self.ansCount += 1
 
+        #return the answer if our certainty is high enough
+        #TODO in addition, might need to check entropy so we don't reach a decision to quickly
         if bestAns[1] > 0.75 or self.ansCount > QUESTION_LIMIT_FINAL:
             return bestAns[0]
         else:

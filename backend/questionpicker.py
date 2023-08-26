@@ -1,5 +1,3 @@
-#from data import cards as cardData
-#from data import questionbank as questionData
 from backend import beyestheoremcalc as beyes
 import math
 import pandas as pd 

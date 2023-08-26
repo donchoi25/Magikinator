@@ -43,7 +43,7 @@ class BeyesTheoremCalc:
 
         return P_character_given_answers
 
-    #here, we're essentially taking the average for the answer with the current card excluded
+    #take the average for the answer with the current card excluded
     def calculate_answers_given_not_card(self, card, question, answer):
         #Aggregate percentages from csv file
         numerator = cardcsv_dataframe[question + "#" + answer.upper()].sum() / 100
@@ -53,10 +53,6 @@ class BeyesTheoremCalc:
         denominator = TOTAL_CARDS_FINAL - 1
 
         return numerator / denominator
-
-    def tester(self):
-        print(self.cache_P_answers_given_card)
-        print(self.cache_P_answers_given_not_card)
 
     #this value is a lookup into the table
     def calculate_answers_given_card(self, card, question, answer):
