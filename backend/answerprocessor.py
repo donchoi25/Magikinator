@@ -1,14 +1,8 @@
-#import pandas as pd
-from backend import beyestheoremcalc as beyes
+from backend.beyestheoremcalc import BeyesCalcInst
 from globals.constants import cardcsv_dataframe, QUESTION_LIMIT_FINAL
-
-#cardcsv_dataframe = pd.read_csv('./data/files/cardsdata_live.csv')
-
-#QUESTION_LIMIT_FINAL = 10
 
 class AnswerProcessor:
     def __init__(self):
-        self.beyestheoremcalc = beyes.BeyesTheoremCalc()
         self.cardData = cardcsv_dataframe["name"].tolist()
         self.ansCount = 0
     def processAnswer(self, questionList, ansList, newQuestion, newAnswer):
@@ -16,7 +10,7 @@ class AnswerProcessor:
 
         #go through every card and calculate its probability
         for card in self.cardData:
-            currProb = self.beyestheoremcalc.calculateCardProb(card, questionList, ansList, newQuestion, newAnswer)
+            currProb = BeyesCalcInst.calculateCardProb(card, questionList, ansList, newQuestion, newAnswer)
 
             print((card, currProb))
 

@@ -1,15 +1,11 @@
-#import pandas as pd
 from globals.constants import cardcsv_dataframe, TOTAL_CARDS_FINAL
-
-#cardcsv_dataframe = pd.read_csv('./data/files/cardsdata_live.csv')
-#TOTAL_CARDS_FINAL = len(cardcsv_dataframe.index)
 
 #how to get specific card:
     #cardcsv_dataframe.loc[cardcsv_dataframe.name=="Swamp", question+"#YES"].values[0]
 
 class BeyesTheoremCalc:
     def __init__(self):
-        #intiialize empty quesiton and ans list to 1
+        #calculations cache
         self.cache_P_answers_given_card = {}
         self.cache_P_answers_given_not_card = {}
     def calculateCardProb(self, card, questionList, ansList, newQuestion, newAnswer):
@@ -52,3 +48,5 @@ class BeyesTheoremCalc:
     #this value is a lookup into the table
     def calculate_answers_given_card(self, card, question, answer):
         return cardcsv_dataframe.loc[cardcsv_dataframe.name==card, question+"#"+answer.upper()].values[0] / 100
+
+BeyesCalcInst = BeyesTheoremCalc()

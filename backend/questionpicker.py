@@ -1,16 +1,9 @@
-from backend import beyestheoremcalc as beyes
+from backend.beyestheoremcalc import BeyesCalcInst
 import math
-#import pandas as pd 
 from globals.constants import cardcsv_dataframe, TOTAL_CARDS_FINAL, POSSIBLE_ANSWERS_FINAL
-
-#cardcsv_dataframe = pd.read_csv('./data/files/cardsdata_live.csv')
-
-#TOTAL_CARDS_FINAL = len(cardcsv_dataframe.index)
-#POSSIBLE_ANSWERS_FINAL = ["yes", "no", "maybe"]
 
 class QuestionPicker:
     def __init__(self):
-        self.beyestheoremcalc = beyes.BeyesTheoremCalc()
         self.cardData = cardcsv_dataframe["name"].tolist()
         self.allQs = self.qParser()
     def qParser(self):
@@ -44,7 +37,7 @@ class QuestionPicker:
             #calculate the new probabilities for each card if we add the new answer for the current question
             for card in self.cardData:
                 for ans in POSSIBLE_ANSWERS_FINAL:
-                    newProb = self.beyestheoremcalc.calculateCardProb(card, questionList, ansList, question, ans)
+                    newProb = BeyesCalcInst.calculateCardProb(card, questionList, ansList, question, ans)
 
                     entropy_map[ans] += -1 * newProb * math.log(newProb, TOTAL_CARDS_FINAL)
             
