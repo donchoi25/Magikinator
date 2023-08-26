@@ -4,9 +4,9 @@ import pandas as pd
 
 cardcsv_dataframe = pd.read_csv('./data/files/cardsdata_live.csv')
 
-MAYBE_WEIGHT_FINAL = 0.1
 TOTAL_CARDS_FINAL = len(cardcsv_dataframe.index)
 POSSIBLE_ANSWERS_FINAL = ["yes", "no", "maybe"]
+
 class QuestionPicker:
     def __init__(self):
         self.beyestheoremcalc = beyes.BeyesTheoremCalc()
@@ -26,11 +26,12 @@ class QuestionPicker:
             #creating the weights for each answer
             yesCount = cardcsv_dataframe[question + "#YES"].sum() / 100
             noCount = cardcsv_dataframe[question + "#NO"].sum() / 100
+            maybeCount = cardcsv_dataframe[question + "#MAYBE"].sum() / 100
 
             entropy_weight_map = {
-                "yes": yesCount / TOTAL_CARDS_FINAL * (1 - MAYBE_WEIGHT_FINAL),
-                "no": noCount / TOTAL_CARDS_FINAL * (1 - MAYBE_WEIGHT_FINAL),
-                "maybe": MAYBE_WEIGHT_FINAL
+                "yes": yesCount / TOTAL_CARDS_FINAL,
+                "no": noCount / TOTAL_CARDS_FINAL,
+                "maybe": maybeCount / TOTAL_CARDS_FINAL
             }
 
             entropy_map = {

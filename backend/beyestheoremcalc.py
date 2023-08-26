@@ -25,15 +25,9 @@ class BeyesTheoremCalc:
         P_answers_given_card *= max(self.calculate_answers_given_card(card, newQuestion, newAnswer), 0.01)
         P_answers_given_not_card *= max(self.calculate_answers_given_not_card(card, newQuestion, newAnswer), 0.01)
 
-        #convert into list and tuple
-        newQuestionList = list(questionList)
-        newQuestionList.append(newQuestion)
-        newAnswerList = list(ansList)
-        newAnswerList.append(newAnswer)
-
         #save cacheable answers
-        self.cache_P_answers_given_card[(card, tuple(newQuestionList), tuple(newAnswerList))] = P_answers_given_card
-        self.cache_P_answers_given_not_card[(card, tuple(newQuestionList), tuple(newAnswerList))] = P_answers_given_not_card
+        self.cache_P_answers_given_card[(card, tuple(questionList) + (newQuestion, ), tuple(ansList) + (newAnswer, ))] = P_answers_given_card
+        self.cache_P_answers_given_not_card[(card, tuple(questionList) + (newQuestion, ), tuple(ansList) + (newAnswer, ))] = P_answers_given_not_card
 
         #Evidence
         P_answers = P_card * P_answers_given_card + (1 - P_card) * P_answers_given_not_card
