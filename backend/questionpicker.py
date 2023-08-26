@@ -1,11 +1,12 @@
 from backend import beyestheoremcalc as beyes
 import math
-import pandas as pd 
+#import pandas as pd 
+from globals.constants import cardcsv_dataframe, TOTAL_CARDS_FINAL, POSSIBLE_ANSWERS_FINAL
 
-cardcsv_dataframe = pd.read_csv('./data/files/cardsdata_live.csv')
+#cardcsv_dataframe = pd.read_csv('./data/files/cardsdata_live.csv')
 
-TOTAL_CARDS_FINAL = len(cardcsv_dataframe.index)
-POSSIBLE_ANSWERS_FINAL = ["yes", "no", "maybe"]
+#TOTAL_CARDS_FINAL = len(cardcsv_dataframe.index)
+#POSSIBLE_ANSWERS_FINAL = ["yes", "no", "maybe"]
 
 class QuestionPicker:
     def __init__(self):
