@@ -1,22 +1,39 @@
 import pandas as pd
 cardcsv_dataframe = pd.read_csv('./data/files/cardsdata_live.csv')
 
-#TODO: count number of cards
-TOTAL_CARDS_FINAL = 10
+TOTAL_CARDS_FINAL = len(cardcsv_dataframe.index)
 
 #how to get specific card:
     #cardcsv_dataframe.loc[cardcsv_dataframe.name=="Swamp", question+"#YES"].values[0]
 
 class BeyesTheoremCalc:
-    def calculateCardProb(self, card, questionList, ansList):
+    def __init__(self):
+        #intiialize empty quesiton and ans list to 1
+        self.cache_P_answers_given_card = {}
+        self.cache_P_answers_given_not_card = {}
+    def calculateCardProb(self, card, questionList, ansList, newQuestion, newAnswer):
         P_card = 1 / TOTAL_CARDS_FINAL
+
         P_answers_given_card = 1
         P_answers_given_not_card = 1
+        #only look into cache if this is not the first question
+        if len(questionList) > 0 and len(ansList) > 0:
+            P_answers_given_card = self.cache_P_answers_given_card[(card, tuple(questionList), tuple(ansList))]
+            P_answers_given_not_card = self.cache_P_answers_given_not_card[(card, tuple(questionList), tuple(ansList))]
 
-        for question, answer in zip(questionList, ansList):
-            P_answers_given_card *= max(self.calculate_answers_given_card(card, question, answer), 0.01)
+        #calculate for the new questions and answers
+        P_answers_given_card *= max(self.calculate_answers_given_card(card, newQuestion, newAnswer), 0.01)
+        P_answers_given_not_card *= max(self.calculate_answers_given_not_card(card, newQuestion, newAnswer), 0.01)
 
-            P_answers_given_not_card *= max(self.calculate_answers_given_not_card(card, question, answer), 0.01)
+        #convert into list and tuple
+        newQuestionList = list(questionList)
+        newQuestionList.append(newQuestion)
+        newAnswerList = list(ansList)
+        newAnswerList.append(newAnswer)
+
+        #save cacheable answers
+        self.cache_P_answers_given_card[(card, tuple(newQuestionList), tuple(newAnswerList))] = P_answers_given_card
+        self.cache_P_answers_given_not_card[(card, tuple(newQuestionList), tuple(newAnswerList))] = P_answers_given_not_card
 
         #Evidence
         P_answers = P_card * P_answers_given_card + (1 - P_card) * P_answers_given_not_card
@@ -36,6 +53,10 @@ class BeyesTheoremCalc:
         denominator = TOTAL_CARDS_FINAL - 1
 
         return numerator / denominator
+
+    def tester(self):
+        print(self.cache_P_answers_given_card)
+        print(self.cache_P_answers_given_not_card)
 
     #this value is a lookup into the table
     def calculate_answers_given_card(self, card, question, answer):
