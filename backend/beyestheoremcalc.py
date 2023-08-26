@@ -1,7 +1,8 @@
-import pandas as pd
-cardcsv_dataframe = pd.read_csv('./data/files/cardsdata_live.csv')
+#import pandas as pd
+from globals.constants import cardcsv_dataframe, TOTAL_CARDS_FINAL
 
-TOTAL_CARDS_FINAL = len(cardcsv_dataframe.index)
+#cardcsv_dataframe = pd.read_csv('./data/files/cardsdata_live.csv')
+#TOTAL_CARDS_FINAL = len(cardcsv_dataframe.index)
 
 #how to get specific card:
     #cardcsv_dataframe.loc[cardcsv_dataframe.name=="Swamp", question+"#YES"].values[0]

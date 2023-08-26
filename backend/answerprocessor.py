@@ -1,9 +1,10 @@
-import pandas as pd
+#import pandas as pd
 from backend import beyestheoremcalc as beyes
+from globals.constants import cardcsv_dataframe, QUESTION_LIMIT_FINAL
 
-cardcsv_dataframe = pd.read_csv('./data/files/cardsdata_live.csv')
+#cardcsv_dataframe = pd.read_csv('./data/files/cardsdata_live.csv')
 
-QUESTION_LIMIT_FINAL = 10
+#QUESTION_LIMIT_FINAL = 10
 
 class AnswerProcessor:
     def __init__(self):
