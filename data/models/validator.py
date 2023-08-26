@@ -28,3 +28,10 @@ class CardTypeValidator(Validator):
     def validate(self, card, expected_value):
         return expected_value.value in str(card.type_line.lower())
 
+"""
+Is this card converted mana cost X?
+"""
+class CMCValidator(Validator):
+    def validate(self, card, expected_value):
+        return expected_value.value == card.cmc
+
