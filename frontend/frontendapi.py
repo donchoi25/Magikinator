@@ -30,4 +30,3 @@ class FrontEnd:
             finalAns = self.askQuestion()
 
         print("Your card is: " + str(finalAns))
-        print("end")
