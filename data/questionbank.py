@@ -22,7 +22,7 @@ AnswerOptions = {
 
 CorrectnessRatioMap = {
     True: 95,
-    False: 5,
+    False: 3,
     "Default": 2
 }
 

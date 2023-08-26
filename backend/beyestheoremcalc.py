@@ -1,8 +1,14 @@
-from data import cards as data
-TOTAL_CARDS_FINAL = data.TotalCards
+import pandas as pd
+cardcsv_dataframe = pd.read_csv('./data/files/cardsdata_live.csv')
+
+#TODO: count number of cards
+TOTAL_CARDS_FINAL = 10
+
+#how to get specific card:
+    #cardcsv_dataframe.loc[cardcsv_dataframe.name=="Swamp", question+"#YES"].values[0]
 
 class BeyesTheoremCalc:
-    def calculateCardProb(self, card, ansList, questionList):
+    def calculateCardProb(self, card, questionList, ansList):
         P_card = 1 / TOTAL_CARDS_FINAL
         P_answers_given_card = 1
         P_answers_given_not_card = 1
@@ -20,25 +26,17 @@ class BeyesTheoremCalc:
 
         return P_character_given_answers
 
+    #here, we're essentially taking the average for the answer with the current card excluded
     def calculate_answers_given_not_card(self, card, question, answer):
-        numerator = data.CategoryCount[question] if answer == 'yes' else TOTAL_CARDS_FINAL - data.CategoryCount[question]
-        denominator = TOTAL_CARDS_FINAL
-        if (question in data.Cards[card] and answer == 'yes') or (question not in data.Cards[card] and answer == 'no'):
-            numerator -= 1
-            denominator -= 1
-        else:
-            denominator -= 1
+        #Aggregate percentages from csv file
+        numerator = cardcsv_dataframe[question + "#" + answer.upper()].sum() / 100
+
+        #We subtract the value from the numerator
+        numerator -= cardcsv_dataframe.loc[cardcsv_dataframe.name==card, question+"#"+answer.upper()].values[0] / 100
+        denominator = TOTAL_CARDS_FINAL - 1
 
         return numerator / denominator
 
+    #this value is a lookup into the table
     def calculate_answers_given_card(self, card, question, answer):
-        if card in data.Cards:
-            if (question in data.Cards[card] and answer == 'yes') or (question not in data.Cards[card] and answer == 'no'):
-                return 1
-            elif answer == 'maybe':
-                return 0.5
-            else:
-                return 0
-        else:
-            print('Card not in database')
-            return 0
+        return cardcsv_dataframe.loc[cardcsv_dataframe.name==card, question+"#"+answer.upper()].values[0] / 100
