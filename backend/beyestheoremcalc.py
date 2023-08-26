@@ -1,16 +1,30 @@
-from data import cards as data
-TOTAL_CARDS_FINAL = data.TotalCards
+from globals.constants import cardcsv_dataframe, TOTAL_CARDS_FINAL
+
+#how to get specific card:
+    #cardcsv_dataframe.loc[cardcsv_dataframe.name=="Swamp", question+"#YES"].values[0]
 
 class BeyesTheoremCalc:
-    def calculateCardProb(self, card, ansList, questionList):
+    def __init__(self):
+        #calculations cache
+        self.cache_P_answers_given_card = {}
+        self.cache_P_answers_given_not_card = {}
+    def calculateCardProb(self, card, questionList, ansList, newQuestion, newAnswer):
         P_card = 1 / TOTAL_CARDS_FINAL
+
         P_answers_given_card = 1
         P_answers_given_not_card = 1
+        #only look into cache if this is not the first question
+        if len(questionList) > 0 and len(ansList) > 0:
+            P_answers_given_card = self.cache_P_answers_given_card[(card, tuple(questionList), tuple(ansList))]
+            P_answers_given_not_card = self.cache_P_answers_given_not_card[(card, tuple(questionList), tuple(ansList))]
 
-        for question, answer in zip(questionList, ansList):
-            P_answers_given_card *= max(self.calculate_answers_given_card(card, question, answer), 0.01)
+        #calculate for the new questions and answers
+        P_answers_given_card *= max(self.calculate_answers_given_card(card, newQuestion, newAnswer), 0.01)
+        P_answers_given_not_card *= max(self.calculate_answers_given_not_card(card, newQuestion, newAnswer), 0.01)
 
-            P_answers_given_not_card *= max(self.calculate_answers_given_not_card(card, question, answer), 0.01)
+        #save cacheable answers
+        self.cache_P_answers_given_card[(card, tuple(questionList) + (newQuestion, ), tuple(ansList) + (newAnswer, ))] = P_answers_given_card
+        self.cache_P_answers_given_not_card[(card, tuple(questionList) + (newQuestion, ), tuple(ansList) + (newAnswer, ))] = P_answers_given_not_card
 
         #Evidence
         P_answers = P_card * P_answers_given_card + (1 - P_card) * P_answers_given_not_card
@@ -20,25 +34,19 @@ class BeyesTheoremCalc:
 
         return P_character_given_answers
 
+    #take the average for the answer with the current card excluded
     def calculate_answers_given_not_card(self, card, question, answer):
-        numerator = data.CategoryCount[question] if answer == 'yes' else TOTAL_CARDS_FINAL - data.CategoryCount[question]
-        denominator = TOTAL_CARDS_FINAL
-        if (question in data.Cards[card] and answer == 'yes') or (question not in data.Cards[card] and answer == 'no'):
-            numerator -= 1
-            denominator -= 1
-        else:
-            denominator -= 1
+        #Aggregate percentages from csv file
+        numerator = cardcsv_dataframe[question + "#" + answer.upper()].sum() / 100
+
+        #We subtract the value from the numerator
+        numerator -= cardcsv_dataframe.loc[cardcsv_dataframe.name==card, question+"#"+answer.upper()].values[0] / 100
+        denominator = TOTAL_CARDS_FINAL - 1
 
         return numerator / denominator
 
+    #this value is a lookup into the table
     def calculate_answers_given_card(self, card, question, answer):
-        if card in data.Cards:
-            if (question in data.Cards[card] and answer == 'yes') or (question not in data.Cards[card] and answer == 'no'):
-                return 1
-            elif answer == 'maybe':
-                return 0.5
-            else:
-                return 0
-        else:
-            print('Card not in database')
-            return 0
+        return cardcsv_dataframe.loc[cardcsv_dataframe.name==card, question+"#"+answer.upper()].values[0] / 100
+
+BeyesCalcInst = BeyesTheoremCalc()

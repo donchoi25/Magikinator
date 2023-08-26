@@ -1,34 +1,32 @@
-from backend import questionpicker, questionpick
+from backend import questionpicker
 from backend import answerprocessor
 
 class FrontEnd:
     def __init__(self):
-        self.questionPicker = questionpick.QuestionPick()
+        self.questionPicker = questionpicker.QuestionPicker()
         self.answerProcessor = answerprocessor.AnswerProcessor()
         self.questionList = []
         self.ansList = []
 
     def askQuestion(self):
-        #TODO: modify this so that we always ask the best question
+        #use entropy calculations to determing best question
         question = self.questionPicker.getBestQuestion(self.questionList, self.ansList)
 
-        # answer = ""
-        # while answer == "":
-        #     answer = input("Is your card a " + question + " card?"+ " Answer yes, no, or maybe: ")
-        #     if answer != "yes" and answer != "no" and answer != "maybe":
-        #         answer = ""
-        #         print("please give a valid answer")
+        #poll answer until we get a valid answer from the user
+        answer = ""
+        while answer == "":
+            answer = input("Is your card a " + question + " card?"+ " Answer yes, no, or maybe: ")
+            if answer != "yes" and answer != "no" and answer != "maybe":
+                answer = ""
+                print("please give a valid answer")
 
-        # self.ansList.append(answer)
-        # self.questionList.append(question)
-
-        # return self.answerProcessor.processAnswer(self.questionList, self.ansList)
-        return question
+        #determine if answer given gives us enough confidence to give back an answer using beyes theorem
+        return self.answerProcessor.processAnswer(self.questionList, self.ansList, question, answer)
 
     def findAnswer(self):
+        #keep asking questions until we get a valid answer back
         finalAns = ""
         while finalAns == "":
             finalAns = self.askQuestion()
-            break
 
         print("Your card is: " + str(finalAns))
