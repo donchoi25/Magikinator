@@ -1,5 +1,4 @@
 from frontend import frontendapi
-from data import datainit
 def run_program():
     # Use a breakpoint in the code line below to debug your script.
     # datainit.initializeData()

@@ -1,21 +1,29 @@
-from data import cards as data
-from backend import beyestheoremcalc as beyes
-from data import questionbank as questionData
+from backend.beyestheoremcalc import BeyesCalcInst
+from globals.constants import cardcsv_dataframe, QUESTION_LIMIT_FINAL
 
 class AnswerProcessor:
     def __init__(self):
-        self.beyestheoremcalc = beyes.BeyesTheoremCalc()
-    def processAnswer(self, questionList, ansList):
+        self.cardData = cardcsv_dataframe["name"].tolist()
+        self.ansCount = 0
+    def processAnswer(self, questionList, ansList, newQuestion, newAnswer):
         bestAns = ("Invalid", 0)
-        for card in data.Cards:
-            currProb = self.beyestheoremcalc.calculateCardProb(card, ansList, questionList)
+
+        #go through every card and calculate its probability
+        for card in self.cardData:
+            currProb = BeyesCalcInst.calculateCardProb(card, questionList, ansList, newQuestion, newAnswer)
 
             print((card, currProb))
 
             if currProb > bestAns[1]:
                 bestAns = (card, currProb)
 
-        if bestAns[1] > 0.75 or len(questionData.QuestionBank) == 0:
+        questionList.append(newQuestion)
+        ansList.append(newAnswer)
+        self.ansCount += 1
+
+        #return the answer if our certainty is high enough
+        #TODO in addition, might need to check entropy so we don't reach a decision to quickly
+        if bestAns[1] > 0.75 or self.ansCount > QUESTION_LIMIT_FINAL:
             return bestAns[0]
         else:
             return ""

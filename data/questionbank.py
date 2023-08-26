@@ -22,30 +22,9 @@ AnswerOptions = {
 
 CorrectnessRatioMap = {
     True: 95,
-    False: 5,
+    False: 3,
     "Default": 2
 }
-
-
-QuestionBank = [
-    "black",
-    "red",
-    "blue",
-    "white",
-    "green",
-    "sorcery",
-    "instant",
-    "creature",
-]
-
-QuestionEntropyMap = {}
-
-def initializeEntropyMap():
-    for key in QuestionBank:
-        QuestionEntropyMap[key] = 0
-
-def initializeData():
-    initializeEntropyMap()
 
 """
 Returns a map of question to TRUE / FALSE for card
