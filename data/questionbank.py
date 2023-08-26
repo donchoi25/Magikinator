@@ -11,7 +11,7 @@ QuestionMap = {
 QuestionMap = {
     #TODO: Expand for type of questions
     qt.QuestionTypes.IS_COLOR: list(cp.Colors),
-    qt.QuestionTypes.IS_CARD_TYPE: list(cp.CardTypes)
+    qt.QuestionTypes.IS_CARD_TYPE: list(cp.CardTypes),
 }
 
 AnswerOptions = {
