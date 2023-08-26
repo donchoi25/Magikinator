@@ -18,10 +18,7 @@ class FrontEnd:
                 answer = ""
                 print("please give a valid answer")
 
-        self.ansList.append(answer)
-        self.questionList.append(question)
-
-        return self.answerProcessor.processAnswer(self.questionList, self.ansList)
+        return self.answerProcessor.processAnswer(self.questionList, self.ansList, question, answer)
 
     def findAnswer(self):
         finalAns = ""

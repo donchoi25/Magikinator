@@ -10,16 +10,18 @@ class AnswerProcessor:
         self.beyestheoremcalc = beyes.BeyesTheoremCalc()
         self.cardData = cardcsv_dataframe["name"].tolist()
         self.ansCount = 0
-    def processAnswer(self, questionList, ansList):
+    def processAnswer(self, questionList, ansList, newQuestion, newAnswer):
         bestAns = ("Invalid", 0)
         for card in self.cardData:
-            currProb = self.beyestheoremcalc.calculateCardProb(card, questionList, ansList)
+            currProb = self.beyestheoremcalc.calculateCardProb(card, questionList, ansList, newQuestion, newAnswer)
 
             print((card, currProb))
 
             if currProb > bestAns[1]:
                 bestAns = (card, currProb)
 
+        questionList.append(newQuestion)
+        ansList.append(newAnswer)
         self.ansCount += 1
 
         if bestAns[1] > 0.75 or self.ansCount > QUESTION_LIMIT_FINAL:
