@@ -4,7 +4,7 @@ from globals.constants import cardcsv_dataframe, TOTAL_CARDS_FINAL, POSSIBLE_ANS
 
 class QuestionPicker:
     def __init__(self):
-        self.cardData = cardcsv_dataframe["name"].tolist()
+        self.cardData = cardcsv_dataframe["Name"].tolist()
         self.allQs = self.qParser()
     def qParser(self):
         qs = cardcsv_dataframe.columns.tolist()[2:]
@@ -45,7 +45,7 @@ class QuestionPicker:
             #create the weighted sum for entropy
             for key in entropy_map:
                 totalEntropy += entropy_map[key] * entropy_weight_map[key]
-            print((question, totalEntropy))
+            # print((question, totalEntropy))
             #save the question that creates the lowest entropy
             if totalEntropy < bestQuestion[1]:
                 bestQuestion = (question, totalEntropy)

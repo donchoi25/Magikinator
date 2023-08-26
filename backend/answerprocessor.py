@@ -3,7 +3,7 @@ from globals.constants import cardcsv_dataframe, QUESTION_LIMIT_FINAL
 
 class AnswerProcessor:
     def __init__(self):
-        self.cardData = cardcsv_dataframe["name"].tolist()
+        self.cardData = cardcsv_dataframe["Name"].tolist()
         self.ansCount = 0
     def processAnswer(self, questionList, ansList, newQuestion, newAnswer):
         bestAns = ("Invalid", 0)
