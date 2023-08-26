@@ -40,7 +40,7 @@ QUESTIONS_TO_COLUMNS_MAP = {
     #TODO: Find a way to move this to the validator instead of mapping this here.
 }
 
-TOTAL_NUMBER_OF_CARDS = 100
+TOTAL_NUMBER_OF_CARDS = 20
 
 """
 Converts JSON file into CSV, only including columns defined in CHOSEN_COLUMNS_FROM_CSV
