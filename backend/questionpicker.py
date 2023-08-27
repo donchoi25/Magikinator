@@ -15,6 +15,7 @@ class QuestionPicker:
             uniQ.add("#".join([splitQ[0], splitQ[1]]))
         return uniQ
     def getBestQuestion(self, questionList, ansList):
+        print("Finding best question...")
         bestQuestion = ('invalid', 100)
         for question in self.allQs:
             #creating the weights for each answer
@@ -37,7 +38,7 @@ class QuestionPicker:
             #calculate the new probabilities for each card if we add the new answer for the current question
             for card in CARD_DATA_FINAL:
                 for ans in POSSIBLE_ANSWERS_FINAL:
-                    newProb = BeyesCalcInst.calculateCardProb(card, questionList, ansList, question, ans)
+                    newProb = BeyesCalcInst.calculateCardProb(card, len(questionList), question, ans, False)
 
                     entropy_map[ans] += -1 * newProb * math.log(newProb, TOTAL_CARDS_FINAL)
             
@@ -50,5 +51,7 @@ class QuestionPicker:
             if totalEntropy < bestQuestion[1]:
                 bestQuestion = (question, totalEntropy)
         self.allQs.remove(bestQuestion[0])
+
+        print("Best question Found")
 
         return bestQuestion[0]
