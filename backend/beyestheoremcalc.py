@@ -1,7 +1,7 @@
 from globals.constants import cardcsv_dataframe, TOTAL_CARDS_FINAL
 
 #how to get specific card:
-    #cardcsv_dataframe.loc[cardcsv_dataframe.name=="Swamp", question+"#YES"].values[0]
+    #cardcsv_dataframe.at["Swamp", question+"#YES"].values[0]
 
 class BeyesTheoremCalc:
     def __init__(self):
@@ -40,13 +40,13 @@ class BeyesTheoremCalc:
         numerator = cardcsv_dataframe[question + "#" + answer.upper()].sum() / 100
 
         #We subtract the value from the numerator
-        numerator -= cardcsv_dataframe.loc[cardcsv_dataframe["Name"]==card, question+"#"+answer.upper()].values[0] / 100
+        numerator -= cardcsv_dataframe.at[card, question+"#"+answer.upper()] / 100
         denominator = TOTAL_CARDS_FINAL - 1
 
         return numerator / denominator
 
     #this value is a lookup into the table
     def calculate_answers_given_card(self, card, question, answer):
-        return cardcsv_dataframe.loc[cardcsv_dataframe["Name"]==card, question+"#"+answer.upper()].values[0] / 100
+        return cardcsv_dataframe.at[card, question+"#"+answer.upper()] / 100
 
 BeyesCalcInst = BeyesTheoremCalc()
