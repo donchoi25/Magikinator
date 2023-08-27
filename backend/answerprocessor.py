@@ -1,18 +1,17 @@
 from backend.beyestheoremcalc import BeyesCalcInst
-from globals.constants import cardcsv_dataframe, QUESTION_LIMIT_FINAL
+from globals.constants import cardcsv_dataframe, QUESTION_LIMIT_FINAL, CARD_DATA_FINAL
 
 class AnswerProcessor:
     def __init__(self):
-        self.cardData = cardcsv_dataframe["Name"].tolist()
         self.ansCount = 0
     def processAnswer(self, questionList, ansList, newQuestion, newAnswer):
         bestAns = ("Invalid", 0)
 
         #go through every card and calculate its probability
-        for card in self.cardData:
+        for card in CARD_DATA_FINAL:
             currProb = BeyesCalcInst.calculateCardProb(card, questionList, ansList, newQuestion, newAnswer)
 
-            print((card, currProb))
+            #print((card, currProb))
 
             if currProb > bestAns[1]:
                 bestAns = (card, currProb)

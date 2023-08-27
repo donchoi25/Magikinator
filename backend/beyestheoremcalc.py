@@ -1,4 +1,5 @@
 from globals.constants import cardcsv_dataframe, TOTAL_CARDS_FINAL
+#from numba import jit
 
 #how to get specific card:
     #cardcsv_dataframe.at["Swamp", question+"#YES"].values[0]
@@ -15,16 +16,16 @@ class BeyesTheoremCalc:
         P_answers_given_not_card = 1
         #only look into cache if this is not the first question
         if len(questionList) > 0 and len(ansList) > 0:
-            P_answers_given_card = self.cache_P_answers_given_card[(card, tuple(questionList), tuple(ansList))]
-            P_answers_given_not_card = self.cache_P_answers_given_not_card[(card, tuple(questionList), tuple(ansList))]
+            P_answers_given_card = self.cache_P_answers_given_card[(card, len(questionList))]
+            P_answers_given_not_card = self.cache_P_answers_given_not_card[(card, len(questionList))]
 
         #calculate for the new questions and answers
         P_answers_given_card *= max(self.calculate_answers_given_card(card, newQuestion, newAnswer), 0.01)
         P_answers_given_not_card *= max(self.calculate_answers_given_not_card(card, newQuestion, newAnswer), 0.01)
 
         #save cacheable answers
-        self.cache_P_answers_given_card[(card, tuple(questionList) + (newQuestion, ), tuple(ansList) + (newAnswer, ))] = P_answers_given_card
-        self.cache_P_answers_given_not_card[(card, tuple(questionList) + (newQuestion, ), tuple(ansList) + (newAnswer, ))] = P_answers_given_not_card
+        self.cache_P_answers_given_card[(card, len(questionList) + 1)] = P_answers_given_card
+        self.cache_P_answers_given_not_card[(card, len(questionList) + 1)] = P_answers_given_not_card
 
         #Evidence
         P_answers = P_card * P_answers_given_card + (1 - P_card) * P_answers_given_not_card
@@ -37,16 +38,16 @@ class BeyesTheoremCalc:
     #take the average for the answer with the current card excluded
     def calculate_answers_given_not_card(self, card, question, answer):
         #Aggregate percentages from csv file
-        numerator = cardcsv_dataframe[question + "#" + answer.upper()].sum() / 100
+        numerator = cardcsv_dataframe[question + "#" + answer.upper()]["Sum"] / 100
 
         #We subtract the value from the numerator
-        numerator -= cardcsv_dataframe.at[card, question+"#"+answer.upper()] / 100
+        numerator -= cardcsv_dataframe[question+"#"+answer.upper()][card] / 100
         denominator = TOTAL_CARDS_FINAL - 1
 
         return numerator / denominator
 
     #this value is a lookup into the table
     def calculate_answers_given_card(self, card, question, answer):
-        return cardcsv_dataframe.at[card, question+"#"+answer.upper()] / 100
+        return cardcsv_dataframe[question+"#"+answer.upper()][card] / 100
 
 BeyesCalcInst = BeyesTheoremCalc()

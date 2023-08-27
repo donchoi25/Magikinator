@@ -1,13 +1,13 @@
 from backend.beyestheoremcalc import BeyesCalcInst
 import math
-from globals.constants import cardcsv_dataframe, TOTAL_CARDS_FINAL, POSSIBLE_ANSWERS_FINAL
+from globals.constants import cardcsv_dataframe, TOTAL_CARDS_FINAL, POSSIBLE_ANSWERS_FINAL, CARD_DATA_FINAL
 
 class QuestionPicker:
     def __init__(self):
-        self.cardData = cardcsv_dataframe["Name"].tolist()
+        #curr len of questions is 1507
         self.allQs = self.qParser()
     def qParser(self):
-        qs = cardcsv_dataframe.columns.tolist()[2:]
+        qs = list(cardcsv_dataframe.keys())[2:]
         uniQ = set()
         for q in qs:
             #splits by delimiter, then store question into set without "yes, no, maybe"
@@ -18,9 +18,9 @@ class QuestionPicker:
         bestQuestion = ('invalid', 100)
         for question in self.allQs:
             #creating the weights for each answer
-            yesCount = cardcsv_dataframe[question + "#YES"].sum() / 100
-            noCount = cardcsv_dataframe[question + "#NO"].sum() / 100
-            maybeCount = cardcsv_dataframe[question + "#MAYBE"].sum() / 100
+            yesCount = cardcsv_dataframe[question + "#YES"]["Sum"] / 100
+            noCount = cardcsv_dataframe[question + "#NO"]["Sum"] / 100
+            maybeCount = cardcsv_dataframe[question + "#MAYBE"]["Sum"] / 100
 
             entropy_weight_map = {
                 "yes": yesCount / TOTAL_CARDS_FINAL,
@@ -35,7 +35,7 @@ class QuestionPicker:
             }
             
             #calculate the new probabilities for each card if we add the new answer for the current question
-            for card in self.cardData:
+            for card in CARD_DATA_FINAL:
                 for ans in POSSIBLE_ANSWERS_FINAL:
                     newProb = BeyesCalcInst.calculateCardProb(card, questionList, ansList, question, ans)
 
@@ -45,7 +45,7 @@ class QuestionPicker:
             #create the weighted sum for entropy
             for key in entropy_map:
                 totalEntropy += entropy_map[key] * entropy_weight_map[key]
-            # print((question, totalEntropy))
+            #print((question, totalEntropy))
             #save the question that creates the lowest entropy
             if totalEntropy < bestQuestion[1]:
                 bestQuestion = (question, totalEntropy)
