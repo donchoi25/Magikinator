@@ -9,23 +9,24 @@ class BeyesTheoremCalc:
         #calculations cache
         self.cache_P_answers_given_card = {}
         self.cache_P_answers_given_not_card = {}
-    def calculateCardProb(self, card, questionList, ansList, newQuestion, newAnswer):
+    def calculateCardProb(self, card, numQuestionAns, newQuestion, newAnswer, cache=True):
         P_card = 1 / TOTAL_CARDS_FINAL
 
         P_answers_given_card = 1
         P_answers_given_not_card = 1
         #only look into cache if this is not the first question
-        if len(questionList) > 0 and len(ansList) > 0:
-            P_answers_given_card = self.cache_P_answers_given_card[(card, len(questionList))]
-            P_answers_given_not_card = self.cache_P_answers_given_not_card[(card, len(questionList))]
+        if numQuestionAns > 0:
+            P_answers_given_card = self.cache_P_answers_given_card[(card, numQuestionAns)]
+            P_answers_given_not_card = self.cache_P_answers_given_not_card[(card, numQuestionAns)]
 
         #calculate for the new questions and answers
-        P_answers_given_card *= max(self.calculate_answers_given_card(card, newQuestion, newAnswer), 0.01)
-        P_answers_given_not_card *= max(self.calculate_answers_given_not_card(card, newQuestion, newAnswer), 0.01)
+        P_answers_given_card *= self.calculate_answers_given_card(card, newQuestion, newAnswer)
+        P_answers_given_not_card *= self.calculate_answers_given_not_card(card, newQuestion, newAnswer)
 
         #save cacheable answers
-        self.cache_P_answers_given_card[(card, len(questionList) + 1)] = P_answers_given_card
-        self.cache_P_answers_given_not_card[(card, len(questionList) + 1)] = P_answers_given_not_card
+        if cache:
+            self.cache_P_answers_given_card[(card, numQuestionAns + 1)] = P_answers_given_card
+            self.cache_P_answers_given_not_card[(card, numQuestionAns + 1)] = P_answers_given_not_card
 
         #Evidence
         P_answers = P_card * P_answers_given_card + (1 - P_card) * P_answers_given_not_card

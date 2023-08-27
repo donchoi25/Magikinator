@@ -5,11 +5,12 @@ class AnswerProcessor:
     def __init__(self):
         self.ansCount = 0
     def processAnswer(self, questionList, ansList, newQuestion, newAnswer):
+        print("Processing Answer...")
         bestAns = ("Invalid", 0)
 
         #go through every card and calculate its probability
         for card in CARD_DATA_FINAL:
-            currProb = BeyesCalcInst.calculateCardProb(card, questionList, ansList, newQuestion, newAnswer)
+            currProb = BeyesCalcInst.calculateCardProb(card, len(questionList), newQuestion, newAnswer)
 
             #print((card, currProb))
 
@@ -19,6 +20,8 @@ class AnswerProcessor:
         questionList.append(newQuestion)
         ansList.append(newAnswer)
         self.ansCount += 1
+
+        print("Answer Processed")
 
         #return the answer if our certainty is high enough
         #TODO in addition, might need to check entropy so we don't reach a decision to quickly
