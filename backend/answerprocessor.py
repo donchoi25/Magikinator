@@ -1,6 +1,9 @@
 from backend.beyestheoremcalc import BeyesCalcInst
 from globals.constants import cardcsv_dataframe, QUESTION_LIMIT_FINAL
 
+import multiprocessing.pool as mp
+import time
+
 class AnswerProcessor:
     def __init__(self):
         self.cardData = cardcsv_dataframe["Name"].tolist()
@@ -8,14 +11,20 @@ class AnswerProcessor:
     def processAnswer(self, questionList, ansList, newQuestion, newAnswer):
         bestAns = ("Invalid", 0)
 
-        #go through every card and calculate its probability
-        for card in self.cardData:
-            currProb = BeyesCalcInst.calculateCardProb(card, questionList, ansList, newQuestion, newAnswer)
+        time.time()
+        with mp.ThreadPool() as pool:
+            parameters = [(card, questionList, ansList, newQuestion, newAnswer) for card in self.cardData]
+            for result in pool.starmap(calculateCardProbability, parameters, chunksize=100):
+                if result[1] > bestAns[1]:
+                    bestAns = result
+        time.time()
+                    
+        # #go through every card and calculate its probability
+        # for card in self.cardData:
+        #     currProb = BeyesCalcInst.calculateCardProb(card, questionList, ansList, newQuestion, newAnswer)
 
-            print((card, currProb))
-
-            if currProb > bestAns[1]:
-                bestAns = (card, currProb)
+        #     if currProb > bestAns[1]:
+        #         bestAns = (card, currProb)
 
         questionList.append(newQuestion)
         ansList.append(newAnswer)
@@ -27,3 +36,6 @@ class AnswerProcessor:
             return bestAns[0]
         else:
             return ""
+
+def calculateCardProbability(card, questionList, ansList, newQuestion, newAnswer):
+    return (card, BeyesCalcInst.calculateCardProb(card, questionList, ansList, newQuestion, newAnswer))

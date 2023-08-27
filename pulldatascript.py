@@ -45,8 +45,8 @@ COLUMNS_TO_CREATE_IS_QUESTIONS = {
     'cmc', 'power', 'toughness', 'colors', 'type_line', 'set'
 }
 
-
-TOTAL_NUMBER_OF_CARDS = 10
+#
+TOTAL_NUMBER_OF_CARDS = 30
 
 """
 Converts JSON file into CSV, only including columns defined in CHOSEN_COLUMNS_FROM_CSV
