@@ -1,5 +1,5 @@
 from backend.beyestheoremcalc import BeyesCalcInst
-from globals.constants import cardcsv_dataframe, QUESTION_LIMIT_FINAL, CARD_DATA_FINAL
+from globals.constants import cardcsv_dataframe, QUESTION_LIMIT_FINAL
 
 class AnswerProcessor:
     def __init__(self):
@@ -8,8 +8,9 @@ class AnswerProcessor:
         print("Processing Answer...")
         bestAns = ("Invalid", 0)
 
+        cardData = list(cardcsv_dataframe["Name"])[0:-1]
         #go through every card and calculate its probability
-        for card in CARD_DATA_FINAL:
+        for card in cardData:
             currProb = BeyesCalcInst.calculateCardProb(card, len(questionList), newQuestion, newAnswer)
 
             #print((card, currProb))
