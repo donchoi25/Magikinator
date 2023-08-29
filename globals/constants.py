@@ -4,6 +4,8 @@ cardcsv_dataframe = pd.read_csv('./data/files/cardsdata_live.csv')
 
 TOTAL_CARDS_FINAL = len(cardcsv_dataframe.index)
 
+totals_map = {ele:sum for ele, sum in zip(cardcsv_dataframe.columns, cardcsv_dataframe.sum().transpose().tolist())}
+
 cardcsv_dataframe.index = cardcsv_dataframe["Name"]
 
 cardcsv_dataframe = cardcsv_dataframe.to_dict()

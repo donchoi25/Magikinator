@@ -8,7 +8,7 @@ class AnswerProcessor:
         print("Processing Answer...")
 
         columnVector = np.array(list(cardcsv_dataframe[newQuestion + "#" + newAnswer].values())) / 100
-        probVector = BeyesCalcInst.calculateCardProb(len(questionList), columnVector)
+        probVector = BeyesCalcInst.calculateCardProb(len(questionList), newQuestion + "#" + newAnswer, columnVector)
 
         maxIndex = np.argmax(probVector)
 
@@ -23,7 +23,7 @@ class AnswerProcessor:
 
         #return the answer if our certainty is high enough
         #TODO in addition, might need to check entropy so we don't reach a decision to quickly
-        if self.ansCount > QUESTION_LIMIT_FINAL:
+        if maxProb > 0.8 or self.ansCount > QUESTION_LIMIT_FINAL:
             return maxCard
         else:
             return ""

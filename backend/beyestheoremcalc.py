@@ -1,4 +1,4 @@
-from globals.constants import cardcsv_dataframe, TOTAL_CARDS_FINAL
+from globals.constants import cardcsv_dataframe, TOTAL_CARDS_FINAL, totals_map
 import numpy as np
 
 #how to get specific card:
@@ -13,7 +13,7 @@ class BeyesTheoremCalc:
         self.cache_P_answers_given_card = {}
         self.cache_P_answers_given_not_card = {}
     #probVector will be a numpy array. This vector represents a column for a question, answer pair
-    def calculateCardProb(self, numQuestionAns, probVector, cache=True):
+    def calculateCardProb(self, numQuestionAns, questionans, probVector, cache=True):
         P_card = 1 / TOTAL_CARDS_FINAL
         
         #only look into cache if this is not the first question
@@ -26,7 +26,7 @@ class BeyesTheoremCalc:
             P_answers_given_not_card = np.ones(len(probVector),)
         #calculate for the new questions and answers
         P_answers_given_card = P_answers_given_card * probVector
-        P_answers_given_not_card = P_answers_given_not_card * self.calculate_answers_given_not_card(probVector)
+        P_answers_given_not_card = P_answers_given_not_card * self.calculate_answers_given_not_card(questionans, probVector)
 
         #save cacheable answers
         if cache:
@@ -42,9 +42,9 @@ class BeyesTheoremCalc:
         return P_character_given_answers
 
     #take the average for the answer with the current card excluded
-    def calculate_answers_given_not_card(self, probVector):
+    def calculate_answers_given_not_card(self, questionans, probVector):
         #Aggregate percentages from csv file
-        numerator = np.full((len(probVector),), np.sum(probVector))
+        numerator = np.full((len(probVector),), totals_map[questionans])
 
         #We subtract the value from the numerator
         numerator = numerator - probVector
