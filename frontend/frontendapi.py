@@ -21,7 +21,7 @@ class FrontEnd:
                 print("please give a valid answer")
 
         #determine if answer given gives us enough confidence to give back an answer using beyes theorem
-        return self.answerProcessor.processAnswer(self.questionList, self.ansList, question, answer)
+        return self.answerProcessor.processAnswer(self.questionList, self.ansList, question, answer.upper())
 
     def findAnswer(self):
         #keep asking questions until we get a valid answer back
