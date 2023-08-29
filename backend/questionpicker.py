@@ -1,6 +1,8 @@
 from backend.beyestheoremcalc import BeyesCalcInst
 import math
 from globals.constants import cardcsv_dataframe, TOTAL_CARDS_FINAL, POSSIBLE_ANSWERS_FINAL, CARD_DATA_FINAL
+import time
+import numpy as np
 
 class QuestionPicker:
     def __init__(self):
@@ -17,30 +19,31 @@ class QuestionPicker:
     def getBestQuestion(self, questionList, ansList):
         print("Finding best question...")
         bestQuestion = ('invalid', 100)
+
+        prevtime = time.time()
         for question in self.allQs:
             #creating the weights for each answer
-            yesCount = cardcsv_dataframe[question + "#YES"]["Sum"] / 100
-            noCount = cardcsv_dataframe[question + "#NO"]["Sum"] / 100
-            maybeCount = cardcsv_dataframe[question + "#MAYBE"]["Sum"] / 100
+            yesCount = np.sum(np.array(list(cardcsv_dataframe[question + "#YES"].values()))) / 100
+            noCount = np.sum(np.array(list(cardcsv_dataframe[question + "#NO"].values()))) / 100
+            maybeCount = np.sum(np.array(list(cardcsv_dataframe[question + "#MAYBE"].values()))) / 100
 
             entropy_weight_map = {
-                "yes": yesCount / TOTAL_CARDS_FINAL,
-                "no": noCount / TOTAL_CARDS_FINAL,
-                "maybe": maybeCount / TOTAL_CARDS_FINAL
+                "YES": yesCount / TOTAL_CARDS_FINAL,
+                "NO": noCount / TOTAL_CARDS_FINAL,
+                "MAYBE": maybeCount / TOTAL_CARDS_FINAL
             }
 
             entropy_map = {
-                "yes": 0,
-                "no": 0,
-                "maybe": 0
+                "YES": 0,
+                "NO": 0,
+                "MAYBE": 0
             }
             
             #calculate the new probabilities for each card if we add the new answer for the current question
-            for card in CARD_DATA_FINAL:
-                for ans in POSSIBLE_ANSWERS_FINAL:
-                    newProb = BeyesCalcInst.calculateCardProb(card, len(questionList), question, ans, False)
-
-                    entropy_map[ans] += -1 * newProb * math.log(newProb, TOTAL_CARDS_FINAL)
+            for ans in POSSIBLE_ANSWERS_FINAL:
+                columnVector = np.array(list(cardcsv_dataframe[question + "#" + ans].values())) / 100
+                newProbVector = BeyesCalcInst.calculateCardProb(len(questionList), columnVector, False)
+                entropy_map[ans] = np.sum(-1 * newProbVector * np.emath.logn(TOTAL_CARDS_FINAL, (newProbVector)))
             
             totalEntropy = 0
             #create the weighted sum for entropy
@@ -50,6 +53,8 @@ class QuestionPicker:
             #save the question that creates the lowest entropy
             if totalEntropy < bestQuestion[1]:
                 bestQuestion = (question, totalEntropy)
+        print("Time to find question: " + str(time.time() - prevtime))
+
         self.allQs.remove(bestQuestion[0])
 
         print("Best question Found")
