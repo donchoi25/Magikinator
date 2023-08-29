@@ -15,6 +15,7 @@ class QuestionPicker:
     def __init__(self):
         #curr len of questions is 1507
         self.uniQs = self.qParser()
+        self.askedQMask = np.zeros(len(self.uniQs))
     def qParser(self):
         qs = QUESTION_DATA_FINAL
         uniQSet = set()
@@ -40,16 +41,18 @@ class QuestionPicker:
 
         entropyVector = np.add.reduceat(entropyVector, np.arange(0, len(entropyVector), 3))
 
-        
-        maxIndex = np.argmin(entropyVector)
+        #apply mask for already asked questions
+        entropyVector = np.ma.MaskedArray(entropyVector, self.askedQMask)
 
-        bestQuestion = self.uniQs[maxIndex]
+        #Sort questions by order and index
+        minIndex = np.ma.argmin(entropyVector)
+
+        bestQuestion = self.uniQs[minIndex]
+        #update mask to reflect already asked question
+        self.askedQMask[minIndex] = 1
+
         print("Time to find question: " + str(time.time() - prevtime))
-
-
-        #TODO need a clean way to remove questions from consideration in data
-        #self.uniQs.remove(bestQuestion[0])
-
         print("Best question Found")
 
         return bestQuestion
+            

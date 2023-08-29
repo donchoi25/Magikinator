@@ -1,6 +1,7 @@
 from globals.constants import TOTAL_CARDS_FINAL
 from globals.constants import TOTAL_PROB_VECTOR_FINAL
 import numpy as np
+import numexpr as ne
 
 class BeyesTheoremCalc:
     def __init__(self):
@@ -25,14 +26,15 @@ class BeyesTheoremCalc:
             P_answers_given_card = 1
             P_answers_given_not_card = 1
         #calculate for the new questions and answers
-        P_answers_given_card = P_answers_given_card * probVector
-        P_answers_given_not_card = P_answers_given_not_card * self.MAT_calculate_answers_given_not_card(probVector)
+        P_answers_given_card = ne.evaluate("P_answers_given_card * probVector")
+        temp = self.MAT_calculate_answers_given_not_card(probVector)
+        P_answers_given_not_card = ne.evaluate("P_answers_given_not_card * temp")
 
         #Evidence
-        P_answers = P_card * P_answers_given_card + (1 - P_card) * P_answers_given_not_card
+        P_answers = ne.evaluate("P_card * P_answers_given_card + (1 - P_card) * P_answers_given_not_card")
 
         #Bayes Theorem
-        P_character_given_answers = (P_answers_given_card * P_card) / P_answers
+        P_character_given_answers = ne.evaluate("(P_answers_given_card * P_card) / P_answers")
 
         return P_character_given_answers
 
@@ -40,7 +42,7 @@ class BeyesTheoremCalc:
     def MAT_calculate_answers_given_not_card(self, probVector):
         #Aggregate percentages from csv file
         numerator = np.full((len(probVector), len(TOTAL_PROB_VECTOR_FINAL)), TOTAL_PROB_VECTOR_FINAL)
-        return (numerator - probVector) / (TOTAL_CARDS_FINAL - 1)
+        return ne.evaluate("(numerator - probVector) / (TOTAL_CARDS_FINAL - 1)")
 
     
     #calculate single prob vector. Used to process answer given. This function will cache

@@ -17,15 +17,12 @@ class AnswerProcessor:
         colIndex = QUESTION_DATA_FINAL.index(newQuestion + "#" + newAnswer)
 
         columnVector = DATA_NUMPY_FINAL[:, colIndex] / 100
-        print(columnVector.shape)
 
         #finding questionans total value
         QAPairTotal = TOTAL_PROB_VECTOR_FINAL[colIndex]
 
         #calculating probability for this question#ans pair
         probVector = BeyesCalcInst.COL_calculateCardProb(len(questionList), columnVector, QAPairTotal)
-
-        print(probVector)
 
         maxIndex = np.argmax(probVector)
 
@@ -40,7 +37,7 @@ class AnswerProcessor:
 
         #return the answer if our certainty is high enough
         #TODO in addition, might need to check entropy so we don't reach a decision to quickly
-        if maxProb > 0.8 or self.ansCount > QUESTION_LIMIT_FINAL:
+        if maxProb > 0.9 or self.ansCount > QUESTION_LIMIT_FINAL:
             return maxCard
         else:
             return ""
