@@ -1,5 +1,10 @@
 from backend.beyestheoremcalc import BeyesCalcInst
-from globals.constants import cardcsv_dataframe, QUESTION_LIMIT_FINAL, CARD_DATA_FINAL
+from globals.constants import cardcsv_dataframe
+from globals.constants import QUESTION_LIMIT_FINAL
+from globals.constants import CARD_DATA_FINAL
+from globals.constants import QUESTION_DATA_FINAL
+from globals.constants import TOTAL_PROB_VECTOR_FINAL
+from globals.constants import DATA_NUMPY_FINAL
 import numpy as np
 class AnswerProcessor:
     def __init__(self):
@@ -7,13 +12,25 @@ class AnswerProcessor:
     def processAnswer(self, questionList, ansList, newQuestion, newAnswer):
         print("Processing Answer...")
 
-        columnVector = np.array(list(cardcsv_dataframe[newQuestion + "#" + newAnswer].values())) / 100
-        probVector = BeyesCalcInst.calculateCardProb(len(questionList), newQuestion + "#" + newAnswer, columnVector)
+        #find the column index, then return that as the column vector
+        #TODO possibly remove this linear search for index
+        colIndex = QUESTION_DATA_FINAL.index(newQuestion + "#" + newAnswer)
+
+        columnVector = DATA_NUMPY_FINAL[:, colIndex] / 100
+        print(columnVector.shape)
+
+        #finding questionans total value
+        QAPairTotal = TOTAL_PROB_VECTOR_FINAL[colIndex]
+
+        #calculating probability for this question#ans pair
+        probVector = BeyesCalcInst.COL_calculateCardProb(len(questionList), columnVector, QAPairTotal)
+
+        print(probVector)
 
         maxIndex = np.argmax(probVector)
 
         maxProb = probVector[maxIndex]
-        maxCard = list(cardcsv_dataframe[newQuestion + "#" + newAnswer].keys())[maxIndex]
+        maxCard = CARD_DATA_FINAL[maxIndex]
 
         questionList.append(newQuestion)
         ansList.append(newAnswer)

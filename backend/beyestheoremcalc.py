@@ -1,8 +1,6 @@
-from globals.constants import cardcsv_dataframe, TOTAL_CARDS_FINAL, totals_map
+from globals.constants import TOTAL_CARDS_FINAL
+from globals.constants import TOTAL_PROB_VECTOR_FINAL
 import numpy as np
-
-#how to get specific card:
-    #cardcsv_dataframe.at["Swamp", question+"#YES"].values[0]
 
 class BeyesTheoremCalc:
     def __init__(self):
@@ -12,26 +10,23 @@ class BeyesTheoremCalc:
         #key will be number of questions and answers we're at so far
         self.cache_P_answers_given_card = {}
         self.cache_P_answers_given_not_card = {}
-    #probVector will be a numpy array. This vector represents a column for a question, answer pair
-    def calculateCardProb(self, numQuestionAns, questionans, probVector, cache=True):
+
+    #analyze whole matrix of data. Used to calculate entropy. Will not cache
+    def MAT_calculateCardProb(self, numQuestionAns, probVector):
         P_card = 1 / TOTAL_CARDS_FINAL
         
         #only look into cache if this is not the first question
         if numQuestionAns > 0:
-            P_answers_given_card = self.cache_P_answers_given_card[numQuestionAns]
-            P_answers_given_not_card = self.cache_P_answers_given_not_card[numQuestionAns]
+            cacheResult_P_answers_given_card = self.cache_P_answers_given_card[numQuestionAns]
+            cacheResult_P_answers_given_not_card = self.cache_P_answers_given_not_card[numQuestionAns]
+            P_answers_given_card =  np.full((probVector.shape[1], TOTAL_CARDS_FINAL), cacheResult_P_answers_given_card).T
+            P_answers_given_not_card = np.full((probVector.shape[1], TOTAL_CARDS_FINAL), cacheResult_P_answers_given_not_card).T
         else:
-            #these will be numpy arrays
-            P_answers_given_card = np.ones(len(probVector),)
-            P_answers_given_not_card = np.ones(len(probVector),)
+            P_answers_given_card = 1
+            P_answers_given_not_card = 1
         #calculate for the new questions and answers
         P_answers_given_card = P_answers_given_card * probVector
-        P_answers_given_not_card = P_answers_given_not_card * self.calculate_answers_given_not_card(questionans, probVector)
-
-        #save cacheable answers
-        if cache:
-            self.cache_P_answers_given_card[numQuestionAns + 1] = P_answers_given_card
-            self.cache_P_answers_given_not_card[numQuestionAns + 1] = P_answers_given_not_card
+        P_answers_given_not_card = P_answers_given_not_card * self.MAT_calculate_answers_given_not_card(probVector)
 
         #Evidence
         P_answers = P_card * P_answers_given_card + (1 - P_card) * P_answers_given_not_card
@@ -42,14 +37,43 @@ class BeyesTheoremCalc:
         return P_character_given_answers
 
     #take the average for the answer with the current card excluded
-    def calculate_answers_given_not_card(self, questionans, probVector):
+    def MAT_calculate_answers_given_not_card(self, probVector):
         #Aggregate percentages from csv file
-        numerator = np.full((len(probVector),), totals_map[questionans])
+        numerator = np.full((len(probVector), len(TOTAL_PROB_VECTOR_FINAL)), TOTAL_PROB_VECTOR_FINAL)
+        return (numerator - probVector) / (TOTAL_CARDS_FINAL - 1)
 
-        #We subtract the value from the numerator
-        numerator = numerator - probVector
-        denominator = np.full((len(probVector),), TOTAL_CARDS_FINAL - 1)
+    
+    #calculate single prob vector. Used to process answer given. This function will cache
+    def COL_calculateCardProb(self, numQuestionAns, probVector, QAPairTotal):
+        P_card = 1 / TOTAL_CARDS_FINAL
+        
+        #only look into cache if this is not the first question
+        if numQuestionAns > 0:
+            P_answers_given_card = self.cache_P_answers_given_card[numQuestionAns]
+            P_answers_given_not_card = self.cache_P_answers_given_not_card[numQuestionAns]
+        else:
+            P_answers_given_card = 1
+            P_answers_given_not_card = 1
+        #calculate for the new questions and answers
+        P_answers_given_card = P_answers_given_card * probVector
+        P_answers_given_not_card = P_answers_given_not_card * self.COL_calculate_answers_given_not_card(probVector, QAPairTotal)
 
-        return numerator / denominator
+        self.cache_P_answers_given_card[numQuestionAns + 1] = P_answers_given_card
+        self.cache_P_answers_given_not_card[numQuestionAns + 1] = P_answers_given_not_card
+
+        #Evidence
+        P_answers = P_card * P_answers_given_card + (1 - P_card) * P_answers_given_not_card
+
+        #Bayes Theorem
+        P_character_given_answers = (P_answers_given_card * P_card) / P_answers
+
+        return P_character_given_answers
+
+    #take the average for the answer with the current card excluded
+    def COL_calculate_answers_given_not_card(self, probVector, QAPairTotal):
+        #Aggregate percentages from csv file
+        numerator = np.full((len(probVector),), QAPairTotal)
+
+        return (numerator - probVector) / (TOTAL_CARDS_FINAL - 1)
 
 BeyesCalcInst = BeyesTheoremCalc()
