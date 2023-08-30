@@ -1,6 +1,6 @@
 import pandas as pd
 
-cardcsv_dataframe = pd.read_csv('./data/files/cardsdata_live.csv')
+cardcsv_dataframe = pd.read_csv('./data/files/cardsdata_live.csv', engine="pyarrow")
 
 TOTAL_CARDS_FINAL = len(cardcsv_dataframe.index)
 
