@@ -7,6 +7,7 @@ from globals.constants import TOTALS_MAP_FINAL
 from globals.constants import COL_NUMPY_DICT_FINAL
 import time
 import numpy as np
+import numexpr as ne
 
 class QuestionPicker:
     def __init__(self):
@@ -22,8 +23,8 @@ class QuestionPicker:
         return uniQ
     def getBestQuestion(self, questionList, ansList):
         print("Finding best question...")
-        bestQuestion = ('invalid', 100)
-
+        bestQuestion = ('invalid', float('inf'))
+    
         prevtime = time.time()
         for question in self.allQs:
             #creating the weights for each answer
@@ -47,7 +48,8 @@ class QuestionPicker:
             for ans in POSSIBLE_ANSWERS_FINAL:
                 columnVector = COL_NUMPY_DICT_FINAL[question + "#" + ans]
                 newProbVector = BeyesCalcInst.calculateCardProb(len(questionList), question + "#" + ans, columnVector, False)
-                entropy_map[ans] = np.sum(-1 * newProbVector * np.emath.logn(TOTAL_CARDS_FINAL, (newProbVector)))
+                entropy_map[ans] = -1 * np.sum(ne.evaluate("newProbVector * log(newProbVector)"))
+                
             
             totalEntropy = 0
             #create the weighted sum for entropy
