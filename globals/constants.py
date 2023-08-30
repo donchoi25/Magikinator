@@ -1,18 +1,19 @@
 import pandas as pd
 
 cardcsv_dataframe = pd.read_csv('./data/files/cardsdata_live.csv', engine="pyarrow")
+cardcsv_dataframe.index = cardcsv_dataframe["Name"]
+cardcsv_dataframe = cardcsv_dataframe.iloc[: , 1:]
 
 TOTAL_CARDS_FINAL = len(cardcsv_dataframe.index)
 
-totals_map = {ele:sum for ele, sum in zip(cardcsv_dataframe.columns, cardcsv_dataframe.sum().transpose().tolist())}
+TOTALS_MAP_FINAL = {ele:sum / 100 for ele, sum in zip(cardcsv_dataframe.columns, cardcsv_dataframe.sum().transpose().tolist())}
 
-cardcsv_dataframe.index = cardcsv_dataframe["Name"]
+COL_NUMPY_DICT_FINAL = {ques:cardcsv_dataframe[ques].to_numpy() / 100 for ques in cardcsv_dataframe.columns}
 
-cardcsv_dataframe = cardcsv_dataframe.to_dict()
-
-print("initialization done")
+CARD_DATA_FINAL = list(cardcsv_dataframe.index)
 
 POSSIBLE_ANSWERS_FINAL = ["YES", "NO", "MAYBE"]
-QUESTION_LIMIT_FINAL = 20
+QUESTION_LIMIT_FINAL = 10
+QUESTION_DATA_FINAL = cardcsv_dataframe.columns
 
-CARD_DATA_FINAL = list(cardcsv_dataframe["Name"])[0:-1]
+print("initialization done")
