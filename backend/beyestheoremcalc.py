@@ -4,38 +4,28 @@ import numpy as np
 
 class BeyesTheoremCalc:
     def __init__(self):
-        #cache that will store vectors for the following calculations:
-            #P_answers_given_card
-            #P_answers_given_not_card
-        #key will be number of questions and answers we're at so far
+        #cache that will store most recent Vector for calculating P_answers_given_card
         self.cache_P_answers_given_card = None
-        self.cache_P_answers_given_not_card = None
     #probVector will be a numpy array. This vector represents a column for a question, answer pair
     def calculateCardProb(self, numQuestionAns, questionans, probVector, cache=True):
+        #TODO This value could also be part of our save data. 
+        #It could be (# of times card was picked / total # of games)
         P_card = 1 / TOTAL_CARDS_FINAL
         
         #only look into cache if this is not the first question
         if numQuestionAns > 0:
             P_answers_given_card = self.cache_P_answers_given_card
-            P_answers_given_not_card = self.cache_P_answers_given_not_card
         else:
-            #these will be numpy arrays
             P_answers_given_card = 1
-            P_answers_given_not_card = 1
         #calculate for the new questions and answers
         P_answers_given_card = P_answers_given_card * probVector
-        P_answers_given_not_card = P_answers_given_not_card * self.calculate_answers_given_not_card(questionans, probVector)
 
         #save cacheable answers
         if cache:
             self.cache_P_answers_given_card = P_answers_given_card
-            self.cache_P_answers_given_not_card = P_answers_given_not_card
 
-        #Evidence
-        P_answers = P_card * P_answers_given_card + (1 - P_card) * P_answers_given_not_card
-
-        #Bayes Theorem
-        P_character_given_answers = (P_answers_given_card * P_card) / P_answers
+        #Bayes Theorem simplified. No need to calculate Evidence
+        P_character_given_answers = (P_answers_given_card * P_card)
 
         return P_character_given_answers
 
