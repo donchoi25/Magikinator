@@ -9,7 +9,7 @@ TOTAL_CARDS_FINAL = len(cardcsv_dataframe.index)
 
 TOTAL_PROB_VECTOR_FINAL = np.array([sum / 100 for sum in cardcsv_dataframe.sum().transpose().tolist()])
 
-DATA_NUMPY_FINAL = cardcsv_dataframe.to_numpy()
+DATA_NUMPY_FINAL = np.array(cardcsv_dataframe.to_numpy()) / 100
 
 print("initialization done")
 

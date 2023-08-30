@@ -1,7 +1,6 @@
 from globals.constants import TOTAL_CARDS_FINAL
 from globals.constants import TOTAL_PROB_VECTOR_FINAL
 import numpy as np
-import numexpr as ne
 
 class BeyesTheoremCalc:
     def __init__(self):
@@ -18,23 +17,20 @@ class BeyesTheoremCalc:
         
         #only look into cache if this is not the first question
         if numQuestionAns > 0:
-            cacheResult_P_answers_given_card = self.cache_P_answers_given_card[numQuestionAns]
-            cacheResult_P_answers_given_not_card = self.cache_P_answers_given_not_card[numQuestionAns]
-            P_answers_given_card =  np.full((probVector.shape[1], TOTAL_CARDS_FINAL), cacheResult_P_answers_given_card).T
-            P_answers_given_not_card = np.full((probVector.shape[1], TOTAL_CARDS_FINAL), cacheResult_P_answers_given_not_card).T
+            P_answers_given_card =  np.full((probVector.shape[1], TOTAL_CARDS_FINAL), self.cache_P_answers_given_card[numQuestionAns]).T
+            P_answers_given_not_card = np.full((probVector.shape[1], TOTAL_CARDS_FINAL), self.cache_P_answers_given_not_card[numQuestionAns]).T
         else:
             P_answers_given_card = 1
             P_answers_given_not_card = 1
         #calculate for the new questions and answers
-        P_answers_given_card = ne.evaluate("P_answers_given_card * probVector")
-        temp = self.MAT_calculate_answers_given_not_card(probVector)
-        P_answers_given_not_card = ne.evaluate("P_answers_given_not_card * temp")
+        P_answers_given_card = P_answers_given_card * probVector
+        P_answers_given_not_card = P_answers_given_not_card * self.MAT_calculate_answers_given_not_card(probVector)
 
         #Evidence
-        P_answers = ne.evaluate("P_card * P_answers_given_card + (1 - P_card) * P_answers_given_not_card")
+        P_answers = P_card * P_answers_given_card + (1 - P_card) * P_answers_given_not_card       
 
         #Bayes Theorem
-        P_character_given_answers = ne.evaluate("(P_answers_given_card * P_card) / P_answers")
+        P_character_given_answers = (P_answers_given_card * P_card) / P_answers
 
         return P_character_given_answers
 
@@ -42,7 +38,7 @@ class BeyesTheoremCalc:
     def MAT_calculate_answers_given_not_card(self, probVector):
         #Aggregate percentages from csv file
         numerator = np.full((len(probVector), len(TOTAL_PROB_VECTOR_FINAL)), TOTAL_PROB_VECTOR_FINAL)
-        return ne.evaluate("(numerator - probVector) / (TOTAL_CARDS_FINAL - 1)")
+        return (numerator - probVector) / (TOTAL_CARDS_FINAL - 1)
 
     
     #calculate single prob vector. Used to process answer given. This function will cache

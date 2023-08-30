@@ -16,7 +16,7 @@ class AnswerProcessor:
         #TODO possibly remove this linear search for index
         colIndex = QUESTION_DATA_FINAL.index(newQuestion + "#" + newAnswer)
 
-        columnVector = DATA_NUMPY_FINAL[:, colIndex] / 100
+        columnVector = DATA_NUMPY_FINAL[:, colIndex]
 
         #finding questionans total value
         QAPairTotal = TOTAL_PROB_VECTOR_FINAL[colIndex]

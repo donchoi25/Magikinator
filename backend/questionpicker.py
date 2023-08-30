@@ -33,7 +33,7 @@ class QuestionPicker:
         prevtime = time.time()
 
         #calculate the new probabilities for each card if we add the new answer for all questions
-        matrixVector = DATA_NUMPY_FINAL / 100
+        matrixVector = DATA_NUMPY_FINAL
         newProbVector = BeyesCalcInst.MAT_calculateCardProb(len(questionList), matrixVector)
         entropyVector = np.sum(-1 * newProbVector * np.emath.logn(TOTAL_CARDS_FINAL, (newProbVector)), axis=0)
 
