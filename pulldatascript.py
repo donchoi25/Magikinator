@@ -3,9 +3,6 @@ import numpy as np
 import json
 import csv
 
-from data.questionbank import generate_all_answers, generate_all_possible_questions
-from data.models.questiontypes import QuestionTypes
-from data.models.cardproperties import CardTypes
 from data.models.cardmodel import CardModel
 
 """
@@ -34,17 +31,9 @@ def download_cardsdata_json():
 CHOSEN_COLUMNS_FROM_CSV = ['name', 'mana_cost', 'cmc', 'type_line', 'power', 'toughness', 'colors', 'color_identity',
                      'keywords', 'set', 'flavor_text', 'edhrec_rank']
 
-QUESTIONS_TO_COLUMNS_MAP = {
-    "colors": QuestionTypes.IS_COLOR,
-    "type_line": QuestionTypes.IS_CARD_TYPE,
-    "cmc": QuestionTypes.IS_CMC
-    #TODO: Find a way to move this to the validator instead of mapping this here.
-}
-
 COLUMNS_TO_CREATE_IS_QUESTIONS = {
     'cmc', 'power', 'toughness', 'colors', 'type_line', 'set'
 }
-
 
 TOTAL_NUMBER_OF_CARDS = 1000
 
@@ -166,27 +155,6 @@ def create_range_cardsdata_json():
     range_dict = spread_range_per_column()
     with open('./data/files/cardsdata_range.json', 'w') as fp:
         json.dump(range_dict, fp)
-
-"""
-Takes available questions from questionbank, and K valid answer choices and 
-enumerates an csv file with K columns (per answer choice) for each question.
-
-We map each question to a column of the cardscsv_dataframe that can answer it.
-Each column has an "95% honest validator" that answers actual True or False,
-for whether a card satisfies the question. 
-"""
-def generate_correct_answers_per_card():
-    name_to_card_answer_map = {}
-    cardsdata_df = pd.read_csv('./data/files/cardsdata_csv')
-    cur_card = 0
-    for _, cardrow in cardsdata_df.iterrows():
-        cur_card += 1
-        if cur_card > TOTAL_NUMBER_OF_CARDS:
-            break
-        card = CardModel(cardrow)
-        card_answers = generate_all_answers(card)
-        name_to_card_answer_map[card.name] = card_answers
-    return name_to_card_answer_map
 
 """
 Main function for generating database script.
