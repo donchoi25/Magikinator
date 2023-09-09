@@ -13,7 +13,7 @@ COL_NUMPY_DICT_FINAL = {ques:cardcsv_dataframe[ques].to_numpy() / 100 for ques i
 CARD_DATA_FINAL = list(cardcsv_dataframe.index)
 
 POSSIBLE_ANSWERS_FINAL = ["YES", "NO", "MAYBE"]
-QUESTION_LIMIT_FINAL = 20
+QUESTION_LIMIT_FINAL = 30
 QUESTION_DATA_FINAL = cardcsv_dataframe.columns
 
 print("initialization done")

@@ -13,6 +13,7 @@ class QuestionPicker:
     def __init__(self):
         #curr len of questions is 1507
         self.allQs = self.qParser()
+        print("NUMBER OF ALL QUESTIONS: " + str(len(self.allQs)))
     def qParser(self):
         qs = QUESTION_DATA_FINAL
         uniQ = set()
