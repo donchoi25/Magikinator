@@ -328,9 +328,9 @@ class QuestionBank:
                 correct = card.name.lower() in cards
                 # if correct:
                     # print("CARD NAME: " + card.name + " Question: " + question)
-                card_row[f'{question}##YES'] = 95 if correct else 5
-                card_row[f'{question}##NO'] = 5 if correct else 95
-                card_row[f'{question}##MAYBE'] = 2
+                card_row[f'{question}#YES'] = 95 if correct else 5
+                card_row[f'{question}#NO'] = 5 if correct else 95
+                card_row[f'{question}#MAYBE'] = 2
 
             card_rows.append(card_row)
         
