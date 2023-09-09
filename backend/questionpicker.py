@@ -20,7 +20,7 @@ class QuestionPicker:
         for q in qs:
             #splits by delimiter, then store question into set without "yes, no, maybe"
             splitQ = q.split("#")
-            uniQ.add("#".join([splitQ[0], splitQ[1]]))
+            uniQ.add("#".join([splitQ[0]]))
         return uniQ
     def getBestQuestion(self, questionList, ansList):
         print("Finding best question...")
