@@ -26,6 +26,8 @@ CARDDATA_CSV_FILENAME = "./data/files/cardsdata.csv"
 
 SCRYFALL_DEFAULTCARDS_JSON_URL = "https://data.scryfall.io/default-cards/default-cards-20230830090607.json"
 
+CARD_LIMIT = float('inf')
+
 """
 Downloading Scryfall JSON into <CARDDATAJSON_FILENAME>
 """
@@ -48,13 +50,12 @@ Runtime Operation to convert cardsdata.json (Scryfall) into Card Class objects
 """
 def convertCardDataJsonToCards():
     list_of_cards = {}
-    limit = 10
     i = 0
     with open(CARDDATA_JSON_FILENAME, "r") as cd:
         cards_obj_list = json.loads(cd.read())
         for card_obj in cards_obj_list:
             i += 1
-            if i > limit:
+            if i > CARD_LIMIT:
                 break
             # if (card_obj.get('name') == 'Cyclonic Rift' or card_obj.get('name') == 'Mission Briefing'):
             if list_of_cards.get(card_obj.get('name')):
