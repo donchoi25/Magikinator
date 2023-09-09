@@ -46,12 +46,23 @@ def downloadDefaultCardDataFromScryfall():
 Runtime Operation to convert cardsdata.json (Scryfall) into Card Class objects
 """
 def convertCardDataJsonToCards():
-    list_of_cards = []
+    list_of_cards = {}
+    # limit = 1000
+    # i = 0
     with open(CARDDATA_JSON_FILENAME, "r") as cd:
         cards_obj_list = json.loads(cd.read())
         for card_obj in cards_obj_list:
-            list_of_cards.append(Card(card_obj))
-        return list_of_cards
+            # i += 1
+            # if i > limit:
+            #     break
+            # if (card_obj.get('name') == 'Cyclonic Rift' or card_obj.get('name') == 'Mission Briefing'):
+            if list_of_cards.get(card_obj.get('name')):
+                original_card = list_of_cards.get(card_obj.get('name'))
+                new_card = Card(card_obj)
+                original_card.combine_cards(new_card)
+            else:
+                list_of_cards[card_obj.get('name')] = Card(card_obj)
+        return list_of_cards.values()
 
 # ====================================================================
 #                       DATA FORMATTING CLASSES
@@ -69,6 +80,10 @@ class Card:
                         'legalities', 'set', 'rarity',
                         'flavor_text']
     
+    ATTRIBUTES_THAT_VARY_BETWEEN_PRINTINGS = [
+        'set', 'rarity'
+    ]
+    
     def __init__(self, card_str):
         self.id = card_str.get('id')
         self.oracle_id = card_str.get('oracle_id')
@@ -84,9 +99,22 @@ class Card:
         self.color_identity = card_str.get('color_identity')
         self.keywords = card_str.get('keywords')
         self.legalities = card_str.get('legalities')
-        self.set = card_str.get('set')
-        self.rarity = card_str.get('rarity')
-        self.flavor_text = card_str.get('flavor_text')
+        self.produced_mana = card_str.get('produced_mana')
+        self.set = [card_str.get('set')]
+        self.rarity = [card_str.get('rarity')]
+        self.flavor_text = [card_str.get('flavor_text')]
+
+    # meld attributes that vary between printings
+    
+    def combine_cards(self, other_card):
+        for attr in Card.ATTRIBUTES_THAT_VARY_BETWEEN_PRINTINGS:
+            self_attr = getattr(self, attr)
+            other_attr = getattr(other_card, attr)
+            for val in other_attr:
+                if val not in self_attr:
+                    self_attr.append(val)
+            # print("CUR CARD: " + self.name + " OTHER CARD: " + other_card.name)
+            # print(getattr(self, attr))
 
     def does_card_match_attribute(self, attribute, expected_value):
         if attribute == "type_line":
@@ -95,6 +123,14 @@ class Card:
             return self.is_card_this_color(expected_value)
         elif attribute == "color_identity":
             return self.is_card_this_color_identity(expected_value)
+        elif attribute == "keywords":
+            return self.is_card_this_keyword(expected_value)
+        elif attribute == "rarity":
+            return self.is_card_this_rarity(expected_value)
+        elif attribute == "set":
+            return self.is_card_this_set(expected_value)
+        elif attribute== "produced_mana":
+            return self.is_card_produced_mana(expected_value)
         else:
             return False
 
@@ -112,6 +148,31 @@ class Card:
         if not self.color_identity:
             return False
         return suspected_color in self.color_identity
+    
+    def is_card_this_keyword(self, suspected_keyword):
+        if not self.keywords:
+            return False
+        match = suspected_keyword in self.keywords
+        # if match:
+        #     print("SUSPECTED KEYWORD: " + suspected_keyword)
+        #     print(self.keywords)
+        return match
+
+    
+    def is_card_this_rarity(self, suspected_rarity):
+        if not self.rarity:
+            return False
+        return suspected_rarity in self.rarity
+    
+    def is_card_this_set(self, suspected_set):
+        if not self.set:
+            return False
+        return suspected_set in self.set
+    
+    def is_card_produced_mana(self, suspected_mana):
+        if not self.produced_mana:
+            return False
+        return suspected_mana in self.produced_mana
 
     irrelevant_types = [
         "and", "or", "and/or", "of"
@@ -150,17 +211,18 @@ class QuestionBank:
 
 ### Generate all MATCH QUESTIONS for Card Attributes that can be seen on the card itself.
 
-    MATCH_COLUMNS = ["cmc", "power", "toughness",
-                    "set", "rarity"]
+    MATCH_COLUMNS = ["cmc", "power", "toughness", "mana_cost"]
+    # Add colors, but make this only exactly the case
 
-    def generateMatchQuestionsForCardAttributes():
+    def generateMatchQuestionsForCardAttributes(all_cards):
         map_attribute_to_range_arr = {} # column --> set(values)
         for attribute in QuestionBank.MATCH_COLUMNS:
             map_attribute_to_range_arr[attribute] = set()
-        all_cards = convertCardDataJsonToCards()
         for card in all_cards:
             for attribute in QuestionBank.MATCH_COLUMNS:
-                map_attribute_to_range_arr[attribute].add(str(getattr(card, attribute)))
+                attr = getattr(card, attribute)
+                if attr:
+                    map_attribute_to_range_arr[attribute].add(str(attr))
 
         default_questions_str = []
         for attribute, unique_values in map_attribute_to_range_arr.items():
@@ -169,26 +231,28 @@ class QuestionBank:
         
         return default_questions_str
     
-    def answerDefaultAnswersForCardAttributes():
-        default_questions = QuestionBank.generateMatchQuestionsForCardAttributes()
-        all_cards = convertCardDataJsonToCards()
+    def answerDefaultAnswersForCardAttributes(all_cards):
+        default_questions = QuestionBank.generateMatchQuestionsForCardAttributes(all_cards)
         question_ans_map = {} # Question (CMC#6) : { Card A : True / False, Card B: True / False, etc }
         for question in default_questions:
             question_ans_map[question] = {}
             question_attribute, question_expected_value = question.split("#")
             for card in all_cards:
-                question_ans_map[question][card.name] = getattr(card, question_attribute) == question_expected_value
+                attr = getattr(card, question_attribute)
+                if attr:
+                    question_ans_map[question][card.name] = str(attr) == str(question_expected_value)
+                else:
+                    question_ans_map[question][card.name] = False
         return question_ans_map
 
 ### Generate All MATCH_AT_LEAST Questions for Card Attributes that need enumeration
 
-    MATCH_AT_LEAST = ["type_line", "color_identity", "keywords"]
+    MATCH_AT_LEAST = ["type_line", "color_identity", "keywords", "set", "rarity", "produced_mana"]
 
-    def generateMatchAtLeastQuestionsForCardAttributes():
+    def generateMatchAtLeastQuestionsForCardAttributes(all_cards):
         map_attribute_to_range_arr = {} # column --> set(values)
         for attribute in QuestionBank.MATCH_AT_LEAST:
             map_attribute_to_range_arr[attribute] = set()
-        all_cards = convertCardDataJsonToCards()
         for card in all_cards:
             for attribute in QuestionBank.MATCH_AT_LEAST:
                 attribute_value_arr = getattr(card, attribute)
@@ -205,8 +269,8 @@ class QuestionBank:
         
         return match_at_least_questions_str
     
-    def answerMatchAtLeastAnswersForCardAttributes():
-        default_questions = QuestionBank.generateMatchAtLeastQuestionsForCardAttributes()
+    def answerMatchAtLeastAnswersForCardAttributes(all_cards):
+        default_questions = QuestionBank.generateMatchAtLeastQuestionsForCardAttributes(all_cards)
         all_cards = convertCardDataJsonToCards()
         question_ans_map = {} # Question (CMC#6) : { Card A : True / False, Card B: True / False, etc }
         for question in default_questions:
@@ -221,9 +285,9 @@ class QuestionBank:
         return question_ans_map
     
     def write_cardsdata_live_csv():
-        combined_answers = QuestionBank.answerDefaultAnswersForCardAttributes()
-        match_answers = QuestionBank.answerMatchAtLeastAnswersForCardAttributes()
         all_cards = convertCardDataJsonToCards()
+        combined_answers = QuestionBank.answerDefaultAnswersForCardAttributes(all_cards)
+        match_answers = QuestionBank.answerMatchAtLeastAnswersForCardAttributes(all_cards)
         combined_answers.update(match_answers)
 
         card_rows = []
@@ -239,9 +303,14 @@ class QuestionBank:
                 card_row["Name"] = card.name
                 correct = combined_answers[question][card.name]
                 
-                card_row[f'{question}#YES'] = 95 if correct else 5
-                card_row[f'{question}#NO'] = 5 if correct else 95
-                card_row[f'{question}#MAYBE'] = 2
+                if question == "set":
+                    card_row[f'{question}#YES'] = 95 / len(getattr(card, 'set')) if correct else (100 - (95 / len(getattr(card, 'set'))))
+                    card_row[f'{question}#NO'] = (100 - (95 / len(getattr(card, 'set')))) if correct else 95 / len(getattr(card, 'set'))
+                    card_row[f'{question}#MAYBE'] = 2
+                else:
+                    card_row[f'{question}#YES'] = 95 if correct else 5
+                    card_row[f'{question}#NO'] = 5 if correct else 95
+                    card_row[f'{question}#MAYBE'] = 2
 
             card_rows.append(card_row)
         
@@ -267,7 +336,7 @@ def setup():
             print(f'SKIPPING {file_operation}...')
 
 if __name__ == "__main__":
-    setup()
-    # all_cards = convertCardDataJsonToCards()
+    # setup()
+    all_cards = convertCardDataJsonToCards()
     # QuestionBank.answerMatchAtLeastAnswersForCardAttributes()
     QuestionBank.write_cardsdata_live_csv()

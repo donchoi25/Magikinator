@@ -17,6 +17,7 @@ class AnswerProcessor:
 
         maxProb = probVector[maxIndex]
         maxCard = CARD_DATA_FINAL[maxIndex]
+        print("Current suspected card: " + maxCard)
 
         questionList.append(newQuestion)
         ansList.append(newAnswer)
@@ -25,7 +26,7 @@ class AnswerProcessor:
         print("Answer Processed")
 
         #return the answer if entropy is low enough
-        if entropy < 0.01 or len(questionList) >= QUESTION_LIMIT_FINAL:
+        if len(questionList) >= QUESTION_LIMIT_FINAL:
             return maxCard
         else:
             return ""
