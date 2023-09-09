@@ -8,7 +8,6 @@ class BeyesTheoremCalc:
         self.cache_P_answers_given_card = None
     #probVector will be a numpy array. This vector represents a column for a question, answer pair
     def calculateCardProb(self, numQuestionAns, questionans, probVector, cache=True):
-        #TODO This value could also be part of our save data. 
         #It could be (# of times card was picked / total # of games)
         P_card = 1 / TOTAL_CARDS_FINAL
         
