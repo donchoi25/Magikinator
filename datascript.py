@@ -15,6 +15,7 @@ import operator
 from datetime import date
 from urllib.request import urlopen
 from data.models.cardmodel import CardModel
+from scryfallscript import ask_all_questions
 
 # ====================================================================
 #                       DOWNLOADING DATA
@@ -47,14 +48,14 @@ Runtime Operation to convert cardsdata.json (Scryfall) into Card Class objects
 """
 def convertCardDataJsonToCards():
     list_of_cards = {}
-    # limit = 1000
-    # i = 0
+    limit = 10
+    i = 0
     with open(CARDDATA_JSON_FILENAME, "r") as cd:
         cards_obj_list = json.loads(cd.read())
         for card_obj in cards_obj_list:
-            # i += 1
-            # if i > limit:
-            #     break
+            i += 1
+            if i > limit:
+                break
             # if (card_obj.get('name') == 'Cyclonic Rift' or card_obj.get('name') == 'Mission Briefing'):
             if list_of_cards.get(card_obj.get('name')):
                 original_card = list_of_cards.get(card_obj.get('name'))
@@ -227,7 +228,7 @@ class QuestionBank:
         default_questions_str = []
         for attribute, unique_values in map_attribute_to_range_arr.items():
             for value in unique_values:
-                default_questions_str.append(f'{attribute}#{value}')
+                default_questions_str.append(f'{attribute}@{value}')
         
         return default_questions_str
     
@@ -236,7 +237,7 @@ class QuestionBank:
         question_ans_map = {} # Question (CMC#6) : { Card A : True / False, Card B: True / False, etc }
         for question in default_questions:
             question_ans_map[question] = {}
-            question_attribute, question_expected_value = question.split("#")
+            question_attribute, question_expected_value = question.split("@")
             for card in all_cards:
                 attr = getattr(card, question_attribute)
                 if attr:
@@ -265,17 +266,16 @@ class QuestionBank:
         match_at_least_questions_str = []
         for attribute, unique_values in map_attribute_to_range_arr.items():
             for value in unique_values:
-                match_at_least_questions_str.append(f'{attribute}#{value}')
+                match_at_least_questions_str.append(f'{attribute}@{value}')
         
         return match_at_least_questions_str
     
     def answerMatchAtLeastAnswersForCardAttributes(all_cards):
         default_questions = QuestionBank.generateMatchAtLeastQuestionsForCardAttributes(all_cards)
-        all_cards = convertCardDataJsonToCards()
         question_ans_map = {} # Question (CMC#6) : { Card A : True / False, Card B: True / False, etc }
         for question in default_questions:
             question_ans_map[question] = {}
-            question_attribute, question_expected_value = question.split("#")
+            question_attribute, question_expected_value = question.split("@")
             for card in all_cards:
                 match = card.does_card_match_attribute(question_attribute, question_expected_value)
                 question_ans_map[question][card.name] = match
@@ -297,10 +297,19 @@ class QuestionBank:
             questions.append(f'{column}#NO')
             questions.append(f'{column}#MAYBE')
 
+        # SCRYFALL QUESTIONS
+        print("ASKING SCRYFALL QUESTIONS")
+        scryfall_answers = ask_all_questions()
+        print("DONE ASKING SCRYFALL QUESTIONS")
+        for scry_q in scryfall_answers.keys():
+            questions.append(f'{scry_q}#YES')
+            questions.append(f'{scry_q}#NO')
+            questions.append(f'{scry_q}#MAYBE')
+
         for card in all_cards:
             card_row = {}
+            card_row["Name"] = card.name
             for question in combined_answers.keys():
-                card_row["Name"] = card.name
                 correct = combined_answers[question][card.name]
                 
                 if question == "set":
@@ -311,6 +320,16 @@ class QuestionBank:
                     card_row[f'{question}#YES'] = 95 if correct else 5
                     card_row[f'{question}#NO'] = 5 if correct else 95
                     card_row[f'{question}#MAYBE'] = 2
+
+            for question, cards in scryfall_answers.items():
+                # print("QUESTION: " + question)
+                # print("CARDS: " + str(cards))
+                correct = card.name.lower() in cards
+                # if correct:
+                    # print("CARD NAME: " + card.name + " Question: " + question)
+                card_row[f'{question}##YES'] = 95 if correct else 5
+                card_row[f'{question}##NO'] = 5 if correct else 95
+                card_row[f'{question}##MAYBE'] = 2
 
             card_rows.append(card_row)
         
@@ -337,6 +356,6 @@ def setup():
 
 if __name__ == "__main__":
     # setup()
-    all_cards = convertCardDataJsonToCards()
+    # all_cards = convertCardDataJsonToCards()
     # QuestionBank.answerMatchAtLeastAnswersForCardAttributes()
     QuestionBank.write_cardsdata_live_csv()
