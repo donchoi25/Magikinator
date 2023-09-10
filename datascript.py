@@ -80,7 +80,7 @@ class Card:
                         'power', 'toughness', 'colors', 
                         'color_identity', 'keywords', 
                         'legalities', 'set', 'rarity',
-                        'flavor_text']
+                        'artist', 'flavor_text']
     
     ATTRIBUTES_THAT_VARY_BETWEEN_PRINTINGS = [
         'set', 'rarity'
@@ -102,6 +102,7 @@ class Card:
         self.keywords = card_str.get('keywords')
         self.legalities = card_str.get('legalities')
         self.produced_mana = card_str.get('produced_mana')
+        self.artist = [card_str.get('artist')]
         self.set = [card_str.get('set')]
         self.rarity = [card_str.get('rarity')]
         self.flavor_text = [card_str.get('flavor_text')]
@@ -131,8 +132,10 @@ class Card:
             return self.is_card_this_rarity(expected_value)
         elif attribute == "set":
             return self.is_card_this_set(expected_value)
-        elif attribute== "produced_mana":
+        elif attribute == "produced_mana":
             return self.is_card_produced_mana(expected_value)
+        elif attribute == "artist":
+            return self.is_card_by_artist(expected_value) 
         else:
             return False
 
@@ -175,6 +178,11 @@ class Card:
         if not self.produced_mana:
             return False
         return suspected_mana in self.produced_mana
+
+    def is_card_by_artist(self, suspected_artist):
+        if not suspected_artist:
+            return False
+        return suspected_artist in self.artist
 
     irrelevant_types = [
         "and", "or", "and/or", "of"
@@ -249,7 +257,7 @@ class QuestionBank:
 
 ### Generate All MATCH_AT_LEAST Questions for Card Attributes that need enumeration
 
-    MATCH_AT_LEAST = ["type_line", "color_identity", "keywords", "set", "rarity", "produced_mana"]
+    MATCH_AT_LEAST = ["type_line", "color_identity", "keywords", "set", "rarity", "produced_mana", "artist"]
 
     def generateMatchAtLeastQuestionsForCardAttributes(all_cards):
         map_attribute_to_range_arr = {} # column --> set(values)
