@@ -346,14 +346,15 @@ class QuestionBank:
                     elif question_attribute in QuestionBank.MATCH_AT_LEAST:
                         correct = card.does_card_match_attribute(question_attribute, question_expected_value)
                 
-                if question == "set":
-                    card_row[f'{question}#YES'] = 95 / len(getattr(card, 'set')) if correct else (100 - (95 / len(getattr(card, 'set'))))
-                    card_row[f'{question}#NO'] = (100 - (95 / len(getattr(card, 'set')))) if correct else 95 / len(getattr(card, 'set'))
-                    card_row[f'{question}#MAYBE'] = 2
+                length_of_attributes = 0
+                if isinstance(getattr(card, question_attribute), list):
+                    length_of_attributes = max(1, len(getattr(card, question_attribute)))
                 else:
-                    card_row[f'{question}#YES'] = 95 if correct else 5
-                    card_row[f'{question}#NO'] = 5 if correct else 95
-                    card_row[f'{question}#MAYBE'] = 2
+                    length_of_attributes = 1
+
+                card_row[f'{question}#YES'] = 95 / length_of_attributes if correct else (100 - (95 / length_of_attributes))
+                card_row[f'{question}#NO'] = (100 - (95 / length_of_attributes)) if correct else 95 / length_of_attributes
+                card_row[f'{question}#MAYBE'] = 2
             
             for question, cards in scryfall_questions_map.items():
                 correct = card.name.lower() in cards
@@ -407,11 +408,12 @@ class QuestionBank:
             card_row = {}
             card_row["Name"] = card.name
             for question in combined_answers.keys():
+                question_attr, question_value = question.split("@")
                 correct = combined_answers[question][card.name]
                 
-                if question == "set":
-                    card_row[f'{question}#YES'] = 95 / len(getattr(card, 'set')) if correct else (100 - (95 / len(getattr(card, 'set'))))
-                    card_row[f'{question}#NO'] = (100 - (95 / len(getattr(card, 'set')))) if correct else 95 / len(getattr(card, 'set'))
+                if isinstance(getattr(card, question), list):
+                    card_row[f'{question}#YES'] = 95 / len(getattr(card, question)) if correct else (100 - (95 / len(getattr(card, question))))
+                    card_row[f'{question}#NO'] = (100 - (95 / len(getattr(card, question)))) if correct else 95 / len(getattr(card, question))
                     card_row[f'{question}#MAYBE'] = 2
                 else:
                     card_row[f'{question}#YES'] = 95 if correct else 5
