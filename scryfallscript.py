@@ -1,5 +1,6 @@
 import requests
 from requests.adapters import HTTPAdapter, Retry
+from urllib.parse import quote
 import math
 from common_phrases import COMMON_PHRASES
 
@@ -29,11 +30,11 @@ TEST_SEARCHES = {
     "Does your card trigger an effect at the beginning of a phase?": "o:'at the beginning'",
     "Does your card trigger an effect at the beginning of your upkeep?": "o:'at the beginning of your upkeep'",
     "Does your card create an effect that lasts 'until end of turn'?": "o:'until end of turn'",
-    "Does your card put a +1/+1 counter on a permanent?": "o:'put a +1\/+1 counter'",
+    "Does your card put a +1/+1 counter on a permanent?": "o:'put a +1/+1 counter'",
     "Does your card target a creature you control?": "o:'target creature you control'",
     "Does your card trigger when combat damage is dealt?": "o:'deals combat damage'",
     "Does your card trigger when combat damage is dealt specifically to a player?": "o:'deals combat damage to a player'",
-    "Does your card stop itself or other creatures from being blocked?": "o:'can\'t be blocked'",
+    "Does your card stop itself or other creatures from being blocked?": "o:'be blocked'",
     "Does your card have an effect that deals exactly 1 damage?": "o:'deals 1 damage'",
     "Does your card have an effect that deals exactly 2 damage?": "o:'deals 2 damage'",
     "Does your card have an effect that deals exactly 3 damage?": "o:'deals 3 damage'",
@@ -87,7 +88,7 @@ def make_page_request(URL):
 
 def ask_question(q):
     all_cards_data = []
-    first_page_url = f'{SCRYFALL_SEARCH_URL}' + q
+    first_page_url = f'{SCRYFALL_SEARCH_URL}' + quote(q)
     page_result, next_page_url = make_page_request(first_page_url)
     i = 1
 
