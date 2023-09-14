@@ -1,4 +1,5 @@
 import requests
+from requests.adapters import HTTPAdapter, Retry
 import math
 from common_phrases import COMMON_PHRASES
 
@@ -68,6 +69,8 @@ def get_top_phrases():
 # get_top_phrases()
 
 s = requests.Session()
+retries = Retry(total=5, backoff_factor=1, status_forcelist=[502, 503, 504])
+s.mount("https://", HTTPAdapter(max_retries=retries))
 
 def make_page_request(URL):
     r = s.get(url=URL)
