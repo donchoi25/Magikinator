@@ -220,10 +220,11 @@ class QuestionBank:
     }
 
 ### Generate all MATCH QUESTIONS for Card Attributes that can be seen on the card itself.
-
     MATCH_COLUMNS = ["cmc", "power", "toughness", "mana_cost"]
-    # Add colors, but make this only exactly the case
 
+### Generate All MATCH_AT_LEAST Questions for Card Attributes that need enumeration
+    MATCH_AT_LEAST = ["type_line", "color_identity", "keywords", "set", "rarity", "produced_mana", "artist"]
+    
     def generateMatchQuestionsForCardAttributes(all_cards):
         map_attribute_to_range_arr = {} # column --> set(values)
         for attribute in QuestionBank.MATCH_COLUMNS:
@@ -241,24 +242,6 @@ class QuestionBank:
         
         return default_questions_str
     
-    def answerDefaultAnswersForCardAttributes(all_cards):
-        default_questions = QuestionBank.generateMatchQuestionsForCardAttributes(all_cards)
-        question_ans_map = {} # Question (CMC#6) : { Card A : True / False, Card B: True / False, etc }
-        for question in default_questions:
-            question_ans_map[question] = {}
-            question_attribute, question_expected_value = question.split("@")
-            for card in all_cards:
-                attr = getattr(card, question_attribute)
-                if attr:
-                    question_ans_map[question][card.name] = str(attr) == str(question_expected_value)
-                else:
-                    question_ans_map[question][card.name] = False
-        return question_ans_map
-
-### Generate All MATCH_AT_LEAST Questions for Card Attributes that need enumeration
-
-    MATCH_AT_LEAST = ["type_line", "color_identity", "keywords", "set", "rarity", "produced_mana", "artist"]
-
     def generateMatchAtLeastQuestionsForCardAttributes(all_cards):
         map_attribute_to_range_arr = {} # column --> set(values)
         for attribute in QuestionBank.MATCH_AT_LEAST:
@@ -278,6 +261,46 @@ class QuestionBank:
                 match_at_least_questions_str.append(f'{attribute}@{value}')
         
         return match_at_least_questions_str
+
+    def generateQuestionsForCardAttributes(all_cards):
+        map_attribute_to_range_arr = {} # column --> set(values)
+        for attribute in QuestionBank.MATCH_COLUMNS:
+            map_attribute_to_range_arr[attribute] = set()
+        for attribute in QuestionBank.MATCH_AT_LEAST:
+            map_attribute_to_range_arr[attribute] = set()
+        for card in all_cards:
+            for attribute in QuestionBank.MATCH_COLUMNS:
+                attr = getattr(card, attribute)
+                if attr:
+                    map_attribute_to_range_arr[attribute].add(str(attr))
+            for attribute in QuestionBank.MATCH_AT_LEAST:
+                attribute_value_arr = getattr(card, attribute)
+                if not attribute_value_arr:
+                    continue
+                for attr_val in attribute_value_arr:
+                    if attr_val:
+                        map_attribute_to_range_arr[attribute].add(attr_val)
+
+        questions_arr = []
+        for attribute, unique_values in map_attribute_to_range_arr.items():
+            for value in unique_values:
+                questions_arr.append(f'{attribute}@{value}')
+        
+        return questions_arr
+    
+    def answerDefaultAnswersForCardAttributes(all_cards):
+        default_questions = QuestionBank.generateMatchQuestionsForCardAttributes(all_cards)
+        question_ans_map = {} # Question (CMC#6) : { Card A : True / False, Card B: True / False, etc }
+        for question in default_questions:
+            question_ans_map[question] = {}
+            question_attribute, question_expected_value = question.split("@")
+            for card in all_cards:
+                attr = getattr(card, question_attribute)
+                if attr:
+                    question_ans_map[question][card.name] = str(attr) == str(question_expected_value)
+                else:
+                    question_ans_map[question][card.name] = False
+        return question_ans_map
     
     def answerMatchAtLeastAnswersForCardAttributes(all_cards):
         default_questions = QuestionBank.generateMatchAtLeastQuestionsForCardAttributes(all_cards)
@@ -293,6 +316,71 @@ class QuestionBank:
                 #     print("ATTRIBUTE: " + str(getattr(card, question_attribute)))
         return question_ans_map
     
+    def answerQuestionsForCardAttributes():
+        all_cards = convertCardDataJsonToCards()
+        all_questions = QuestionBank.generateQuestionsForCardAttributes(all_cards)
+        # print(all_questions)
+        card_rows = []
+        question_column_fields = ["Name"]
+        for question in all_questions:
+            question_column_fields.append(f'{question}#YES')
+            question_column_fields.append(f'{question}#NO')
+            question_column_fields.append(f'{question}#MAYBE')
+        
+        scryfall_questions_map = ask_all_questions()
+        for scry_q in scryfall_questions_map.keys():
+            question_column_fields.append(f'{scry_q}#YES')
+            question_column_fields.append(f'{scry_q}#NO')
+            question_column_fields.append(f'{scry_q}#MAYBE')
+        
+        for card in all_cards:
+            card_row = {}
+            card_row["Name"] = card.name
+            for question in all_questions:
+                question_attribute, question_expected_value = question.split("@")
+                attr = getattr(card, question_attribute)
+                correct = False
+                if attr:
+                    if question_attribute in QuestionBank.MATCH_COLUMNS:
+                        correct = str(attr) == str(question_expected_value)
+                    elif question_attribute in QuestionBank.MATCH_AT_LEAST:
+                        correct = card.does_card_match_attribute(question_attribute, question_expected_value)
+                
+                if question == "set":
+                    card_row[f'{question}#YES'] = 95 / len(getattr(card, 'set')) if correct else (100 - (95 / len(getattr(card, 'set'))))
+                    card_row[f'{question}#NO'] = (100 - (95 / len(getattr(card, 'set')))) if correct else 95 / len(getattr(card, 'set'))
+                    card_row[f'{question}#MAYBE'] = 2
+                else:
+                    card_row[f'{question}#YES'] = 95 if correct else 5
+                    card_row[f'{question}#NO'] = 5 if correct else 95
+                    card_row[f'{question}#MAYBE'] = 2
+            
+            for question, cards in scryfall_questions_map.items():
+                correct = card.name.lower() in cards
+
+                card_row[f'{question}#YES'] = 95 if correct else 5
+                card_row[f'{question}#NO'] = 5 if correct else 95
+                card_row[f'{question}#MAYBE'] = 2
+
+            card_rows.append(card_row)
+        
+        with open('./data/files/cardsdata_live.csv', 'w', encoding='utf-8') as csvfile:
+            writer = csv.DictWriter(csvfile, fieldnames=question_column_fields)
+            writer.writeheader()
+            writer.writerows(card_rows)
+
+        # question_ans_map = {} # Question (CMC#6) : { Card A : True / False, Card B: True / False, etc }
+        # for question in all_questions:
+        #     question_ans_map[question] = {}
+        #     question_attribute, question_expected_value = question.split("@")
+        #     for card in all_cards:
+        #         match = card.does_card_match_attribute(question_attribute, question_expected_value)
+        #         question_ans_map[question][card.name] = match
+        #         # if match:
+        #         #     print("QUESTION: " + question)
+        #         #     print("ATTRIBUTE: " + str(getattr(card, question_attribute)))
+        # return question_ans_map
+
     def write_cardsdata_live_csv():
         all_cards = convertCardDataJsonToCards()
         combined_answers = QuestionBank.answerDefaultAnswersForCardAttributes(all_cards)
@@ -367,4 +455,5 @@ if __name__ == "__main__":
     # setup()
     # all_cards = convertCardDataJsonToCards()
     # QuestionBank.answerMatchAtLeastAnswersForCardAttributes()
-    QuestionBank.write_cardsdata_live_csv()
+    # QuestionBank.write_cardsdata_live_csv()
+    QuestionBank.answerQuestionsForCardAttributes()
