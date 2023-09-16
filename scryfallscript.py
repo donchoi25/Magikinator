@@ -54,7 +54,10 @@ TEST_SEARCHES = {
     "Does your card have an effect that involves the top card of your library?": "o:'top card of your library'",
     "Does your card have an effect that involves one or more cards from the top of your library?": "o:'cards of your library'",
     "Does your card prevent damage?": "o:prevent o:damage",
-    "Does your card trigger an effect at the beginning of the next end step?": "o:'beginning of the next end step'"
+    "Does your card trigger an effect at the beginning of the next end step?": "o:'beginning of the next end step'",
+    "Does your card copy a spell or permanent?": "function:copy",
+    "Does your card stop itself or spells from being countered": "o:'be countered'",
+
 }
 def get_top_phrases():
     TOP_PHRASE_LIMIT = 50

@@ -319,7 +319,6 @@ class QuestionBank:
     def answerQuestionsForCardAttributes():
         all_cards = convertCardDataJsonToCards()
         all_questions = QuestionBank.generateQuestionsForCardAttributes(all_cards)
-        # print(all_questions)
         card_rows = []
         question_column_fields = ["Name"]
         for question in all_questions:
@@ -346,15 +345,15 @@ class QuestionBank:
                     elif question_attribute in QuestionBank.MATCH_AT_LEAST:
                         correct = card.does_card_match_attribute(question_attribute, question_expected_value)
                 
-                length_of_attributes = 0
-                if isinstance(getattr(card, question_attribute), list):
-                    length_of_attributes = max(1, len(getattr(card, question_attribute)))
-                else:
-                    length_of_attributes = 1
+                if question == "set" or question == "rarity":
+                    card_row[f'{question}#YES'] = 95 / len(getattr(card, question)) if correct else (100 - (95 / len(getattr(card, question))))
+                    card_row[f'{question}#NO'] = (100 - (95 / len(getattr(card, question)))) if correct else 95 / len(getattr(card, question))
+                    card_row[f'{question}#MAYBE'] = 2
 
-                card_row[f'{question}#YES'] = 95 / length_of_attributes if correct else (100 - (95 / length_of_attributes))
-                card_row[f'{question}#NO'] = (100 - (95 / length_of_attributes)) if correct else 95 / length_of_attributes
-                card_row[f'{question}#MAYBE'] = 2
+                else:
+                    card_row[f'{question}#YES'] = 95 if correct else 5
+                    card_row[f'{question}#NO'] = 5 if correct else 95
+                    card_row[f'{question}#MAYBE'] = 2
             
             for question, cards in scryfall_questions_map.items():
                 correct = card.name.lower() in cards
