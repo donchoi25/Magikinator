@@ -27,6 +27,7 @@ CARDDATA_CSV_FILENAME = "./data/files/cardsdata.csv"
 SCRYFALL_DEFAULTCARDS_JSON_URL = "https://data.scryfall.io/default-cards/default-cards-20230830090607.json"
 
 CARD_LIMIT = float('inf')
+ROWS_TO_WRITE_AT_A_TIME = 500
 
 """
 Downloading Scryfall JSON into <CARDDATAJSON_FILENAME>
@@ -326,11 +327,12 @@ class QuestionBank:
             question_column_fields.append(f'{question}#NO')
             question_column_fields.append(f'{question}#MAYBE')
         
-        scryfall_questions_map = ask_all_questions()
-        for scry_q in scryfall_questions_map.keys():
-            question_column_fields.append(f'{scry_q}#YES')
-            question_column_fields.append(f'{scry_q}#NO')
-            question_column_fields.append(f'{scry_q}#MAYBE')
+        print("Generated all questions!")
+        # scryfall_questions_map = ask_all_questions()
+        # for scry_q in scryfall_questions_map.keys():
+        #     question_column_fields.append(f'{scry_q}#YES')
+        #     question_column_fields.append(f'{scry_q}#NO')
+        #     question_column_fields.append(f'{scry_q}#MAYBE')
         
         for card in all_cards:
             card_row = {}
@@ -355,19 +357,30 @@ class QuestionBank:
                     card_row[f'{question}#NO'] = 5 if correct else 95
                     card_row[f'{question}#MAYBE'] = 2
             
-            for question, cards in scryfall_questions_map.items():
-                correct = card.name.lower() in cards
+            # for question, cards in scryfall_questions_map.items():
+            #     correct = card.name.lower() in cards
 
-                card_row[f'{question}#YES'] = 95 if correct else 5
-                card_row[f'{question}#NO'] = 5 if correct else 95
-                card_row[f'{question}#MAYBE'] = 2
+            #     card_row[f'{question}#YES'] = 95 if correct else 5
+            #     card_row[f'{question}#NO'] = 5 if correct else 95
+            #     card_row[f'{question}#MAYBE'] = 2
 
             card_rows.append(card_row)
+            if len(card_rows) > ROWS_TO_WRITE_AT_A_TIME:
+                with open('./data/files/cardsdata_live.csv', 'a', encoding='utf-8') as csvfile:
+                    writer = csv.DictWriter(csvfile, fieldnames=question_column_fields)
+                    writer.writeheader()
+                    writer.writerows(card_rows)
+                    batches_written += 1
+                    print(f'Wrote {ROWS_TO_WRITE_AT_A_TIME} rows to files/cardsdata_live.csv')
+                    card_rows = []
+                    csvfile.close()
         
-        with open('./data/files/cardsdata_live.csv', 'w', encoding='utf-8') as csvfile:
+        with open('./data/files/cardsdata_live.csv', 'a', encoding='utf-8') as csvfile:
             writer = csv.DictWriter(csvfile, fieldnames=question_column_fields)
             writer.writeheader()
+            print("Wrote last cards to cardsdata_live.csv")
             writer.writerows(card_rows)
+            csvfile.close()
 
         # question_ans_map = {} # Question (CMC#6) : { Card A : True / False, Card B: True / False, etc }
         # for question in all_questions:
