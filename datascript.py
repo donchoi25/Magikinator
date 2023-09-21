@@ -370,7 +370,6 @@ class QuestionBank:
                     writer = csv.DictWriter(csvfile, fieldnames=question_column_fields)
                     writer.writeheader()
                     writer.writerows(card_rows)
-                    batches_written += 1
                     print(f'Wrote {ROWS_TO_WRITE_AT_A_TIME} rows to files/cardsdata_live.csv')
                     card_rows = []
                     csvfile.close()
@@ -466,7 +465,7 @@ def setup():
             print(f'SKIPPING {file_operation}...')
 
 if __name__ == "__main__":
-    # setup()
+    setup()
     # all_cards = convertCardDataJsonToCards()
     # QuestionBank.answerMatchAtLeastAnswersForCardAttributes()
     # QuestionBank.write_cardsdata_live_csv()
