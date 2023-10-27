@@ -99,7 +99,6 @@ def downloadDefaultCardDataFromScryfall():
         print(card_data_json.get("name"))
         insert_card_sql(card_data_json)
         break
-        
 
 def insert_card_sql(card):
     COMMAND = f"""
