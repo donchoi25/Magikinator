@@ -96,8 +96,6 @@ def ask_question(q):
     i = 1
 
     while next_page_url:
-        # if not i % 5:
-            # print("On page: " + str(i))
         if page_result:
             all_cards_data.extend(page_result)
         page_result, next_page_url = make_page_request(next_page_url)
@@ -112,7 +110,7 @@ def ask_all_questions():
     questions_cards_map = {}
     for question_text, question in TEST_SEARCHES.items():
         question_text = "_".join(question_text.split(" "))
-        # print(f'Asking the question: "{text}"...')
+        print(f'Asking Scryfall the question: "{question_text}"...')
         cards_returned = ask_question(question)
         # print("Answered with " + str(len(cards_returned)) + " cards returned.")
         questions_cards_map[question_text] = cards_returned
