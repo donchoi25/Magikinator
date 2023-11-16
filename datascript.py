@@ -16,6 +16,7 @@ from datetime import date
 from urllib.request import urlopen
 from data.models.cardmodel import CardModel
 from scryfallscript import ask_all_questions
+import psutil
 
 # ====================================================================
 #                       DOWNLOADING DATA
@@ -23,10 +24,11 @@ from scryfallscript import ask_all_questions
 
 CARDDATA_JSON_FILENAME = "./data/files/cardsdata.json"
 CARDDATA_CSV_FILENAME = "./data/files/cardsdata.csv"
+CARDDATA_LIVE_CSV_FILENAME = "./data/files/cardsdata_live.csv"
 
 SCRYFALL_DEFAULTCARDS_JSON_URL = "https://data.scryfall.io/default-cards/default-cards-20230830090607.json"
 
-CARD_LIMIT = float('inf')
+CARD_LIMIT = 40000
 ROWS_TO_WRITE_AT_A_TIME = 500
 
 """
@@ -51,14 +53,11 @@ Runtime Operation to convert cardsdata.json (Scryfall) into Card Class objects
 """
 def convertCardDataJsonToCards():
     list_of_cards = {}
-    i = 0
     with open(CARDDATA_JSON_FILENAME, "r") as cd:
         cards_obj_list = json.loads(cd.read())
-        for card_obj in cards_obj_list:
-            i += 1
-            if i > CARD_LIMIT:
+        for i, card_obj in enumerate(cards_obj_list):
+            if i >= CARD_LIMIT:
                 break
-            # if (card_obj.get('name') == 'Cyclonic Rift' or card_obj.get('name') == 'Mission Briefing'):
             if list_of_cards.get(card_obj.get('name')):
                 original_card = list_of_cards.get(card_obj.get('name'))
                 new_card = Card(card_obj)
@@ -66,6 +65,18 @@ def convertCardDataJsonToCards():
             else:
                 list_of_cards[card_obj.get('name')] = Card(card_obj)
         return list_of_cards.values()
+
+
+def countNumberOfCards():
+    list_of_cards = set()
+    count = 0
+    with open(CARDDATA_JSON_FILENAME, "r") as cd:
+        cards_obj_list = json.loads(cd.read())
+        for i, card_obj in enumerate(cards_obj_list):
+            if card_obj.get('name') not in list_of_cards:
+                count += 1
+                list_of_cards.add(card_obj.get('name'))
+        return len(list_of_cards)
 
 # ====================================================================
 #                       DATA FORMATTING CLASSES
@@ -318,9 +329,13 @@ class QuestionBank:
         return question_ans_map
     
     def answerQuestionsForCardAttributes():
+        if os.path.exists(CARDDATA_LIVE_CSV_FILENAME):
+            os.remove(CARDDATA_LIVE_CSV_FILENAME)
+            print("Deleting and recreating " + CARDDATA_LIVE_CSV_FILENAME)
+        else:
+            print(CARDDATA_LIVE_CSV_FILENAME + " did not exist. Creating it now.")
         all_cards = convertCardDataJsonToCards()
         all_questions = QuestionBank.generateQuestionsForCardAttributes(all_cards)
-        card_rows = []
         question_column_fields = ["Name"]
         for question in all_questions:
             question_column_fields.append(f'{question}#YES')
@@ -334,64 +349,48 @@ class QuestionBank:
         #     question_column_fields.append(f'{scry_q}#NO')
         #     question_column_fields.append(f'{scry_q}#MAYBE')
         
-        for card in all_cards:
-            card_row = {}
-            card_row["Name"] = card.name
-            for question in all_questions:
-                question_attribute, question_expected_value = question.split("@")
-                attr = getattr(card, question_attribute)
-                correct = False
-                if attr:
-                    if question_attribute in QuestionBank.MATCH_COLUMNS:
-                        correct = str(attr) == str(question_expected_value)
-                    elif question_attribute in QuestionBank.MATCH_AT_LEAST:
-                        correct = card.does_card_match_attribute(question_attribute, question_expected_value)
-                
-                if question == "set" or question == "rarity":
-                    card_row[f'{question}#YES'] = 95 / len(getattr(card, question)) if correct else (100 - (95 / len(getattr(card, question))))
-                    card_row[f'{question}#NO'] = (100 - (95 / len(getattr(card, question)))) if correct else 95 / len(getattr(card, question))
-                    card_row[f'{question}#MAYBE'] = 2
-
-                else:
-                    card_row[f'{question}#YES'] = 95 if correct else 5
-                    card_row[f'{question}#NO'] = 5 if correct else 95
-                    card_row[f'{question}#MAYBE'] = 2
-            
-            # for question, cards in scryfall_questions_map.items():
-            #     correct = card.name.lower() in cards
-
-            #     card_row[f'{question}#YES'] = 95 if correct else 5
-            #     card_row[f'{question}#NO'] = 5 if correct else 95
-            #     card_row[f'{question}#MAYBE'] = 2
-
-            card_rows.append(card_row)
-            if len(card_rows) > ROWS_TO_WRITE_AT_A_TIME:
-                with open('./data/files/cardsdata_live.csv', 'a', encoding='utf-8') as csvfile:
-                    writer = csv.DictWriter(csvfile, fieldnames=question_column_fields)
-                    writer.writeheader()
-                    writer.writerows(card_rows)
-                    print(f'Wrote {ROWS_TO_WRITE_AT_A_TIME} rows to files/cardsdata_live.csv')
-                    card_rows = []
-                    csvfile.close()
-        
         with open('./data/files/cardsdata_live.csv', 'a', encoding='utf-8') as csvfile:
             writer = csv.DictWriter(csvfile, fieldnames=question_column_fields)
             writer.writeheader()
-            print("Wrote last cards to cardsdata_live.csv")
+            card_rows = []
+            for card in all_cards:
+                card_row = {}
+                card_row["Name"] = card.name
+                for question in all_questions:
+                    question_attribute, question_expected_value = question.split("@")
+                    attr = getattr(card, question_attribute)
+                    correct = False
+                    if attr:
+                        if question_attribute in QuestionBank.MATCH_COLUMNS:
+                            correct = str(attr) == str(question_expected_value)
+                        elif question_attribute in QuestionBank.MATCH_AT_LEAST:
+                            correct = card.does_card_match_attribute(question_attribute, question_expected_value)
+                    
+                    if question_attribute == "set":
+                        card_row[f'{question}#YES'] = 95 / len(getattr(card, 'set')) if correct else (100 - (95 / len(getattr(card, 'set'))))
+                        card_row[f'{question}#NO'] = (100 - (95 / len(getattr(card, 'set')))) if correct else 95 / len(getattr(card, 'set'))
+                        card_row[f'{question}#MAYBE'] = 2
+                    else:
+                        card_row[f'{question}#YES'] = 95 if correct else 5
+                        card_row[f'{question}#NO'] = 5 if correct else 95
+                        card_row[f'{question}#MAYBE'] = 2
+                
+                # for question, cards in scryfall_questions_map.items():
+                #     correct = card.name.lower() in cards
+
+                #     card_row[f'{question}#YES'] = 95 if correct else 5
+                #     card_row[f'{question}#NO'] = 5 if correct else 95
+                #     card_row[f'{question}#MAYBE'] = 2
+
+                card_rows.append(card_row)
+                if len(card_rows) > ROWS_TO_WRITE_AT_A_TIME:
+                    writer.writerows(card_rows)
+                    print(f'Wrote {ROWS_TO_WRITE_AT_A_TIME} rows to files/cardsdata_live.csv')
+                    card_rows = []
+
+            print("Writing last cards to cardsdata_live.csv")
             writer.writerows(card_rows)
             csvfile.close()
-
-        # question_ans_map = {} # Question (CMC#6) : { Card A : True / False, Card B: True / False, etc }
-        # for question in all_questions:
-        #     question_ans_map[question] = {}
-        #     question_attribute, question_expected_value = question.split("@")
-        #     for card in all_cards:
-        #         match = card.does_card_match_attribute(question_attribute, question_expected_value)
-        #         question_ans_map[question][card.name] = match
-        #         # if match:
-        #         #     print("QUESTION: " + question)
-        #         #     print("ATTRIBUTE: " + str(getattr(card, question_attribute)))
-        # return question_ans_map
 
     def write_cardsdata_live_csv():
         all_cards = convertCardDataJsonToCards()
@@ -465,7 +464,7 @@ def setup():
             print(f'SKIPPING {file_operation}...')
 
 if __name__ == "__main__":
-    setup()
+    # setup()
     # all_cards = convertCardDataJsonToCards()
     # QuestionBank.answerMatchAtLeastAnswersForCardAttributes()
     # QuestionBank.write_cardsdata_live_csv()

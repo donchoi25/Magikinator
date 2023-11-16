@@ -1,8 +1,12 @@
 import psycopg2 as psy
+import psycopg2.extras
+import psycopg2.sql as sql
 from psycopg2 import Error
 import os.path
 from urllib.request import urlopen
 import json
+import csv
+from scryfallscript import ask_all_questions
 
 CARDDATA_JSON_FILENAME = "./data/files/cardsdata.json"
 SCRYFALL_DEFAULTCARDS_JSON_URL = "https://data.scryfall.io/default-cards/default-cards-20230830090607.json"
@@ -32,6 +36,7 @@ def login_user_create_database():
         print(error)
     finally:
         if conn:
+            cursor.close()
             conn.close()
     
 
@@ -59,11 +64,6 @@ def create_table():
             artist TEXT
         )
         """,
-        """
-        CREATE TABLE IF NOT EXISTS Questions (
-            question SERIAL PRIMARY KEY
-        )
-        """
     )
     conn = None
     try:
@@ -72,12 +72,12 @@ def create_table():
         for command in commands:
             cursor.execute(command)
         print("Successfully created tables Cards and Questions")
-        cursor.close()
         conn.commit()
     except (Exception, psy.errors.DatabaseError) as error:
         print(error)
     finally:
         if conn:
+            cursor.close()
             conn.close()
 
 class CardModel:
@@ -252,9 +252,10 @@ def downloadDefaultCardDataFromScryfall():
             all_cards_combined[cardModel.name] = cardModel
     
     print("FINISHED Combining Card Models")
-    print(combined)
     for card in all_cards_combined.values():
         insert_card_sql(card)
+    
+    print("Added all cards into postgres table")
 
 def insert_card_sql(cardModel):
     INSERT_COMMAND = f"""
@@ -264,15 +265,283 @@ def insert_card_sql(cardModel):
         conn = create_connection("magikinator")
         cursor = conn.cursor()
         cursor.execute(INSERT_COMMAND, cardModel.getSelfAttributesValues())
-        cursor.close()
         conn.commit()
     except (Exception, psy.errors.DatabaseError) as error:
         print(error)
     finally:
         if conn:
+            cursor.close()
             conn.close()
 
+def fetch_all_cards():
+    FETCH_COMMAND = f"""
+    SELECT * FROM Cards"""
+    conn = None
+    data_records = None
+    dict_data_records = []
+    cur = None
+    try:
+        conn = create_connection("magikinator")
+        cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+        cur.execute(FETCH_COMMAND)
+        data_records = cur.fetchall()
+        for row in data_records:
+            dict_data_records.append(dict(row))
+        print("Data has been fetched successfully from Cards Table")
+        conn.commit()
+    except (Exception, psy.errors.DatabaseError) as error:
+        print(error)
+    finally:
+        if cur:
+            cur.close()
+        if conn:
+            conn.close()
+    
+    return dict_data_records
 
-login_user_create_database()
-create_table()
-downloadDefaultCardDataFromScryfall()
+def fetch_all_cards_as_cardobjects():
+    all_cards = fetch_all_cards()
+    card_objects = []
+    for card in all_cards:
+        card_objects.append(CardModel(card))
+    print("Fetched :" + str(len(card_objects)) + " cards as card objects.")
+    return card_objects
+
+
+
+"""
+Class for gathering possible questions. 
+"""
+class QuestionBank:
+
+    def __init__(self):
+        return
+    
+    """
+    Generates all basic questions that can be observed on card,
+    via range of possible values per attribute, based on attributes below.
+    Omits columns that need additional parsing, or meta-information.
+    """
+
+    SCRYFALL_QUERYABLE_QUESTIONS_QUERY_MAP = {
+
+    }
+
+### Generate all MATCH QUESTIONS for Card Attributes that can be seen on the card itself.
+    MATCH_COLUMNS = ["cmc", "power", "toughness", "mana_cost"]
+
+### Generate All MATCH_AT_LEAST Questions for Card Attributes that need enumeration
+    MATCH_AT_LEAST = ["type_line", "color_identity", "keywords", "set", "rarity", "produced_mana", "artist"]
+    
+    def generateMatchQuestionsForCardAttributes(all_cards):
+        map_attribute_to_range_arr = {} # column --> set(values)
+        for attribute in QuestionBank.MATCH_COLUMNS:
+            map_attribute_to_range_arr[attribute] = set()
+        for card in all_cards:
+            for attribute in QuestionBank.MATCH_COLUMNS:
+                attr = getattr(card, attribute)
+                if attr:
+                    map_attribute_to_range_arr[attribute].add(str(attr))
+
+        default_questions_str = []
+        for attribute, unique_values in map_attribute_to_range_arr.items():
+            for value in unique_values:
+                default_questions_str.append(f'{attribute}@{value}')
+        
+        return default_questions_str
+    
+    def generateMatchAtLeastQuestionsForCardAttributes(all_cards):
+        map_attribute_to_range_arr = {} # column --> set(values)
+        for attribute in QuestionBank.MATCH_AT_LEAST:
+            map_attribute_to_range_arr[attribute] = set()
+        for card in all_cards:
+            for attribute in QuestionBank.MATCH_AT_LEAST:
+                attribute_value_arr = getattr(card, attribute)
+                if not attribute_value_arr:
+                    continue
+                for attr_val in attribute_value_arr:
+                    if attr_val:
+                        map_attribute_to_range_arr[attribute].add(attr_val)
+
+        match_at_least_questions_str = []
+        for attribute, unique_values in map_attribute_to_range_arr.items():
+            for value in unique_values:
+                match_at_least_questions_str.append(f'{attribute}@{value}')
+        
+        return match_at_least_questions_str
+
+    def generateQuestionsForCardAttributes(all_cards):
+        map_attribute_to_range_arr = {} # column --> set(values)
+        for attribute in QuestionBank.MATCH_COLUMNS:
+            map_attribute_to_range_arr[attribute] = set()
+        for attribute in QuestionBank.MATCH_AT_LEAST:
+            map_attribute_to_range_arr[attribute] = set()
+        for card in all_cards:
+            for attribute in QuestionBank.MATCH_COLUMNS:
+                attr = getattr(card, attribute)
+                if attr:
+                    map_attribute_to_range_arr[attribute].add(str(attr))
+            for attribute in QuestionBank.MATCH_AT_LEAST:
+                attribute_value_arr = getattr(card, attribute)
+                if not attribute_value_arr:
+                    continue
+                for attr_val in attribute_value_arr:
+                    if attr_val:
+                        map_attribute_to_range_arr[attribute].add(attr_val)
+
+        questions_arr = []
+        for attribute, unique_values in map_attribute_to_range_arr.items():
+            for value in unique_values:
+                questions_arr.append(f'{attribute}@{value}')
+        
+        return questions_arr
+    
+    def answerDefaultAnswersForCardAttributes(all_cards):
+        default_questions = QuestionBank.generateMatchQuestionsForCardAttributes(all_cards)
+        question_ans_map = {} # Question (CMC#6) : { Card A : True / False, Card B: True / False, etc }
+        for question in default_questions:
+            question_ans_map[question] = {}
+            question_attribute, question_expected_value = question.split("@")
+            for card in all_cards:
+                attr = getattr(card, question_attribute)
+                if attr:
+                    question_ans_map[question][card.name] = str(attr) == str(question_expected_value)
+                else:
+                    question_ans_map[question][card.name] = False
+        return question_ans_map
+    
+    def answerMatchAtLeastAnswersForCardAttributes(all_cards):
+        default_questions = QuestionBank.generateMatchAtLeastQuestionsForCardAttributes(all_cards)
+        question_ans_map = {} # Question (CMC#6) : { Card A : True / False, Card B: True / False, etc }
+        for question in default_questions:
+            question_ans_map[question] = {}
+            question_attribute, question_expected_value = question.split("@")
+            for card in all_cards:
+                match = card.does_card_match_attribute(question_attribute, question_expected_value)
+                question_ans_map[question][card.name] = match
+                # if match:
+                #     print("QUESTION: " + question)
+                #     print("ATTRIBUTE: " + str(getattr(card, question_attribute)))
+        return question_ans_map
+    
+    def answerQuestionsForCardAttributes():
+        all_cards = fetch_all_cards_as_cardobjects() #TODO
+        print("Finished fetching all cards as data objects.")
+        all_questions = QuestionBank.generateQuestionsForCardAttributes(all_cards)
+        print("Finished generating all possible questions for all cards.")
+
+        # TODO: Create table to hold cardsdata_live
+
+        card_rows = []
+        question_column_fields = ["Name"]
+        for question in all_questions:
+            question_column_fields.append(f'{question}#YES')
+            question_column_fields.append(f'{question}#NO')
+            question_column_fields.append(f'{question}#MAYBE')
+        
+        print("Generated all questions!")
+        scryfall_questions_map = ask_all_questions()
+        for scry_q in scryfall_questions_map.keys():
+            question_column_fields.append(f'{scry_q}#YES')
+            question_column_fields.append(f'{scry_q}#NO')
+            question_column_fields.append(f'{scry_q}#MAYBE')
+        print("Generated all Scryfall questions!")
+
+        question_column_fields
+        index = 0
+        for card in all_cards:
+            print(index)
+            index += 1
+            card_row = {}
+            card_row["Name"] = card.name
+            for question in all_questions:
+                question_attribute, question_expected_value = question.split("@")
+                attr = getattr(card, question_attribute)
+                correct = False
+                if attr:
+                    if question_attribute in QuestionBank.MATCH_COLUMNS:
+                        correct = str(attr) == str(question_expected_value)
+                    elif question_attribute in QuestionBank.MATCH_AT_LEAST:
+                        correct = card.does_card_match_attribute(question_attribute, question_expected_value)
+                
+                if question == "set" or question == "rarity":
+                    card_row[f'{question}#YES'] = 95 / len(getattr(card, question)) if correct else (100 - (95 / len(getattr(card, question))))
+                    card_row[f'{question}#NO'] = (100 - (95 / len(getattr(card, question)))) if correct else 95 / len(getattr(card, question))
+                    card_row[f'{question}#MAYBE'] = 2
+
+                else:
+                    card_row[f'{question}#YES'] = 95 if correct else 5
+                    card_row[f'{question}#NO'] = 5 if correct else 95
+                    card_row[f'{question}#MAYBE'] = 2
+            
+            for question, cards in scryfall_questions_map.items():
+                correct = card.name.lower() in cards
+
+                card_row[f'{question}#YES'] = 95 if correct else 5
+                card_row[f'{question}#NO'] = 5 if correct else 95
+                card_row[f'{question}#MAYBE'] = 2
+            
+            # Write card-question row direction in PSQL right here
+
+            card_rows.append(card_row)
+        
+        with open('./data/files/cardsdata_live.csv', 'w', encoding='utf-8') as csvfile:
+            writer = csv.DictWriter(csvfile, fieldnames=question_column_fields)
+            writer.writeheader()
+            writer.writerows(card_rows)
+    
+    def create_cardsdatalive_table():
+        all_cards = fetch_all_cards_as_cardobjects() #TODO
+        print("Finished fetching all cards as data objects.")
+        all_questions = QuestionBank.generateQuestionsForCardAttributes(all_cards)
+        print("Finished generating all possible questions for all cards.")
+        question_column_fields = ["Name"]
+        for question in all_questions:
+            question_column_fields.append(f'{question}#YES')
+            question_column_fields.append(f'{question}#NO')
+            question_column_fields.append(f'{question}#MAYBE')
+        
+        # print("Generated all questions!")
+        # scryfall_questions_map = ask_all_questions()
+        # for scry_q in scryfall_questions_map.keys():
+        #     question_column_fields.append(f'{scry_q}#YES')
+        #     question_column_fields.append(f'{scry_q}#NO')
+        #     question_column_fields.append(f'{scry_q}#MAYBE')
+        # print("Generated all Scryfall questions!")
+
+        fields = []
+        for col in question_column_fields:
+            fields.append( sql.SQL(" {} {} ").format( sql.Identifier(col), sql.SQL("TEXT")))
+        query = sql.SQL( "CREATE TABLE IF NOT EXISTS CardsLive( {columns} );" ).format(
+            columns=sql.SQL(', ').join(fields))
+        commands = (
+            f"""
+            DROP TABLE IF EXISTS CardsLive;
+            """,
+            query
+        )
+
+        conn = None
+        try:
+            print("Creating connection to Magikinator database.")
+            conn = create_connection("magikinator")
+            cursor = conn.cursor()
+            for command in commands:
+                cursor.execute(command)
+            conn.commit()
+        except (Exception, psy.errors.DatabaseError) as error:
+            print(error)
+        finally:
+            if conn:
+                cursor.close()
+                conn.close()
+
+
+
+# login_user_create_database()
+# create_table()
+# downloadDefaultCardDataFromScryfall()
+# fetch_all_cards()
+# convert_cards_into_card_objects()
+# QuestionBank.answerQuestionsForCardAttributes()
+QuestionBank.create_cardsdatalive_table()
