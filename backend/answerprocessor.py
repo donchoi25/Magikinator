@@ -6,21 +6,20 @@ import numpy as np
 import numexpr as ne
 
 class AnswerProcessor:
-    def processAnswer(self, questionList, ansList, newQuestion, newAnswer):
+    def processAnswer(self, questionList, newQuestion, newAnswer, cachedEntropyVal):
         print("Processing Answer...")
 
         columnVector = COL_NUMPY_DICT_FINAL[newQuestion + "#" + newAnswer]
-        probVector = BeyesCalcInst.calculateCardProb(len(questionList), newQuestion + "#" + newAnswer, columnVector)
+        cardprobVector, cardentropy = BeyesCalcInst.calculateCardProb(len(questionList), columnVector)
         entropy = -1 * np.sum(ne.evaluate("probVector * log(probVector)"))
 
-        maxIndex = np.argmax(probVector)
+        maxIndex = np.argmax(cardprobVector)
 
-        maxProb = probVector[maxIndex]
+        # maxProb = probVector[maxIndex]
         maxCard = CARD_DATA_FINAL[maxIndex]
         print("Current suspected card: " + maxCard)
 
         questionList.append(newQuestion)
-        ansList.append(newAnswer)
 
         print("Current Entropy: " + str(entropy))
         print("Answer Processed")
@@ -29,4 +28,4 @@ class AnswerProcessor:
         if len(questionList) >= QUESTION_LIMIT_FINAL:
             return maxCard
         else:
-            return ""
+            return None

@@ -11,7 +11,7 @@ import numexpr as ne
 
 class QuestionPicker:
     def __init__(self):
-        #curr len of questions is 1507
+        #curr len of questions is 3900~
         self.allQs = self.qParser()
         print("NUMBER OF ALL QUESTIONS: " + str(len(self.allQs)))
     def qParser(self):
@@ -22,12 +22,17 @@ class QuestionPicker:
             splitQ = q.split("#")
             uniQ.add("#".join([splitQ[0]]))
         return uniQ
-    def getBestQuestion(self, questionList, ansList):
+    def getBestQuestion(self, questionList, cachedEntropyVector=1):
+        # TODO: QuestionList, as well as the current entropy values are
         print("Finding best question...")
+        print("Best questions so far have included: ")
+        print(questionList)
         bestQuestion = ('invalid', float('inf'))
     
         prevtime = time.time()
         for question in self.allQs:
+            if question in questionList:
+                continue
             #creating the weights for each answer
             yesCount = TOTALS_MAP_FINAL[question + "#YES"]
             noCount = TOTALS_MAP_FINAL[question + "#NO"]
@@ -48,10 +53,9 @@ class QuestionPicker:
             #calculate the new probabilities for each card if we add the new answer for the current question
             for ans in POSSIBLE_ANSWERS_FINAL:
                 columnVector = COL_NUMPY_DICT_FINAL[question + "#" + ans]
-                newProbVector = BeyesCalcInst.calculateCardProb(len(questionList), question + "#" + ans, columnVector, False)
+                newProbVector, newCachedVector = BeyesCalcInst.calculateCardProb(len(questionList), columnVector, cachedEntropyVector, False)
                 entropy_map[ans] = -1 * np.sum(ne.evaluate("newProbVector * log(newProbVector)"))
                 
-            
             totalEntropy = 0
             #create the weighted sum for entropy
             for key in entropy_map:
@@ -61,8 +65,7 @@ class QuestionPicker:
             if totalEntropy < bestQuestion[1]:
                 bestQuestion = (question, totalEntropy)
         print("Time to find question: " + str(time.time() - prevtime))
-        self.allQs.remove(bestQuestion[0])
-
+        # self.allQs.remove(bestQuestion[0])
         print("Best question Found")
 
-        return bestQuestion[0]
+        return (bestQuestion[0], newCachedVector)
