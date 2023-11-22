@@ -25,7 +25,7 @@ class AnswerProcessor:
         print("Answer Processed")
 
         #return the answer if entropy is low enough
-        if len(questionList) >= QUESTION_LIMIT_FINAL:
+        if len(questionList) >= QUESTION_LIMIT_FINAL or entropy < 0.15:
             return maxCard
         else:
             return None
