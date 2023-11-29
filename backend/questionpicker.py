@@ -25,8 +25,7 @@ class QuestionPicker:
     def getBestQuestion(self, questionList, cachedEntropyVector=1):
         # TODO: QuestionList, as well as the current entropy values are
         print("Finding best question...")
-        print("Best questions so far have included: ")
-        print(questionList)
+        print("Best questions so far have included: " + str(questionList))
         bestQuestion = ('invalid', float('inf'))
     
         prevtime = time.time()
@@ -53,7 +52,7 @@ class QuestionPicker:
             #calculate the new probabilities for each card if we add the new answer for the current question
             for ans in POSSIBLE_ANSWERS_FINAL:
                 columnVector = COL_NUMPY_DICT_FINAL[question + "#" + ans]
-                newProbVector, newCachedVector = BeyesCalcInst.calculateCardProb(len(questionList), columnVector, cachedEntropyVector, False)
+                newProbVector, _ = BeyesCalcInst.calculateCardProb(columnVector, cachedEntropyVector)
                 entropy_map[ans] = -1 * np.sum(ne.evaluate("newProbVector * log(newProbVector)"))
                 
             totalEntropy = 0
@@ -66,6 +65,6 @@ class QuestionPicker:
                 bestQuestion = (question, totalEntropy)
         print("Time to find question: " + str(time.time() - prevtime))
         # self.allQs.remove(bestQuestion[0])
-        print("Best question Found")
+        print("Best question Found: " + str(bestQuestion[0]))
 
-        return (bestQuestion[0], newCachedVector)
+        return bestQuestion[0]

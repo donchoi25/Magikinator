@@ -11,5 +11,5 @@ class FrontEnd:
         question = self.questionPicker.getBestQuestion(questionList, entropyVector)
         return question
 
-    def responseAnswer(self, questionList, question, answer, cachedEntropyVal):
-        return self.answerProcessor.processAnswer(questionList, question, answer.upper(), cachedEntropyVal)
+    def responseAnswer(self, questionList, question, answer, cachedEntropyValue):
+        return self.answerProcessor.processAnswer(questionList, question, answer.upper(), cachedEntropyValue)

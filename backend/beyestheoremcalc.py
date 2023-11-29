@@ -5,18 +5,13 @@ import numpy as np
 class BeyesTheoremCalc:
     def __init__(self):
         return
-        #cache that will store most recent Vector for calculating P_answers_given_card
-        # self.cache_P_answers_given_card = 1
     #probVector will be a numpy array. This vector represents a column for a question, answer pair
-    def calculateCardProb(self, numQuestionAns, probVector, cachedEntropyVector=1, cache=True):
+    def calculateCardProb(self, probVector, cachedEntropyVector=1):
         #It could be (# of times card was picked / total # of games)
         P_card = 1 / TOTAL_CARDS_FINAL
         
         #only look into cache if this is not the first question
-        if numQuestionAns > 0:
-            P_answers_given_card = cachedEntropyVector
-        else:
-            P_answers_given_card = 1
+        P_answers_given_card = cachedEntropyVector
         
         #calculate for the new questions and answers
         P_answers_given_card = P_answers_given_card * probVector
