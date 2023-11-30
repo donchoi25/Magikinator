@@ -23,28 +23,20 @@ def guess_card():
             "bestQuestion": bestQuestion,
             "entropyValue": 1,
             "found": False,
-            "guessedCard": ""
+            "guessedCard": "Fury Sliver"
         }
         response = jsonify(data)
         return response
     elif request.method == "POST":
         data = request.json
-        # TODO: First we should get an answer from the player. Everytime we check whether the answer returned by the player gives us 
-        # enough confidence to answer them with the card we think they have.
         previous_answers = list(data.get('Answers'))
         previous_questions = list(data.get('Questions'))
         prev_entropy_vector = data.get('Entropy')
-        # print(previous_answers)
-        # print(previous_questions)
-        # print(type(prev_entropy_vector))
-        # TODO Process the next question to ask.
         if prev_entropy_vector is None:
-            print("FIRST QUESTION SO PREV_ENTROPY_VECTOR IS DEFAULTED TO 1")
             prev_entropy_vector = 1
         else:
             prev_entropy_vector = np.array(prev_entropy_vector)
 
-        # TODO Process their most recent answer.
         most_recent_question = previous_questions[-1]
         most_recent_answer = previous_answers[-1]
         guessed_card, cachethisentropy, foundpotentialcard = frontEnd.responseAnswer(previous_questions, most_recent_question, most_recent_answer, prev_entropy_vector)
