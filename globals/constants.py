@@ -1,6 +1,6 @@
 import pandas as pd
 
-cardcsv_dataframe = pd.read_csv('./data/files/cardsdata_live.csv', engine="pyarrow")
+cardcsv_dataframe = pd.read_csv('./data/files/cardsdata_live.csv')
 cardcsv_dataframe.index = cardcsv_dataframe["Name"]
 cardcsv_dataframe = cardcsv_dataframe.iloc[: , 1:]
 

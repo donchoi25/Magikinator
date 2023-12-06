@@ -232,10 +232,10 @@ class QuestionBank:
     }
 
 ### Generate all MATCH QUESTIONS for Card Attributes that can be seen on the card itself.
-    MATCH_COLUMNS = ["cmc", "power", "toughness", "mana_cost"]
+    MATCH_COLUMNS = ["cmc", "power", "toughness"]
 
 ### Generate All MATCH_AT_LEAST Questions for Card Attributes that need enumeration
-    MATCH_AT_LEAST = ["type_line", "color_identity", "keywords", "set", "rarity", "produced_mana", "artist"]
+    MATCH_AT_LEAST = ["type_line", "color_identity", "keywords", "rarity"]
     
     def generateMatchQuestionsForCardAttributes(all_cards):
         map_attribute_to_range_arr = {} # column --> set(values)
