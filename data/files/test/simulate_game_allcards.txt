@@ -1,0 +1,77 @@
+
+Test #1 for Kor Outfitter SUCCEEDED after 1 questions.
+Questions | Answers
+---------------------------------------------------------  ---
+Does your card reference its own name in its bottom text?  YES
+---------------------------------------------------------  ---
+
+Test #2 for Spirit SUCCEEDED after 2 questions.
+Questions | Answers
+---------------------------------------------------------  --
+Does your card reference its own name in its bottom text?  NO
+Does your card contain flavor text?                        NO
+---------------------------------------------------------  --
+
+Test #3 for Siren Lookout SUCCEEDED after 2 questions.
+Questions | Answers
+---------------------------------------------------------  ---
+Does your card reference its own name in its bottom text?  YES
+Does your card contain flavor text?                        NO
+---------------------------------------------------------  ---
+
+Test #4 for Web SUCCEEDED after 3 questions.
+Questions | Answers
+---------------------------------------------------------  --
+Does your card reference its own name in its bottom text?  NO
+Does your card contain flavor text?                        NO
+rarity@common                                              NO
+---------------------------------------------------------  --
+
+Test #5 for Obyra's Attendants // Desperate Parry SUCCEEDED after 3 questions.
+Questions | Answers
+---------------------------------------------------------  ---
+Does your card reference its own name in its bottom text?  NO
+Does your card contain flavor text?                        YES
+rarity@common                                              YES
+---------------------------------------------------------  ---
+
+Test #6 for Venerable Knight SUCCEEDED after 3 questions.
+Questions | Answers
+---------------------------------------------------------  ---
+Does your card reference its own name in its bottom text?  YES
+Does your card contain flavor text?                        YES
+rarity@common                                              NO
+---------------------------------------------------------  ---
+
+Test #7 for Wildcall SUCCEEDED after 6 questions.
+Questions | Answers
+------------------------------------------------------------------------------------------------  ---
+Does your card reference its own name in its bottom text?                                         NO
+Does your card contain flavor text?                                                               YES
+rarity@common                                                                                     NO
+rarity@rare                                                                                       YES
+Does your card have a triggered ability (has the words 'when' or 'whenever' in its effect text)?  NO
+rarity@uncommon                                                                                   NO
+------------------------------------------------------------------------------------------------  ---
+
+Test #8 for Mystic Skyfish SUCCEEDED after 8 questions.
+Questions | Answers
+------------------------------------------------------------------------------------------------  ---
+Does your card reference its own name in its bottom text?                                         YES
+Does your card contain flavor text?                                                               YES
+rarity@common                                                                                     YES
+rarity@rare                                                                                       NO
+Does your card have a triggered ability (has the words 'when' or 'whenever' in its effect text)?  YES
+rarity@uncommon                                                                                   NO
+Is your card a permanent?                                                                         YES
+Does your card have an activated ability, or create a token with an activated ability?            NO
+------------------------------------------------------------------------------------------------  ---
+
+Test #9 for Swamp SUCCEEDED after 4 questions.
+Questions | Answers
+---------------------------------------------------------  ---
+Does your card reference its own name in its bottom text?  NO
+Does your card contain flavor text?                        YES
+rarity@common                                              YES
+rarity@rare                                                YES
+---------------------------------------------------------  ---
