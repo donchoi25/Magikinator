@@ -13,3 +13,5 @@ class FrontEnd:
 
     def responseAnswer(self, questionList, question, answer, cachedEntropyValue):
         return self.answerProcessor.processAnswer(questionList, question, answer.upper(), cachedEntropyValue)
+
+# TODO: Write a Test Class that simulates, for every card in Magic. Just call askQuestion and respond with the answer from the table with the highest value 95-5-2

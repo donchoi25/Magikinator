@@ -25,6 +25,12 @@ import psutil
 CARDDATA_JSON_FILENAME = "./data/files/cardsdata.json"
 CARDDATA_CSV_FILENAME = "./data/files/cardsdata.csv"
 CARDDATA_LIVE_CSV_FILENAME = "./data/files/cardsdata_live.csv"
+CARDDATA_IMAGE_LIVE_CSV_FILENAME = "./data/files/cardsdata_images_live.csv"
+
+CORRECT_VALUE = 95
+INCORRECT_VALUE = 100 - CORRECT_VALUE
+MAYBE_VALUE = 2
+
 
 SCRYFALL_DEFAULTCARDS_JSON_URL = "https://data.scryfall.io/default-cards/default-cards-20230830090607.json"
 
@@ -95,7 +101,7 @@ class Card:
                         'artist', 'flavor_text']
     
     ATTRIBUTES_THAT_VARY_BETWEEN_PRINTINGS = [
-        'set', 'rarity'
+        'set', 'rarity', 'flavor_text', 'artist'
     ]
     
     def __init__(self, card_str):
@@ -109,11 +115,12 @@ class Card:
         self.oracle_text = card_str.get('oracle_text')
         self.power = card_str.get('power')
         self.toughness = card_str.get('toughness')
-        self.colors = card_str.get('colors')
+        self.colors = [color.lower() for color in card_str.get('colors')] if card_str.get('colors') else []
         self.color_identity = card_str.get('color_identity')
         self.keywords = card_str.get('keywords')
         self.legalities = card_str.get('legalities')
         self.produced_mana = card_str.get('produced_mana')
+        self.image_uris = card_str.get('image_uris').get('normal') if card_str.get('image_uris') else "" 
         self.artist = [card_str.get('artist')]
         self.set = [card_str.get('set')]
         self.rarity = [card_str.get('rarity')]
@@ -154,22 +161,22 @@ class Card:
     def is_card_this_type(self, suspected_type):
         if not self.type_line:
             return False
-        return suspected_type in self.type_line
+        return suspected_type.lower() in self.type_line
     
     def is_card_this_color(self, suspected_color):
         if not self.colors:
             return False
-        return suspected_color in self.colors
+        return suspected_color.lower() in self.colors
     
     def is_card_this_color_identity(self, suspected_color):
         if not self.color_identity:
             return False
-        return suspected_color in self.color_identity
+        return suspected_color.lower() in self.color_identity
     
     def is_card_this_keyword(self, suspected_keyword):
         if not self.keywords:
             return False
-        match = suspected_keyword in self.keywords
+        match = suspected_keyword.lower() in self.keywords
         # if match:
         #     print("SUSPECTED KEYWORD: " + suspected_keyword)
         #     print(self.keywords)
@@ -232,10 +239,10 @@ class QuestionBank:
     }
 
 ### Generate all MATCH QUESTIONS for Card Attributes that can be seen on the card itself.
-    MATCH_COLUMNS = ["cmc", "power", "toughness"]
+    MATCH_COLUMNS = ["power", "toughness", "mana_cost"]
 
 ### Generate All MATCH_AT_LEAST Questions for Card Attributes that need enumeration
-    MATCH_AT_LEAST = ["type_line", "color_identity", "keywords", "rarity"]
+    MATCH_AT_LEAST = ["type_line", "color_identity", "keywords"]
     
     def generateMatchQuestionsForCardAttributes(all_cards):
         map_attribute_to_range_arr = {} # column --> set(values)
@@ -328,7 +335,7 @@ class QuestionBank:
                 #     print("ATTRIBUTE: " + str(getattr(card, question_attribute)))
         return question_ans_map
     
-    def answerQuestionsForCardAttributes():
+    def write_cardsdata_live_csv():
         if os.path.exists(CARDDATA_LIVE_CSV_FILENAME):
             os.remove(CARDDATA_LIVE_CSV_FILENAME)
             print("Deleting and recreating " + CARDDATA_LIVE_CSV_FILENAME)
@@ -349,7 +356,7 @@ class QuestionBank:
             question_column_fields.append(f'{scry_q}#NO')
             question_column_fields.append(f'{scry_q}#MAYBE')
         
-        with open('./data/files/cardsdata_live.csv', 'a', encoding='utf-8') as csvfile:
+        with open(CARDDATA_LIVE_CSV_FILENAME, 'a', encoding='utf-8') as csvfile:
             writer = csv.DictWriter(csvfile, fieldnames=question_column_fields)
             writer.writeheader()
             card_rows = []
@@ -362,25 +369,20 @@ class QuestionBank:
                     correct = False
                     if attr:
                         if question_attribute in QuestionBank.MATCH_COLUMNS:
-                            correct = str(attr) == str(question_expected_value)
+                            correct = str(attr).lower() == str(question_expected_value).lower()
                         elif question_attribute in QuestionBank.MATCH_AT_LEAST:
                             correct = card.does_card_match_attribute(question_attribute, question_expected_value)
-                    
-                    if question_attribute == "set":
-                        card_row[f'{question}#YES'] = 95 / len(getattr(card, 'set')) if correct else (100 - (95 / len(getattr(card, 'set'))))
-                        card_row[f'{question}#NO'] = (100 - (95 / len(getattr(card, 'set')))) if correct else 95 / len(getattr(card, 'set'))
-                        card_row[f'{question}#MAYBE'] = 2
-                    else:
-                        card_row[f'{question}#YES'] = 95 if correct else 5
-                        card_row[f'{question}#NO'] = 5 if correct else 95
-                        card_row[f'{question}#MAYBE'] = 2
-                
+
+                    card_row[f'{question}#YES'] = CORRECT_VALUE if correct else INCORRECT_VALUE
+                    card_row[f'{question}#NO'] = INCORRECT_VALUE if correct else CORRECT_VALUE
+                    card_row[f'{question}#MAYBE'] = MAYBE_VALUE
+
                 for question, cards in scryfall_questions_map.items():
                     correct = card.name.lower() in cards
 
-                    card_row[f'{question}#YES'] = 95 if correct else 5
-                    card_row[f'{question}#NO'] = 5 if correct else 95
-                    card_row[f'{question}#MAYBE'] = 2
+                    card_row[f'{question}#YES'] = CORRECT_VALUE if correct else INCORRECT_VALUE
+                    card_row[f'{question}#NO'] = INCORRECT_VALUE if correct else CORRECT_VALUE
+                    card_row[f'{question}#MAYBE'] = MAYBE_VALUE
 
                 card_rows.append(card_row)
                 if len(card_rows) > ROWS_TO_WRITE_AT_A_TIME:
@@ -392,7 +394,34 @@ class QuestionBank:
             writer.writerows(card_rows)
             csvfile.close()
 
-    def write_cardsdata_live_csv():
+    def write_cardsimages_live_csv():
+        print("Creating List of images for all cards")
+        if os.path.exists(CARDDATA_IMAGE_LIVE_CSV_FILENAME):
+            os.remove(CARDDATA_IMAGE_LIVE_CSV_FILENAME)
+            print("Deleting and recreating " + CARDDATA_IMAGE_LIVE_CSV_FILENAME)
+        else:
+            print(CARDDATA_IMAGE_LIVE_CSV_FILENAME + " did not exist. Creating it now.")
+
+        all_cards = convertCardDataJsonToCards()
+        with open(CARDDATA_IMAGE_LIVE_CSV_FILENAME, 'a', encoding='utf-8') as csvfile:
+            writer = csv.DictWriter(csvfile, fieldnames=["Name", "Image_URL"])
+            writer.writeheader()
+            card_rows = []
+            for card in all_cards:
+                card_row = {}
+                card_row["Name"] = card.name
+                card_row["Image_URL"] = card.image_uris
+                card_rows.append(card_row)
+                if len(card_rows) > ROWS_TO_WRITE_AT_A_TIME:
+                    writer.writerows(card_rows)
+                    print(f'Wrote {ROWS_TO_WRITE_AT_A_TIME} rows to files/cardsdata_images_live.csv')
+                    card_rows = []
+            print("Writing last card images to cardsdata_images_live.csv")
+            writer.writerows(card_rows)
+            csvfile.close()
+
+# TODO: Might need to migrate how we approach answering attributes with list values
+    def old_write_cardsdata_live_csv():
         all_cards = convertCardDataJsonToCards()
         combined_answers = QuestionBank.answerDefaultAnswersForCardAttributes(all_cards)
         match_answers = QuestionBank.answerMatchAtLeastAnswersForCardAttributes(all_cards)
@@ -420,13 +449,14 @@ class QuestionBank:
             for question in combined_answers.keys():
                 question_attr, question_value = question.split("@")
                 correct = combined_answers[question][card.name]
-                
                 if isinstance(getattr(card, question), list):
+                    print(card + " " + question)
+                    print(len(getattr(card, question)))
                     card_row[f'{question}#YES'] = 95 / len(getattr(card, question)) if correct else (100 - (95 / len(getattr(card, question))))
                     card_row[f'{question}#NO'] = (100 - (95 / len(getattr(card, question)))) if correct else 95 / len(getattr(card, question))
                     card_row[f'{question}#MAYBE'] = 2
                 else:
-                    card_row[f'{question}#YES'] = 95 if correct else 5
+                    card_row[f'{question}#YES'] = 90 if correct else 5
                     card_row[f'{question}#NO'] = 5 if correct else 95
                     card_row[f'{question}#MAYBE'] = 2
 
@@ -468,4 +498,5 @@ if __name__ == "__main__":
     # all_cards = convertCardDataJsonToCards()
     # QuestionBank.answerMatchAtLeastAnswersForCardAttributes()
     # QuestionBank.write_cardsdata_live_csv()
-    QuestionBank.answerQuestionsForCardAttributes()
+    QuestionBank.write_cardsdata_live_csv()
+    # QuestionBank.write_cardsimages_live_csv()

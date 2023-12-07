@@ -13,25 +13,32 @@ TEST_SEARCHES = {
     "Can your card meld?": "is:meld",
     "Can your card transform?": "is:transform",
     "Can your card level up?": "is:leveler",
+    "Does your card meld?": "is:meld",
     "Is your card a double-faced card?": "is:dfc",
+    "Does your card have multiple modes?": "is:modal",
+    "Is your card on the reserved list?": "is:reserved",
+    "Does your card have a white border?": "border:white",
+    "Is your card a vanilla creature?": "is:vanilla",
+    "Does your card have X in its mana cost?": "m:X",
+    # Does your card have you shuffled your library?
+    "Does your card have players vote?": "o:'player votes'",
+    "Does your card change the amount of mana generated when tapping permanents?": "++o:'taps a' o:'for mana' o:'add'",
+    "Does your card have the phrase 'mana value X' in its effect text?": "o:'mana value X'",
+    "Does your card have or create a creature with power and toughness equal to the number of something in the game?": "o:'power and toughness are each equal to the number of'",
     "Is your card a vanilla creature? (It has no effects)": "is:vanilla",
     "Does your card deal with counters of any kind?": "o:counters",
     "Does your card do something when it enters the battlefield or comes into play?:": "o:'enters the battlefield'",
     "Does your card enchant creatures?": "o:'enchant creature'",
     "Does your card tap or untap target permanent?": "o:'tap target permanent'",
     "Does your card have an additional cost, including paying life, sacrificing a creature, discarding a card, etc?": "o:'additional cost'",
-    "Does your card have a triggered ability (has the word 'whenever' in its effect text)?": 'o:whenever',
-    "Does your card meld?": "is:meld",
-    "Is your card a vanilla creature?": "is:vanilla",
+    "Does your card have a triggered ability (has the words 'when' or 'whenever' in its effect text)?": 'o:when',
     "Is your card an alchemy card?": "st:alchemy",
     "Is your card banned in commander?": "banned:legacy",
-    "Is your card on the reserved list?": "is:reserved",
-    "Does your card have a white border?": "border:white",
     "Is your card used as removal?": "function:removal",
-    "Can your card draw you a card?": "function:draw",
+    "Can your card let someone draw a card?": "function:draw",
     "Can you card have you or an opponent discard cards?": "function:discard",
     "Can you card counter something?": "function:counter",
-    "Does your card cost or require phyrexian mana?": "is:phyrexian",
+    "Does your card cost or use phyrexian mana?": "is:phyrexian",
     "Does your card contain flavor text?": "ft:' '",
     "Does your card trigger an effect at the beginning of a phase?": "o:'at the beginning'",
     "Does your card trigger an effect at the beginning of your upkeep?": "o:'at the beginning of your upkeep'",
@@ -53,7 +60,7 @@ TEST_SEARCHES = {
     "Does your card have an effect that deals exactly X damage?": "o:'deals X damage'",
     "Does your card have an effect that triggers when a permanent enters the battlefield under your control?": "o:'enters the battlefield under your control'",
     "Does your card have an effect that triggers when a creature enters the battlefield?": "o:'creature enters the battlefield'",
-    "Does your card reference its own name in its bottom text?": "o:/~/",
+    "Does your card reference its own name in its bottom text?": "o:~",
     "Does your card enter the battlefield tapped?": "o:/~/ o:'enters the battlefield tapped'",
     "Does your card give an effect to creatures you control?": "o:'creatures you control'",
     "Does your card have an effect that you can only activate as a sorcery?": "o:'activate only as a sorcery'",
@@ -63,14 +70,16 @@ TEST_SEARCHES = {
     "Does your card trigger an effect at the beginning of the next end step?": "o:'beginning of the next end step'",
     "Does your card copy a spell or permanent?": "function:copy",
     "Does your card stop itself or spells from being countered": "o:'be countered'",
-    "Does your card exile a target?": "o:'exile target'",
+    "Does your card exile things?": "o:exile",
+    "Can you card exile target permanant or each permanant?": "o:'exile target' or o:'exile each'",
     "Is your card a land?": "t:land",
     "Is your card banned in commander?": "banned:commander",
-    "Does this card change your maximum hand size?": "o:'maximum hand size'",
+    "Does this card remove someone's maximum hand size?": "o:'no maximum hand size'",
     "Is your card a conspiracy?": "t:conspiracy",
     "Can your card foretell?": "o:'foretell'",
+    "Does your card have an alternate cost, or allow you to cast cards for alternate costs?": "o:'rather than pay'",
     "Can your card 'search your library'?": "o:'search your library'",
-    'Can your card sacrifice itself?': "o:'sacrifice /~/'",
+    'Can your card sacrifice itself?': "o:'sacrifice ~'",
     "Does your card have an activated ability that requires sacrificing a creature?": "o:'sacrifice a creature:'",
     "Does your card cause you or an opponent to discard a card": "o:discard",
     "Can your card create a treasure token?": "o:'create a treasure token'",
@@ -78,16 +87,28 @@ TEST_SEARCHES = {
     "Does your card amass?": "o:amass",
     "Does your card cost 1 colorless mana less to cast, if something is true?": "o:'less to cast for each'",
     "Does your card double the number of tokens or counters that would be created?": "o:'twice that many'",
-    "Is your card a creature with a power greater than its toughness?": "'pow>tou t:creature'",
-    "Is your card a creature with a power equal to its toughness?": "'pow=tou t:creature'",
-    "Is your card a creature with a power less than its toughness?": "'pow<tou t:creature'",
+    "Is your card a creature with a power greater than its toughness?": "pow>tou t:creature",
+    "Is your card a creature with a power equal to its toughness?": "pow=tou t:creature",
+    "Is your card a creature with a power less than its toughness?": "pow<tou t:creature",
+    "Does your card involve protection?": "o:'protection'",
+    "Does your card involve protection from red?": "o:'protection from red'",
+    "Does your card involve protection from blue?": "o:'protection from blue'",
+    "Does your card involve protection from green?": "o:'protection from green'",
+    "Does your card involve protection from white?": "o:'protection from white'",
+    "Does your card involve protection from black?": "o:'protection from black'",
+    "Does your card involve protection from multicolored?": "o:'protection from multicolored'",
+    "Does your card involve protection from multicolored?": "o:'protection from multicolored'",
+    "Can your card gain or give protection from a color?": "o:'gains protection'",
+    "Does your card have the keyword 'ward'?": "keyword:ward",
+    "Can your card deal damage to you?": "o:'deals damage to you'",
+    
 
-    ### TAGGER QUESTIONS https://scryfall.com/docs/tagger-tags
+    # ### TAGGER QUESTIONS https://scryfall.com/docs/tagger-tags
     "Does your card have a delayed replacement effect?": "oracletag:delayed-replacement-effect",
     "Does your card have a delayed triggered ability?": "oracletag:delayed-triggered-ability",
     "Can your card prevent damage?": "oracletag:damage-prevention",
     "Does your card have an effect that involves ability-counters?: (Flying Counter, Reach Counter, Trample Counter...etc)": "oracletag:ability-counter",
-    "Does your card have an activated ability?": "oracletag:activated-ability",
+    "Does your card have an activated ability, or create a token with an activated ability?": "o:':' or o:equip or o:'{X}'",
     "Does your card have an activated ability, that can be used from the graveyard?": "oracletag:activate-from-graveyard",
     "Does your card have an activated ability, that can be used from your hand?": "oracletag:activate-from-hand",
     "Does your card affect dice rolls?": "oracletag:affects-dice-roll",
@@ -105,7 +126,7 @@ TEST_SEARCHES = {
     "Does your card not untap during your untap step?": "oracletag:doesn-t-untap",
     "Does your card affect all players equally?": "oracletag:symmetrical",
     "Does your card double counters on creatures?": "oracletag:counter-doubler",
-    "Does your card double counters on creatures, and other permanents?": "oracletag:counter-double o:'creature'",
+    "Does your card double counters on creatures, and other permanents?": "oracletag:counter-doubler o:creature",
     "Does your card create an alternative win-condition?": "oracletag:alternate-win-condition",
     "Does your card have an anthem effect?": "oracletag:anthem",
     "Does your card have a daybound or nightbound effect?": "o:daybound",
@@ -118,17 +139,14 @@ TEST_SEARCHES = {
     "Does your card have a casting restriction?": "oracletag:casting-restriction",
     "Does your card have a cast trigger?": "oracletag:cast-trigger",
 
-    ### TAGGER ART QUESTIONS
+    # ### TAGGER ART QUESTIONS
     "Does your card art include acid of any kind?": "art:acid",
     "Does your card art include any acrobatics?": "art:acrobat",
     "Does your card art include anybody with their arms crossed?": "art:arms-crossed",
     "Does your card art include an angel?": "art:angel",
     "Does your card art include an arrow?": "art:arrow",
     "Does your card art include an axe?": "art:axe",
-    
-    
-
-
+    "Does your card art include Liliana the PlanesWalker?": "art:liliana"
 }
 def get_top_phrases():
     TOP_PHRASE_LIMIT = 50
@@ -147,13 +165,14 @@ s = requests.Session()
 retries = Retry(total=5, backoff_factor=1, status_forcelist=[502, 503, 504])
 s.mount("https://", HTTPAdapter(max_retries=retries))
 
-def make_page_request(URL):
+def make_page_request(URL, question=""):
     r = s.get(url=URL)
     cardslist = []
     r_js = r.json()
     data = r_js.get('data')
     if not data:
-        print("Failed to make a page request to " + URL + ". Skipping this question.")
+        print(question)
+        print("Failed to make a page request when asking " + question + ". Skipping this question.")
         return (cardslist, None)
     for card in data:
         cardslist.append(card.get('name').lower())
@@ -163,13 +182,13 @@ def make_page_request(URL):
 def ask_question(q):
     all_cards_data = []
     first_page_url = f'{SCRYFALL_SEARCH_URL}' + quote(q)
-    page_result, next_page_url = make_page_request(first_page_url)
+    page_result, next_page_url = make_page_request(first_page_url, q)
     i = 1
 
     while next_page_url:
         if page_result:
             all_cards_data.extend(page_result)
-        page_result, next_page_url = make_page_request(next_page_url)
+        page_result, next_page_url = make_page_request(next_page_url, q)
         i += 1
 
     if page_result:
@@ -180,13 +199,12 @@ def ask_question(q):
 def ask_all_questions():
     questions_cards_map = {}
     for question_text, question in TEST_SEARCHES.items():
-        question_text = "_".join(question_text.split(" "))
-        print(f'Asking Scryfall the question: "{question_text}"...')
         cards_returned = ask_question(question)
+        print("Question: " + question)
+        print("Number of cards returned: ", str(len(cards_returned)))
         # print("Answered with " + str(len(cards_returned)) + " cards returned.")
         questions_cards_map[question_text] = cards_returned
-
     return questions_cards_map
 
 
-# ask_all_questions()
+ask_all_questions()
