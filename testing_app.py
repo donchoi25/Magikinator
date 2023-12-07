@@ -8,8 +8,11 @@ TEST_CARDS_PATH = "./data/files/test/simulate_game_allcards.txt"
 LAST_CARD_PATH = "./data/files/test/last_card.txt"
 
 # Testing parameters
-CARD_LIMIT = 10
+CARD_LIMIT_PER_RUN = float('inf')
 HOW_OFTEN_TO_SAVE = 4
+
+# Saving Progress (Optional)
+SPECIFIC_CARD_TO_START_FROM = None
 
 # Initialize the frontEnd
 frontEnd = frontendapi.FrontEnd()
@@ -18,7 +21,7 @@ question_cols = df.columns
 def simulateGameForAllCards(print_to_console=False):
     index = 0
     failed_cards = {}
-    continuing_card = None
+    continuing_card = SPECIFIC_CARD_TO_START_FROM
     # This gets the first line of the test file, which tracks the last card we ran the test on.
     if os.path.exists(LAST_CARD_PATH):
         with open(LAST_CARD_PATH, 'r') as file:
