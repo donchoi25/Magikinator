@@ -75,3 +75,94 @@ Does your card contain flavor text?                        YES
 rarity@common                                              YES
 rarity@rare                                                YES
 ---------------------------------------------------------  ---
+
+Test #1 for Mystic Skyfish SUCCEEDED after 8 questions.
+Questions | Answers
+------------------------------------------------------------------------------------------------  ---
+Does your card reference its own name in its bottom text?                                         YES
+Does your card contain flavor text?                                                               YES
+rarity@common                                                                                     YES
+rarity@rare                                                                                       NO
+Does your card have a triggered ability (has the words 'when' or 'whenever' in its effect text)?  YES
+rarity@uncommon                                                                                   NO
+Is your card a permanent?                                                                         YES
+Does your card have an activated ability, or create a token with an activated ability?            NO
+------------------------------------------------------------------------------------------------  ---
+
+Test #2 for Swamp SUCCEEDED after 4 questions.
+Questions | Answers
+---------------------------------------------------------  ---
+Does your card reference its own name in its bottom text?  NO
+Does your card contain flavor text?                        YES
+rarity@common                                              YES
+rarity@rare                                                YES
+---------------------------------------------------------  ---
+
+Test #3 for Battlewing Mystic SUCCEEDED after 3 questions.
+Questions | Answers
+---------------------------------------------------------  ---
+Does your card reference its own name in its bottom text?  YES
+Does your card contain flavor text?                        NO
+rarity@common                                              NO
+---------------------------------------------------------  ---
+
+Test #4 for Birds of Paradise SUCCEEDED after 7 questions.
+Questions | Answers
+------------------------------------------------------------------------------------------------  ---
+Does your card reference its own name in its bottom text?                                         NO
+Does your card contain flavor text?                                                               YES
+rarity@common                                                                                     NO
+rarity@rare                                                                                       YES
+Does your card have a triggered ability (has the words 'when' or 'whenever' in its effect text)?  NO
+rarity@uncommon                                                                                   NO
+Is your card a permanent?                                                                         YES
+------------------------------------------------------------------------------------------------  ---
+
+Test #5 for Bronze Horse SUCCEEDED after 4 questions.
+Questions | Answers
+---------------------------------------------------------  ---
+Does your card reference its own name in its bottom text?  YES
+Does your card contain flavor text?                        NO
+rarity@common                                              NO
+rarity@rare                                                YES
+---------------------------------------------------------  ---
+
+Test #6 for Wall of Vipers SUCCEEDED after 5 questions.
+Questions | Answers
+------------------------------------------------------------------------------------------------  ---
+Does your card reference its own name in its bottom text?                                         YES
+Does your card contain flavor text?                                                               YES
+rarity@common                                                                                     NO
+rarity@rare                                                                                       NO
+Does your card have a triggered ability (has the words 'when' or 'whenever' in its effect text)?  NO
+------------------------------------------------------------------------------------------------  ---
+
+Test #7 for Admiral Beckett Brass SUCCEEDED after 4 questions.
+Questions | Answers
+---------------------------------------------------------  ---
+Does your card reference its own name in its bottom text?  NO
+Does your card contain flavor text?                        YES
+rarity@common                                              NO
+rarity@rare                                                NO
+---------------------------------------------------------  ---
+
+Test #8 for Mulch SUCCEEDED after 7 questions.
+Questions | Answers
+------------------------------------------------------------------------------------------------  ---
+Does your card reference its own name in its bottom text?                                         NO
+Does your card contain flavor text?                                                               YES
+rarity@common                                                                                     YES
+rarity@rare                                                                                       NO
+Does your card have a triggered ability (has the words 'when' or 'whenever' in its effect text)?  NO
+rarity@uncommon                                                                                   NO
+Is your card a permanent?                                                                         NO
+------------------------------------------------------------------------------------------------  ---
+
+Test #9 for Whiptongue Hydra SUCCEEDED after 4 questions.
+Questions | Answers
+---------------------------------------------------------  ---
+Does your card reference its own name in its bottom text?  YES
+Does your card contain flavor text?                        YES
+rarity@common                                              NO
+rarity@rare                                                YES
+---------------------------------------------------------  ---
