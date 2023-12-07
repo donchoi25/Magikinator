@@ -6,26 +6,35 @@ frontEnd = frontendapi.FrontEnd()
 df = cardcsv_dataframe
 question_cols = df.columns
 
-def simulateGameForAllCards():
-    CARD_LIMIT = 20
+def simulateGameForAllCards(print_to_console=False):
+    CARD_LIMIT = 100
     index = 0
+    failed_cards = {}
     for name, card_row in df.iterrows():
-        print("################################")
+        print('\n')
         print("DOING TEST RUN FOR CARD " + name)
-        print("\n")
 
         response = simulateQuestionsForCard(name, card_row)
+        success = response[2] == name
 
-        print("TEST RUN FINISHED!" + "SUCCESS" if response[2] == name else "FAILED")
-        print("MAGIKINATOR GUESSED " + response[2] + " AFTER " + str(len(response[0])) + " TRIES, WHEN WE LOOKED FOR " + name)
-        print("HERE ARE THE QUESTIONS WE ASKED: ")
-        print(response[0])
-        print("HERE ARE THE ANSWERS WE GAVE: ")
-        print(response[1])
-        print("################################")
+        print(f'Test run finished with a {"SUCCESS" if success else "FAILURE"} AFTER {str(len(response[0]))} QUESTIONS')
+        print('\n')
+        if print_to_console:
+            print("MAGIKINATOR GUESSED " + response[2] + " AFTER " + str(len(response[0])) + " TRIES, WHEN WE LOOKED FOR " + name)
+            print("HERE ARE THE QUESTIONS WE ASKED: ")
+            print(response[0])
+            print("HERE ARE THE ANSWERS WE GAVE: ")
+            print(response[1])
+            print("################################")
         if index >= CARD_LIMIT:
             return
         index += 1
+
+        if not success:
+            failed_cards[name] = response
+        
+    print(str(len(failed_cards.keys)) + " CARDS FAILED!")
+    print(failed_cards)
 
 def simulateQuestionsForCard(card_name, card_data):
     MAX_QUESTIONS_TO_ASK = 40
