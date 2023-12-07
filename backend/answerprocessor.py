@@ -7,7 +7,7 @@ import numexpr as ne
 
 class AnswerProcessor:
     def processAnswer(self, questionList, newQuestion, newAnswer, cachedEntropyValue=1):
-        print("Processing Answer...")
+        # print("Processing Answer...")
 
         columnVector = COL_NUMPY_DICT_FINAL[newQuestion + "#" + newAnswer]
         cardprobVector, cardentropy = BeyesCalcInst.calculateCardProb(columnVector, cachedEntropyValue)
@@ -17,12 +17,12 @@ class AnswerProcessor:
 
         # maxProb = probVector[maxIndex]
         maxCard = CARD_DATA_FINAL[maxIndex]
-        print("Current suspected card: " + maxCard)
+        # print("Current suspected card: " + maxCard)
 
-        questionList.append(newQuestion)
+        # questionList.append(newQuestion)
 
-        print("Current Entropy: " + str(entropy))
-        print("Answer Processed")
+        # print("Current Entropy: " + str(entropy))
+        # print("Answer Processed")
 
         #return the answer if entropy is low enough
         found_potential_card = len(questionList) >= QUESTION_LIMIT_FINAL or entropy < 0.01

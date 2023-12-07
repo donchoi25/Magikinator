@@ -13,7 +13,7 @@ class QuestionPicker:
     def __init__(self):
         #curr len of questions is 3900~
         self.allQs = self.qParser()
-        print("NUMBER OF ALL QUESTIONS: " + str(len(self.allQs)))
+        # print("NUMBER OF ALL QUESTIONS: " + str(len(self.allQs)))
     def qParser(self):
         qs = QUESTION_DATA_FINAL
         uniQ = set()
@@ -24,8 +24,8 @@ class QuestionPicker:
         return uniQ
     def getBestQuestion(self, questionList, cachedEntropyVector=1):
         # TODO: QuestionList, as well as the current entropy values are
-        print("Finding best question...")
-        print("Best questions so far have included: " + str(questionList))
+        # print("Finding best question...")
+        # print("Best questions so far have included: " + str(questionList))
         bestQuestion = ('invalid', float('inf'))
     
         prevtime = time.time()
@@ -63,8 +63,8 @@ class QuestionPicker:
             #save the question that creates the lowest entropy
             if totalEntropy < bestQuestion[1]:
                 bestQuestion = (question, totalEntropy)
-        print("Time to find question: " + str(time.time() - prevtime))
+        # print("Time to find question: " + str(time.time() - prevtime))
         # self.allQs.remove(bestQuestion[0])
-        print("Best question Found: " + str(bestQuestion[0]))
+        # print("Best question Found: " + str(bestQuestion[0]))
 
         return bestQuestion[0]
