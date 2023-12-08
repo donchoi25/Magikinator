@@ -47,7 +47,7 @@ def simulateGameForAllCards(print_to_console=False):
             if continuing_card != None and skip_to_continue:
                 if name.lower() == continuing_card.lower():
                     skip_to_continue = False
-                    index += 1
+                index += 1    
                 continue
             
             response = simulateQuestionsForCard(name, card_row)
@@ -76,12 +76,6 @@ def simulateGameForAllCards(print_to_console=False):
                 break
 
         file.close()
-
-    # if not success:
-    #     failed_cards[name] = response
-        
-    # print(str(len(failed_cards.keys)) + " CARDS FAILED!")
-    # print(failed_cards)
 
 def simulateQuestionsForCard(card_name, card_data):
     MAX_QUESTIONS_TO_ASK = 40
