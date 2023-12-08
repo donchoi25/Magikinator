@@ -200,11 +200,6 @@ def ask_all_questions():
     questions_cards_map = {}
     for question_text, question in TEST_SEARCHES.items():
         cards_returned = ask_question(question)
-        print("Question: " + question)
-        print("Number of cards returned: ", str(len(cards_returned)))
         # print("Answered with " + str(len(cards_returned)) + " cards returned.")
         questions_cards_map[question_text] = cards_returned
     return questions_cards_map
-
-
-ask_all_questions()

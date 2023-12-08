@@ -493,10 +493,6 @@ def setup():
         else:
             print(f'SKIPPING {file_operation}...')
 
-if __name__ == "__main__":
-    setup()
-    # all_cards = convertCardDataJsonToCards()
-    # QuestionBank.answerMatchAtLeastAnswersForCardAttributes()
-    # QuestionBank.write_cardsdata_live_csv()
-    QuestionBank.write_cardsdata_live_csv()
-    # QuestionBank.write_cardsimages_live_csv()
+
+setup()
+QuestionBank.write_cardsdata_live_csv()
