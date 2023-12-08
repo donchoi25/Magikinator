@@ -1,5 +1,4 @@
 data/files/cardsdata.json
 data/files/cardsdata_range.json
-data/files/cardsdata_live.csv
 data/files/cardsdata_csv
 **/__pycache__/
