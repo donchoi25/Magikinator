@@ -24303,3 +24303,1232 @@ Is your card used as removal?                                                   
 toughness@2                                                                                       YES
 ------------------------------------------------------------------------------------------------  ---
 
+Test #1028 for Shatter the Source SUCCEEDED after 26 questions.
+Questions | Answers
+------------------------------------------------------------------------------------------------  ---
+Does your card reference its own name in its bottom text?                                         YES
+Does your card contain flavor text?                                                               NO
+rarity@common                                                                                     YES
+rarity@rare                                                                                       NO
+Does your card have a triggered ability (has the words 'when' or 'whenever' in its effect text)?  NO
+rarity@uncommon                                                                                   NO
+Is your card a permanent?                                                                         NO
+Does your card have an activated ability, or create a token with an activated ability?            NO
+Is your card a creature with a power equal to its toughness?                                      NO
+cmc@3.0                                                                                           NO
+cmc@2.0                                                                                           NO
+Does your card do something when it enters the battlefield or comes into play?:                   NO
+cmc@4.0                                                                                           NO
+power@2                                                                                           NO
+Does your card create an effect that lasts 'until end of turn'?                                   NO
+Is your card a creature with a power less than its toughness?                                     NO
+Is your card used as removal?                                                                     YES
+toughness@2                                                                                       NO
+cmc@5.0                                                                                           NO
+toughness@3                                                                                       NO
+toughness@1                                                                                       NO
+power@3                                                                                           NO
+Is your card a creature with a power greater than its toughness?                                  NO
+power@1                                                                                           NO
+Can your card let someone draw a card?                                                            NO
+cmc@1.0                                                                                           NO
+------------------------------------------------------------------------------------------------  ---
+
+Test #1029 for Might Weaver SUCCEEDED after 14 questions.
+Questions | Answers
+------------------------------------------------------------------------------------------------  ---
+Does your card reference its own name in its bottom text?                                         NO
+Does your card contain flavor text?                                                               YES
+rarity@common                                                                                     NO
+rarity@rare                                                                                       NO
+Does your card have a triggered ability (has the words 'when' or 'whenever' in its effect text)?  NO
+rarity@uncommon                                                                                   YES
+Is your card a permanent?                                                                         YES
+Does your card have an activated ability, or create a token with an activated ability?            YES
+Is your card a creature with a power equal to its toughness?                                      NO
+cmc@3.0                                                                                           NO
+cmc@2.0                                                                                           YES
+Does your card do something when it enters the battlefield or comes into play?:                   NO
+cmc@4.0                                                                                           NO
+power@2                                                                                           YES
+------------------------------------------------------------------------------------------------  ---
+
+Test #1030 for Splinterfright SUCCEEDED after 10 questions.
+Questions | Answers
+------------------------------------------------------------------------------------------------  ---
+Does your card reference its own name in its bottom text?                                         YES
+Does your card contain flavor text?                                                               NO
+rarity@common                                                                                     NO
+rarity@rare                                                                                       YES
+Does your card have a triggered ability (has the words 'when' or 'whenever' in its effect text)?  NO
+rarity@uncommon                                                                                   NO
+Is your card a permanent?                                                                         YES
+Does your card have an activated ability, or create a token with an activated ability?            NO
+Is your card a creature with a power equal to its toughness?                                      YES
+cmc@3.0                                                                                           YES
+------------------------------------------------------------------------------------------------  ---
+
+Test #1031 for Sword of Vengeance FAILED after 40 questions.
+Questions | Answers
+------------------------------------------------------------------------------------------------  ---
+Does your card reference its own name in its bottom text?                                         NO
+Does your card contain flavor text?                                                               YES
+rarity@common                                                                                     NO
+rarity@rare                                                                                       YES
+Does your card have a triggered ability (has the words 'when' or 'whenever' in its effect text)?  NO
+rarity@uncommon                                                                                   NO
+Is your card a permanent?                                                                         YES
+Does your card have an activated ability, or create a token with an activated ability?            YES
+Is your card a creature with a power equal to its toughness?                                      NO
+cmc@3.0                                                                                           YES
+cmc@2.0                                                                                           NO
+Does your card do something when it enters the battlefield or comes into play?:                   NO
+cmc@4.0                                                                                           NO
+power@2                                                                                           NO
+Does your card create an effect that lasts 'until end of turn'?                                   NO
+Is your card a creature with a power less than its toughness?                                     NO
+Is your card used as removal?                                                                     NO
+toughness@2                                                                                       NO
+cmc@5.0                                                                                           NO
+toughness@3                                                                                       NO
+toughness@1                                                                                       NO
+power@3                                                                                           NO
+Is your card a creature with a power greater than its toughness?                                  NO
+power@1                                                                                           NO
+Can your card let someone draw a card?                                                            NO
+cmc@1.0                                                                                           NO
+Does your card have a white border?                                                               NO
+Can this card be your commander?                                                                  NO
+toughness@4                                                                                       NO
+Does your card exile things?                                                                      NO
+rarity@mythic                                                                                     NO
+Does your card trigger an effect at the beginning of a phase?                                     NO
+cmc@6.0                                                                                           NO
+power@4                                                                                           NO
+Is your card a double-faced card?                                                                 NO
+Does your card cause you or an opponent to discard a card                                         NO
+Does your card give an effect to creatures you control?                                           NO
+Does your card have an attack trigger?                                                            NO
+Does your card deal with counters of any kind?                                                    NO
+Can your card sacrifice itself?                                                                   NO
+------------------------------------------------------------------------------------------------  ---
+
+Test #1032 for Professor of Symbology // Professor of Symbology FAILED after 40 questions.
+Questions | Answers
+------------------------------------------------------------------------------------------------  ---
+Does your card reference its own name in its bottom text?                                         NO
+Does your card contain flavor text?                                                               NO
+rarity@common                                                                                     YES
+rarity@rare                                                                                       NO
+Does your card have a triggered ability (has the words 'when' or 'whenever' in its effect text)?  NO
+rarity@uncommon                                                                                   NO
+Is your card a permanent?                                                                         NO
+Does your card have an activated ability, or create a token with an activated ability?            NO
+Is your card a creature with a power equal to its toughness?                                      NO
+cmc@3.0                                                                                           NO
+cmc@2.0                                                                                           NO
+Does your card do something when it enters the battlefield or comes into play?:                   NO
+cmc@4.0                                                                                           NO
+power@2                                                                                           NO
+Does your card create an effect that lasts 'until end of turn'?                                   NO
+Is your card a creature with a power less than its toughness?                                     NO
+Is your card used as removal?                                                                     NO
+toughness@2                                                                                       NO
+cmc@5.0                                                                                           NO
+toughness@3                                                                                       NO
+toughness@1                                                                                       NO
+power@3                                                                                           NO
+Is your card a creature with a power greater than its toughness?                                  NO
+power@1                                                                                           NO
+Can your card let someone draw a card?                                                            NO
+cmc@1.0                                                                                           NO
+Does your card have a white border?                                                               NO
+Can this card be your commander?                                                                  NO
+toughness@4                                                                                       NO
+Does your card exile things?                                                                      NO
+rarity@mythic                                                                                     NO
+Does your card trigger an effect at the beginning of a phase?                                     NO
+cmc@6.0                                                                                           NO
+power@4                                                                                           NO
+Is your card a double-faced card?                                                                 YES
+Does your card cause you or an opponent to discard a card                                         NO
+Does your card give an effect to creatures you control?                                           NO
+Does your card have an attack trigger?                                                            NO
+Does your card deal with counters of any kind?                                                    NO
+Can your card sacrifice itself?                                                                   NO
+------------------------------------------------------------------------------------------------  ---
+
+Test #1033 for Momentary Blink SUCCEEDED after 15 questions.
+Questions | Answers
+------------------------------------------------------------------------------------------------  ---
+Does your card reference its own name in its bottom text?                                         NO
+Does your card contain flavor text?                                                               NO
+rarity@common                                                                                     YES
+rarity@rare                                                                                       NO
+Does your card have a triggered ability (has the words 'when' or 'whenever' in its effect text)?  NO
+rarity@uncommon                                                                                   NO
+Is your card a permanent?                                                                         NO
+Does your card have an activated ability, or create a token with an activated ability?            NO
+Is your card a creature with a power equal to its toughness?                                      NO
+cmc@3.0                                                                                           NO
+cmc@2.0                                                                                           YES
+Does your card do something when it enters the battlefield or comes into play?:                   NO
+cmc@4.0                                                                                           NO
+power@2                                                                                           NO
+Does your card create an effect that lasts 'until end of turn'?                                   NO
+------------------------------------------------------------------------------------------------  ---
+
+Test #1034 for Snake FAILED after 40 questions.
+Questions | Answers
+------------------------------------------------------------------------------------------------  ---
+Does your card reference its own name in its bottom text?                                         NO
+Does your card contain flavor text?                                                               NO
+rarity@common                                                                                     YES
+rarity@rare                                                                                       NO
+Does your card have a triggered ability (has the words 'when' or 'whenever' in its effect text)?  NO
+rarity@uncommon                                                                                   NO
+Is your card a permanent?                                                                         NO
+Does your card have an activated ability, or create a token with an activated ability?            NO
+Is your card a creature with a power equal to its toughness?                                      NO
+cmc@3.0                                                                                           NO
+cmc@2.0                                                                                           NO
+Does your card do something when it enters the battlefield or comes into play?:                   NO
+cmc@4.0                                                                                           NO
+power@2                                                                                           NO
+Does your card create an effect that lasts 'until end of turn'?                                   NO
+Is your card a creature with a power less than its toughness?                                     NO
+Is your card used as removal?                                                                     NO
+toughness@2                                                                                       NO
+cmc@5.0                                                                                           NO
+toughness@3                                                                                       NO
+toughness@1                                                                                       YES
+power@3                                                                                           NO
+Is your card a creature with a power greater than its toughness?                                  NO
+power@1                                                                                           YES
+Can your card let someone draw a card?                                                            NO
+cmc@1.0                                                                                           NO
+Does your card have a white border?                                                               NO
+Can this card be your commander?                                                                  NO
+toughness@4                                                                                       NO
+Does your card exile things?                                                                      NO
+rarity@mythic                                                                                     NO
+Does your card trigger an effect at the beginning of a phase?                                     NO
+cmc@6.0                                                                                           NO
+power@4                                                                                           NO
+Is your card a double-faced card?                                                                 NO
+Does your card cause you or an opponent to discard a card                                         NO
+Does your card give an effect to creatures you control?                                           NO
+Does your card have an attack trigger?                                                            NO
+Does your card deal with counters of any kind?                                                    NO
+Can your card sacrifice itself?                                                                   NO
+------------------------------------------------------------------------------------------------  ---
+
+Test #1035 for Executioner's Capsule SUCCEEDED after 17 questions.
+Questions | Answers
+------------------------------------------------------------------------------------------------  ---
+Does your card reference its own name in its bottom text?                                         YES
+Does your card contain flavor text?                                                               YES
+rarity@common                                                                                     YES
+rarity@rare                                                                                       NO
+Does your card have a triggered ability (has the words 'when' or 'whenever' in its effect text)?  NO
+rarity@uncommon                                                                                   YES
+Is your card a permanent?                                                                         YES
+Does your card have an activated ability, or create a token with an activated ability?            YES
+Is your card a creature with a power equal to its toughness?                                      NO
+cmc@3.0                                                                                           NO
+cmc@2.0                                                                                           NO
+Does your card do something when it enters the battlefield or comes into play?:                   NO
+cmc@4.0                                                                                           NO
+power@2                                                                                           NO
+Does your card create an effect that lasts 'until end of turn'?                                   NO
+Is your card a creature with a power less than its toughness?                                     NO
+Is your card used as removal?                                                                     YES
+------------------------------------------------------------------------------------------------  ---
+
+Test #1036 for Power Depot FAILED after 40 questions.
+Questions | Answers
+------------------------------------------------------------------------------------------------  ---
+Does your card reference its own name in its bottom text?                                         YES
+Does your card contain flavor text?                                                               NO
+rarity@common                                                                                     NO
+rarity@rare                                                                                       NO
+Does your card have a triggered ability (has the words 'when' or 'whenever' in its effect text)?  NO
+rarity@uncommon                                                                                   YES
+Is your card a permanent?                                                                         YES
+Does your card have an activated ability, or create a token with an activated ability?            YES
+Is your card a creature with a power equal to its toughness?                                      NO
+cmc@3.0                                                                                           NO
+cmc@2.0                                                                                           NO
+Does your card do something when it enters the battlefield or comes into play?:                   YES
+cmc@4.0                                                                                           NO
+power@2                                                                                           NO
+Does your card create an effect that lasts 'until end of turn'?                                   NO
+Is your card a creature with a power less than its toughness?                                     NO
+Is your card used as removal?                                                                     NO
+toughness@2                                                                                       NO
+cmc@5.0                                                                                           NO
+toughness@3                                                                                       NO
+toughness@1                                                                                       NO
+power@3                                                                                           NO
+Is your card a creature with a power greater than its toughness?                                  NO
+power@1                                                                                           NO
+Can your card let someone draw a card?                                                            NO
+cmc@1.0                                                                                           NO
+Does your card have a white border?                                                               NO
+Can this card be your commander?                                                                  NO
+toughness@4                                                                                       NO
+Does your card exile things?                                                                      NO
+rarity@mythic                                                                                     NO
+Does your card trigger an effect at the beginning of a phase?                                     NO
+cmc@6.0                                                                                           NO
+power@4                                                                                           NO
+Is your card a double-faced card?                                                                 NO
+Does your card cause you or an opponent to discard a card                                         NO
+Does your card give an effect to creatures you control?                                           NO
+Does your card have an attack trigger?                                                            NO
+Does your card deal with counters of any kind?                                                    NO
+Can your card sacrifice itself?                                                                   NO
+------------------------------------------------------------------------------------------------  ---
+
+Test #1037 for Zephyr Falcon FAILED after 40 questions.
+Questions | Answers
+------------------------------------------------------------------------------------------------  ---
+Does your card reference its own name in its bottom text?                                         NO
+Does your card contain flavor text?                                                               YES
+rarity@common                                                                                     YES
+rarity@rare                                                                                       NO
+Does your card have a triggered ability (has the words 'when' or 'whenever' in its effect text)?  NO
+rarity@uncommon                                                                                   NO
+Is your card a permanent?                                                                         YES
+Does your card have an activated ability, or create a token with an activated ability?            NO
+Is your card a creature with a power equal to its toughness?                                      YES
+cmc@3.0                                                                                           NO
+cmc@2.0                                                                                           YES
+Does your card do something when it enters the battlefield or comes into play?:                   NO
+cmc@4.0                                                                                           NO
+power@2                                                                                           NO
+Does your card create an effect that lasts 'until end of turn'?                                   NO
+Is your card a creature with a power less than its toughness?                                     NO
+Is your card used as removal?                                                                     NO
+toughness@2                                                                                       NO
+cmc@5.0                                                                                           NO
+toughness@3                                                                                       NO
+toughness@1                                                                                       YES
+power@3                                                                                           NO
+Is your card a creature with a power greater than its toughness?                                  NO
+power@1                                                                                           YES
+Can your card let someone draw a card?                                                            NO
+cmc@1.0                                                                                           NO
+Does your card have a white border?                                                               YES
+Can this card be your commander?                                                                  NO
+toughness@4                                                                                       NO
+Does your card exile things?                                                                      NO
+rarity@mythic                                                                                     NO
+Does your card trigger an effect at the beginning of a phase?                                     NO
+cmc@6.0                                                                                           NO
+power@4                                                                                           NO
+Is your card a double-faced card?                                                                 NO
+Does your card cause you or an opponent to discard a card                                         NO
+Does your card give an effect to creatures you control?                                           NO
+Does your card have an attack trigger?                                                            NO
+Does your card deal with counters of any kind?                                                    NO
+Can your card sacrifice itself?                                                                   NO
+------------------------------------------------------------------------------------------------  ---
+
+Test #1038 for Legion's Judgment FAILED after 40 questions.
+Questions | Answers
+------------------------------------------------------------------------------------------------  ---
+Does your card reference its own name in its bottom text?                                         NO
+Does your card contain flavor text?                                                               YES
+rarity@common                                                                                     YES
+rarity@rare                                                                                       NO
+Does your card have a triggered ability (has the words 'when' or 'whenever' in its effect text)?  NO
+rarity@uncommon                                                                                   NO
+Is your card a permanent?                                                                         NO
+Does your card have an activated ability, or create a token with an activated ability?            NO
+Is your card a creature with a power equal to its toughness?                                      NO
+cmc@3.0                                                                                           YES
+cmc@2.0                                                                                           NO
+Does your card do something when it enters the battlefield or comes into play?:                   NO
+cmc@4.0                                                                                           NO
+power@2                                                                                           NO
+Does your card create an effect that lasts 'until end of turn'?                                   NO
+Is your card a creature with a power less than its toughness?                                     NO
+Is your card used as removal?                                                                     YES
+toughness@2                                                                                       NO
+cmc@5.0                                                                                           NO
+toughness@3                                                                                       NO
+toughness@1                                                                                       NO
+power@3                                                                                           NO
+Is your card a creature with a power greater than its toughness?                                  NO
+power@1                                                                                           NO
+Can your card let someone draw a card?                                                            NO
+cmc@1.0                                                                                           NO
+Does your card have a white border?                                                               NO
+Can this card be your commander?                                                                  NO
+toughness@4                                                                                       NO
+Does your card exile things?                                                                      NO
+rarity@mythic                                                                                     NO
+Does your card trigger an effect at the beginning of a phase?                                     NO
+cmc@6.0                                                                                           NO
+power@4                                                                                           NO
+Is your card a double-faced card?                                                                 NO
+Does your card cause you or an opponent to discard a card                                         NO
+Does your card give an effect to creatures you control?                                           NO
+Does your card have an attack trigger?                                                            NO
+Does your card deal with counters of any kind?                                                    NO
+Can your card sacrifice itself?                                                                   NO
+------------------------------------------------------------------------------------------------  ---
+
+Test #1039 for Esper Panorama SUCCEEDED after 25 questions.
+Questions | Answers
+------------------------------------------------------------------------------------------------  ---
+Does your card reference its own name in its bottom text?                                         YES
+Does your card contain flavor text?                                                               YES
+rarity@common                                                                                     YES
+rarity@rare                                                                                       NO
+Does your card have a triggered ability (has the words 'when' or 'whenever' in its effect text)?  NO
+rarity@uncommon                                                                                   NO
+Is your card a permanent?                                                                         YES
+Does your card have an activated ability, or create a token with an activated ability?            YES
+Is your card a creature with a power equal to its toughness?                                      NO
+cmc@3.0                                                                                           NO
+cmc@2.0                                                                                           NO
+Does your card do something when it enters the battlefield or comes into play?:                   NO
+cmc@4.0                                                                                           NO
+power@2                                                                                           NO
+Does your card create an effect that lasts 'until end of turn'?                                   NO
+Is your card a creature with a power less than its toughness?                                     NO
+Is your card used as removal?                                                                     NO
+toughness@2                                                                                       NO
+cmc@5.0                                                                                           NO
+toughness@3                                                                                       NO
+toughness@1                                                                                       NO
+power@3                                                                                           NO
+Is your card a creature with a power greater than its toughness?                                  NO
+power@1                                                                                           NO
+Can your card let someone draw a card?                                                            NO
+------------------------------------------------------------------------------------------------  ---
+
+Test #1040 for Scorched Rusalka SUCCEEDED after 19 questions.
+Questions | Answers
+------------------------------------------------------------------------------------------------  ---
+Does your card reference its own name in its bottom text?                                         YES
+Does your card contain flavor text?                                                               YES
+rarity@common                                                                                     NO
+rarity@rare                                                                                       NO
+Does your card have a triggered ability (has the words 'when' or 'whenever' in its effect text)?  NO
+rarity@uncommon                                                                                   YES
+Is your card a permanent?                                                                         YES
+Does your card have an activated ability, or create a token with an activated ability?            YES
+Is your card a creature with a power equal to its toughness?                                      YES
+cmc@3.0                                                                                           NO
+cmc@2.0                                                                                           NO
+Does your card do something when it enters the battlefield or comes into play?:                   NO
+cmc@4.0                                                                                           NO
+power@2                                                                                           NO
+Does your card create an effect that lasts 'until end of turn'?                                   NO
+Is your card a creature with a power less than its toughness?                                     NO
+Is your card used as removal?                                                                     NO
+toughness@2                                                                                       NO
+cmc@5.0                                                                                           NO
+------------------------------------------------------------------------------------------------  ---
+
+Test #1041 for Prosper, Tome-Bound SUCCEEDED after 17 questions.
+Questions | Answers
+------------------------------------------------------------------------------------------------  ---
+Does your card reference its own name in its bottom text?                                         NO
+Does your card contain flavor text?                                                               NO
+rarity@common                                                                                     NO
+rarity@rare                                                                                       NO
+Does your card have a triggered ability (has the words 'when' or 'whenever' in its effect text)?  YES
+rarity@uncommon                                                                                   NO
+Is your card a permanent?                                                                         YES
+Does your card have an activated ability, or create a token with an activated ability?            NO
+Is your card a creature with a power equal to its toughness?                                      NO
+cmc@3.0                                                                                           NO
+cmc@2.0                                                                                           NO
+Does your card do something when it enters the battlefield or comes into play?:                   NO
+cmc@4.0                                                                                           YES
+power@2                                                                                           NO
+Does your card create an effect that lasts 'until end of turn'?                                   NO
+Is your card a creature with a power less than its toughness?                                     YES
+Is your card used as removal?                                                                     NO
+------------------------------------------------------------------------------------------------  ---
+
+Test #1042 for Fevered Suspicion SUCCEEDED after 30 questions.
+Questions | Answers
+------------------------------------------------------------------------------------------------  ---
+Does your card reference its own name in its bottom text?                                         NO
+Does your card contain flavor text?                                                               NO
+rarity@common                                                                                     NO
+rarity@rare                                                                                       YES
+Does your card have a triggered ability (has the words 'when' or 'whenever' in its effect text)?  NO
+rarity@uncommon                                                                                   NO
+Is your card a permanent?                                                                         NO
+Does your card have an activated ability, or create a token with an activated ability?            NO
+Is your card a creature with a power equal to its toughness?                                      NO
+cmc@3.0                                                                                           NO
+cmc@2.0                                                                                           NO
+Does your card do something when it enters the battlefield or comes into play?:                   NO
+cmc@4.0                                                                                           NO
+power@2                                                                                           NO
+Does your card create an effect that lasts 'until end of turn'?                                   NO
+Is your card a creature with a power less than its toughness?                                     NO
+Is your card used as removal?                                                                     NO
+toughness@2                                                                                       NO
+cmc@5.0                                                                                           NO
+toughness@3                                                                                       NO
+toughness@1                                                                                       NO
+power@3                                                                                           NO
+Is your card a creature with a power greater than its toughness?                                  NO
+power@1                                                                                           NO
+Can your card let someone draw a card?                                                            NO
+cmc@1.0                                                                                           NO
+Does your card have a white border?                                                               NO
+Can this card be your commander?                                                                  NO
+toughness@4                                                                                       NO
+Does your card exile things?                                                                      YES
+------------------------------------------------------------------------------------------------  ---
+
+Test #1043 for Centaur Courser SUCCEEDED after 14 questions.
+Questions | Answers
+------------------------------------------------------------------------------------------------  ---
+Does your card reference its own name in its bottom text?                                         NO
+Does your card contain flavor text?                                                               YES
+rarity@common                                                                                     YES
+rarity@rare                                                                                       NO
+Does your card have a triggered ability (has the words 'when' or 'whenever' in its effect text)?  NO
+rarity@uncommon                                                                                   NO
+Is your card a permanent?                                                                         YES
+Does your card have an activated ability, or create a token with an activated ability?            NO
+Is your card a creature with a power equal to its toughness?                                      YES
+cmc@3.0                                                                                           YES
+cmc@2.0                                                                                           NO
+Does your card do something when it enters the battlefield or comes into play?:                   NO
+cmc@4.0                                                                                           NO
+power@2                                                                                           NO
+------------------------------------------------------------------------------------------------  ---
+
+Test #1044 for Shivan Dragon SUCCEEDED after 27 questions.
+Questions | Answers
+------------------------------------------------------------------------------------------------  ---
+Does your card reference its own name in its bottom text?                                         YES
+Does your card contain flavor text?                                                               YES
+rarity@common                                                                                     NO
+rarity@rare                                                                                       YES
+Does your card have a triggered ability (has the words 'when' or 'whenever' in its effect text)?  NO
+rarity@uncommon                                                                                   NO
+Is your card a permanent?                                                                         YES
+Does your card have an activated ability, or create a token with an activated ability?            YES
+Is your card a creature with a power equal to its toughness?                                      YES
+cmc@3.0                                                                                           NO
+cmc@2.0                                                                                           NO
+Does your card do something when it enters the battlefield or comes into play?:                   NO
+cmc@4.0                                                                                           NO
+power@2                                                                                           NO
+Does your card create an effect that lasts 'until end of turn'?                                   YES
+Is your card a creature with a power less than its toughness?                                     NO
+Is your card used as removal?                                                                     NO
+toughness@2                                                                                       NO
+cmc@5.0                                                                                           NO
+toughness@3                                                                                       NO
+toughness@1                                                                                       NO
+power@3                                                                                           NO
+Is your card a creature with a power greater than its toughness?                                  NO
+power@1                                                                                           NO
+Can your card let someone draw a card?                                                            NO
+cmc@1.0                                                                                           NO
+Does your card have a white border?                                                               YES
+------------------------------------------------------------------------------------------------  ---
+
+Test #1045 for Scatter the Seeds SUCCEEDED after 27 questions.
+Questions | Answers
+------------------------------------------------------------------------------------------------  ---
+Does your card reference its own name in its bottom text?                                         NO
+Does your card contain flavor text?                                                               YES
+rarity@common                                                                                     YES
+rarity@rare                                                                                       NO
+Does your card have a triggered ability (has the words 'when' or 'whenever' in its effect text)?  NO
+rarity@uncommon                                                                                   NO
+Is your card a permanent?                                                                         NO
+Does your card have an activated ability, or create a token with an activated ability?            NO
+Is your card a creature with a power equal to its toughness?                                      NO
+cmc@3.0                                                                                           NO
+cmc@2.0                                                                                           NO
+Does your card do something when it enters the battlefield or comes into play?:                   NO
+cmc@4.0                                                                                           NO
+power@2                                                                                           NO
+Does your card create an effect that lasts 'until end of turn'?                                   NO
+Is your card a creature with a power less than its toughness?                                     NO
+Is your card used as removal?                                                                     NO
+toughness@2                                                                                       NO
+cmc@5.0                                                                                           YES
+toughness@3                                                                                       NO
+toughness@1                                                                                       NO
+power@3                                                                                           NO
+Is your card a creature with a power greater than its toughness?                                  NO
+power@1                                                                                           NO
+Can your card let someone draw a card?                                                            NO
+cmc@1.0                                                                                           NO
+Does your card have a white border?                                                               YES
+------------------------------------------------------------------------------------------------  ---
+
+Test #1046 for Guardian Beast SUCCEEDED after 14 questions.
+Questions | Answers
+------------------------------------------------------------------------------------------------  ---
+Does your card reference its own name in its bottom text?                                         YES
+Does your card contain flavor text?                                                               NO
+rarity@common                                                                                     NO
+rarity@rare                                                                                       YES
+Does your card have a triggered ability (has the words 'when' or 'whenever' in its effect text)?  NO
+rarity@uncommon                                                                                   NO
+Is your card a permanent?                                                                         YES
+Does your card have an activated ability, or create a token with an activated ability?            NO
+Is your card a creature with a power equal to its toughness?                                      NO
+cmc@3.0                                                                                           NO
+cmc@2.0                                                                                           NO
+Does your card do something when it enters the battlefield or comes into play?:                   NO
+cmc@4.0                                                                                           YES
+power@2                                                                                           YES
+------------------------------------------------------------------------------------------------  ---
+
+Test #1047 for Pangosaur SUCCEEDED after 14 questions.
+Questions | Answers
+------------------------------------------------------------------------------------------------  ---
+Does your card reference its own name in its bottom text?                                         YES
+Does your card contain flavor text?                                                               YES
+rarity@common                                                                                     NO
+rarity@rare                                                                                       YES
+Does your card have a triggered ability (has the words 'when' or 'whenever' in its effect text)?  YES
+rarity@uncommon                                                                                   NO
+Is your card a permanent?                                                                         YES
+Does your card have an activated ability, or create a token with an activated ability?            NO
+Is your card a creature with a power equal to its toughness?                                      YES
+cmc@3.0                                                                                           NO
+cmc@2.0                                                                                           NO
+Does your card do something when it enters the battlefield or comes into play?:                   NO
+cmc@4.0                                                                                           YES
+power@2                                                                                           NO
+------------------------------------------------------------------------------------------------  ---
+
+Test #1048 for Radha, Coalition Warlord SUCCEEDED after 15 questions.
+Questions | Answers
+------------------------------------------------------------------------------------------------  ---
+Does your card reference its own name in its bottom text?                                         YES
+Does your card contain flavor text?                                                               YES
+rarity@common                                                                                     NO
+rarity@rare                                                                                       NO
+Does your card have a triggered ability (has the words 'when' or 'whenever' in its effect text)?  YES
+rarity@uncommon                                                                                   YES
+Is your card a permanent?                                                                         YES
+Does your card have an activated ability, or create a token with an activated ability?            NO
+Is your card a creature with a power equal to its toughness?                                      YES
+cmc@3.0                                                                                           NO
+cmc@2.0                                                                                           NO
+Does your card do something when it enters the battlefield or comes into play?:                   NO
+cmc@4.0                                                                                           YES
+power@2                                                                                           NO
+Does your card create an effect that lasts 'until end of turn'?                                   YES
+------------------------------------------------------------------------------------------------  ---
+
+Test #1049 for Roaring Slagwurm SUCCEEDED after 16 questions.
+Questions | Answers
+------------------------------------------------------------------------------------------------  ---
+Does your card reference its own name in its bottom text?                                         YES
+Does your card contain flavor text?                                                               YES
+rarity@common                                                                                     NO
+rarity@rare                                                                                       YES
+Does your card have a triggered ability (has the words 'when' or 'whenever' in its effect text)?  YES
+rarity@uncommon                                                                                   NO
+Is your card a permanent?                                                                         YES
+Does your card have an activated ability, or create a token with an activated ability?            NO
+Is your card a creature with a power equal to its toughness?                                      NO
+cmc@3.0                                                                                           NO
+cmc@2.0                                                                                           NO
+Does your card do something when it enters the battlefield or comes into play?:                   NO
+cmc@4.0                                                                                           NO
+power@2                                                                                           NO
+Does your card create an effect that lasts 'until end of turn'?                                   NO
+Is your card a creature with a power less than its toughness?                                     NO
+------------------------------------------------------------------------------------------------  ---
+
+Test #1050 for Ebon Dragon SUCCEEDED after 19 questions.
+Questions | Answers
+------------------------------------------------------------------------------------------------  ---
+Does your card reference its own name in its bottom text?                                         YES
+Does your card contain flavor text?                                                               YES
+rarity@common                                                                                     NO
+rarity@rare                                                                                       YES
+Does your card have a triggered ability (has the words 'when' or 'whenever' in its effect text)?  YES
+rarity@uncommon                                                                                   NO
+Is your card a permanent?                                                                         YES
+Does your card have an activated ability, or create a token with an activated ability?            NO
+Is your card a creature with a power equal to its toughness?                                      NO
+cmc@3.0                                                                                           NO
+cmc@2.0                                                                                           NO
+Does your card do something when it enters the battlefield or comes into play?:                   YES
+cmc@4.0                                                                                           NO
+power@2                                                                                           NO
+Does your card create an effect that lasts 'until end of turn'?                                   NO
+Is your card a creature with a power less than its toughness?                                     NO
+Is your card used as removal?                                                                     NO
+toughness@2                                                                                       NO
+cmc@5.0                                                                                           NO
+------------------------------------------------------------------------------------------------  ---
+
+Test #1051 for Deadeye Tormentor SUCCEEDED after 36 questions.
+Questions | Answers
+------------------------------------------------------------------------------------------------  ---
+Does your card reference its own name in its bottom text?                                         YES
+Does your card contain flavor text?                                                               YES
+rarity@common                                                                                     YES
+rarity@rare                                                                                       NO
+Does your card have a triggered ability (has the words 'when' or 'whenever' in its effect text)?  YES
+rarity@uncommon                                                                                   NO
+Is your card a permanent?                                                                         YES
+Does your card have an activated ability, or create a token with an activated ability?            NO
+Is your card a creature with a power equal to its toughness?                                      YES
+cmc@3.0                                                                                           YES
+cmc@2.0                                                                                           NO
+Does your card do something when it enters the battlefield or comes into play?:                   YES
+cmc@4.0                                                                                           NO
+power@2                                                                                           YES
+Does your card create an effect that lasts 'until end of turn'?                                   NO
+Is your card a creature with a power less than its toughness?                                     NO
+Is your card used as removal?                                                                     NO
+toughness@2                                                                                       YES
+cmc@5.0                                                                                           NO
+toughness@3                                                                                       NO
+toughness@1                                                                                       NO
+power@3                                                                                           NO
+Is your card a creature with a power greater than its toughness?                                  NO
+power@1                                                                                           NO
+Can your card let someone draw a card?                                                            NO
+cmc@1.0                                                                                           NO
+Does your card have a white border?                                                               NO
+Can this card be your commander?                                                                  NO
+toughness@4                                                                                       NO
+Does your card exile things?                                                                      NO
+rarity@mythic                                                                                     NO
+Does your card trigger an effect at the beginning of a phase?                                     NO
+cmc@6.0                                                                                           NO
+power@4                                                                                           NO
+Is your card a double-faced card?                                                                 NO
+Does your card cause you or an opponent to discard a card                                         YES
+------------------------------------------------------------------------------------------------  ---
+
+Test #1052 for Resilient Khenra SUCCEEDED after 14 questions.
+Questions | Answers
+------------------------------------------------------------------------------------------------  ---
+Does your card reference its own name in its bottom text?                                         YES
+Does your card contain flavor text?                                                               NO
+rarity@common                                                                                     NO
+rarity@rare                                                                                       YES
+Does your card have a triggered ability (has the words 'when' or 'whenever' in its effect text)?  YES
+rarity@uncommon                                                                                   NO
+Is your card a permanent?                                                                         YES
+Does your card have an activated ability, or create a token with an activated ability?            NO
+Is your card a creature with a power equal to its toughness?                                      YES
+cmc@3.0                                                                                           NO
+cmc@2.0                                                                                           YES
+Does your card do something when it enters the battlefield or comes into play?:                   YES
+cmc@4.0                                                                                           NO
+power@2                                                                                           YES
+------------------------------------------------------------------------------------------------  ---
+
+Test #1053 for Vulshok Morningstar SUCCEEDED after 17 questions.
+Questions | Answers
+------------------------------------------------------------------------------------------------  ---
+Does your card reference its own name in its bottom text?                                         NO
+Does your card contain flavor text?                                                               NO
+rarity@common                                                                                     NO
+rarity@rare                                                                                       NO
+Does your card have a triggered ability (has the words 'when' or 'whenever' in its effect text)?  NO
+rarity@uncommon                                                                                   YES
+Is your card a permanent?                                                                         YES
+Does your card have an activated ability, or create a token with an activated ability?            YES
+Is your card a creature with a power equal to its toughness?                                      NO
+cmc@3.0                                                                                           NO
+cmc@2.0                                                                                           YES
+Does your card do something when it enters the battlefield or comes into play?:                   NO
+cmc@4.0                                                                                           NO
+power@2                                                                                           NO
+Does your card create an effect that lasts 'until end of turn'?                                   NO
+Is your card a creature with a power less than its toughness?                                     NO
+Is your card used as removal?                                                                     NO
+------------------------------------------------------------------------------------------------  ---
+
+Test #1054 for Miscast SUCCEEDED after 25 questions.
+Questions | Answers
+------------------------------------------------------------------------------------------------  ---
+Does your card reference its own name in its bottom text?                                         NO
+Does your card contain flavor text?                                                               YES
+rarity@common                                                                                     NO
+rarity@rare                                                                                       NO
+Does your card have a triggered ability (has the words 'when' or 'whenever' in its effect text)?  NO
+rarity@uncommon                                                                                   YES
+Is your card a permanent?                                                                         NO
+Does your card have an activated ability, or create a token with an activated ability?            NO
+Is your card a creature with a power equal to its toughness?                                      NO
+cmc@3.0                                                                                           NO
+cmc@2.0                                                                                           NO
+Does your card do something when it enters the battlefield or comes into play?:                   NO
+cmc@4.0                                                                                           NO
+power@2                                                                                           NO
+Does your card create an effect that lasts 'until end of turn'?                                   NO
+Is your card a creature with a power less than its toughness?                                     NO
+Is your card used as removal?                                                                     NO
+toughness@2                                                                                       NO
+cmc@5.0                                                                                           NO
+toughness@3                                                                                       NO
+toughness@1                                                                                       NO
+power@3                                                                                           NO
+Is your card a creature with a power greater than its toughness?                                  NO
+power@1                                                                                           NO
+Can your card let someone draw a card?                                                            NO
+------------------------------------------------------------------------------------------------  ---
+
+Test #1055 for Coiling Oracle SUCCEEDED after 11 questions.
+Questions | Answers
+------------------------------------------------------------------------------------------------  ---
+Does your card reference its own name in its bottom text?                                         YES
+Does your card contain flavor text?                                                               YES
+rarity@common                                                                                     YES
+rarity@rare                                                                                       YES
+Does your card have a triggered ability (has the words 'when' or 'whenever' in its effect text)?  YES
+rarity@uncommon                                                                                   YES
+Is your card a permanent?                                                                         YES
+Does your card have an activated ability, or create a token with an activated ability?            NO
+Is your card a creature with a power equal to its toughness?                                      YES
+cmc@3.0                                                                                           NO
+cmc@2.0                                                                                           YES
+------------------------------------------------------------------------------------------------  ---
+
+Test #1056 for Berserkers of Blood Ridge SUCCEEDED after 29 questions.
+Questions | Answers
+------------------------------------------------------------------------------------------------  ---
+Does your card reference its own name in its bottom text?                                         YES
+Does your card contain flavor text?                                                               YES
+rarity@common                                                                                     YES
+rarity@rare                                                                                       NO
+Does your card have a triggered ability (has the words 'when' or 'whenever' in its effect text)?  NO
+rarity@uncommon                                                                                   NO
+Is your card a permanent?                                                                         YES
+Does your card have an activated ability, or create a token with an activated ability?            NO
+Is your card a creature with a power equal to its toughness?                                      YES
+cmc@3.0                                                                                           NO
+cmc@2.0                                                                                           NO
+Does your card do something when it enters the battlefield or comes into play?:                   NO
+cmc@4.0                                                                                           NO
+power@2                                                                                           NO
+Does your card create an effect that lasts 'until end of turn'?                                   NO
+Is your card a creature with a power less than its toughness?                                     NO
+Is your card used as removal?                                                                     NO
+toughness@2                                                                                       NO
+cmc@5.0                                                                                           YES
+toughness@3                                                                                       NO
+toughness@1                                                                                       NO
+power@3                                                                                           NO
+Is your card a creature with a power greater than its toughness?                                  NO
+power@1                                                                                           NO
+Can your card let someone draw a card?                                                            NO
+cmc@1.0                                                                                           NO
+Does your card have a white border?                                                               NO
+Can this card be your commander?                                                                  NO
+toughness@4                                                                                       YES
+------------------------------------------------------------------------------------------------  ---
+
+Test #1057 for Experimental FAILED after 40 questions.
+Questions | Answers
+------------------------------------------------------------------------------------------------  ---
+Does your card reference its own name in its bottom text?                                         NO
+Does your card contain flavor text?                                                               NO
+rarity@common                                                                                     NO
+rarity@rare                                                                                       YES
+Does your card have a triggered ability (has the words 'when' or 'whenever' in its effect text)?  NO
+rarity@uncommon                                                                                   NO
+Is your card a permanent?                                                                         NO
+Does your card have an activated ability, or create a token with an activated ability?            NO
+Is your card a creature with a power equal to its toughness?                                      NO
+cmc@3.0                                                                                           NO
+cmc@2.0                                                                                           NO
+Does your card do something when it enters the battlefield or comes into play?:                   NO
+cmc@4.0                                                                                           NO
+power@2                                                                                           NO
+Does your card create an effect that lasts 'until end of turn'?                                   NO
+Is your card a creature with a power less than its toughness?                                     NO
+Is your card used as removal?                                                                     NO
+toughness@2                                                                                       NO
+cmc@5.0                                                                                           NO
+toughness@3                                                                                       NO
+toughness@1                                                                                       NO
+power@3                                                                                           NO
+Is your card a creature with a power greater than its toughness?                                  NO
+power@1                                                                                           NO
+Can your card let someone draw a card?                                                            NO
+cmc@1.0                                                                                           NO
+Does your card have a white border?                                                               NO
+Can this card be your commander?                                                                  NO
+toughness@4                                                                                       NO
+Does your card exile things?                                                                      NO
+rarity@mythic                                                                                     NO
+Does your card trigger an effect at the beginning of a phase?                                     NO
+cmc@6.0                                                                                           NO
+power@4                                                                                           NO
+Is your card a double-faced card?                                                                 NO
+Does your card cause you or an opponent to discard a card                                         NO
+Does your card give an effect to creatures you control?                                           NO
+Does your card have an attack trigger?                                                            NO
+Does your card deal with counters of any kind?                                                    NO
+Can your card sacrifice itself?                                                                   NO
+------------------------------------------------------------------------------------------------  ---
+
+Test #1058 for Living Plane SUCCEEDED after 13 questions.
+Questions | Answers
+------------------------------------------------------------------------------------------------  ---
+Does your card reference its own name in its bottom text?                                         NO
+Does your card contain flavor text?                                                               NO
+rarity@common                                                                                     NO
+rarity@rare                                                                                       YES
+Does your card have a triggered ability (has the words 'when' or 'whenever' in its effect text)?  NO
+rarity@uncommon                                                                                   NO
+Is your card a permanent?                                                                         YES
+Does your card have an activated ability, or create a token with an activated ability?            NO
+Is your card a creature with a power equal to its toughness?                                      NO
+cmc@3.0                                                                                           NO
+cmc@2.0                                                                                           NO
+Does your card do something when it enters the battlefield or comes into play?:                   NO
+cmc@4.0                                                                                           YES
+------------------------------------------------------------------------------------------------  ---
+
+Test #1059 for Reach of Branches SUCCEEDED after 7 questions.
+Questions | Answers
+------------------------------------------------------------------------------------------------  ---
+Does your card reference its own name in its bottom text?                                         YES
+Does your card contain flavor text?                                                               YES
+rarity@common                                                                                     NO
+rarity@rare                                                                                       YES
+Does your card have a triggered ability (has the words 'when' or 'whenever' in its effect text)?  YES
+rarity@uncommon                                                                                   YES
+Is your card a permanent?                                                                         NO
+------------------------------------------------------------------------------------------------  ---
+
+Test #1060 for Thawing Glaciers SUCCEEDED after 19 questions.
+Questions | Answers
+------------------------------------------------------------------------------------------------  ---
+Does your card reference its own name in its bottom text?                                         YES
+Does your card contain flavor text?                                                               NO
+rarity@common                                                                                     NO
+rarity@rare                                                                                       YES
+Does your card have a triggered ability (has the words 'when' or 'whenever' in its effect text)?  NO
+rarity@uncommon                                                                                   NO
+Is your card a permanent?                                                                         YES
+Does your card have an activated ability, or create a token with an activated ability?            YES
+Is your card a creature with a power equal to its toughness?                                      NO
+cmc@3.0                                                                                           NO
+cmc@2.0                                                                                           NO
+Does your card do something when it enters the battlefield or comes into play?:                   YES
+cmc@4.0                                                                                           NO
+power@2                                                                                           NO
+Does your card create an effect that lasts 'until end of turn'?                                   NO
+Is your card a creature with a power less than its toughness?                                     NO
+Is your card used as removal?                                                                     NO
+toughness@2                                                                                       NO
+cmc@5.0                                                                                           NO
+------------------------------------------------------------------------------------------------  ---
+
+Test #1061 for Nantuko Husk SUCCEEDED after 10 questions.
+Questions | Answers
+------------------------------------------------------------------------------------------------  ---
+Does your card reference its own name in its bottom text?                                         YES
+Does your card contain flavor text?                                                               YES
+rarity@common                                                                                     YES
+rarity@rare                                                                                       NO
+Does your card have a triggered ability (has the words 'when' or 'whenever' in its effect text)?  NO
+rarity@uncommon                                                                                   YES
+Is your card a permanent?                                                                         YES
+Does your card have an activated ability, or create a token with an activated ability?            YES
+Is your card a creature with a power equal to its toughness?                                      YES
+cmc@3.0                                                                                           YES
+------------------------------------------------------------------------------------------------  ---
+
+Test #1062 for Scrap Mastery FAILED after 40 questions.
+Questions | Answers
+------------------------------------------------------------------------------------------------  ---
+Does your card reference its own name in its bottom text?                                         NO
+Does your card contain flavor text?                                                               YES
+rarity@common                                                                                     NO
+rarity@rare                                                                                       YES
+Does your card have a triggered ability (has the words 'when' or 'whenever' in its effect text)?  NO
+rarity@uncommon                                                                                   NO
+Is your card a permanent?                                                                         NO
+Does your card have an activated ability, or create a token with an activated ability?            NO
+Is your card a creature with a power equal to its toughness?                                      NO
+cmc@3.0                                                                                           NO
+cmc@2.0                                                                                           NO
+Does your card do something when it enters the battlefield or comes into play?:                   NO
+cmc@4.0                                                                                           NO
+power@2                                                                                           NO
+Does your card create an effect that lasts 'until end of turn'?                                   NO
+Is your card a creature with a power less than its toughness?                                     NO
+Is your card used as removal?                                                                     NO
+toughness@2                                                                                       NO
+cmc@5.0                                                                                           YES
+toughness@3                                                                                       NO
+toughness@1                                                                                       NO
+power@3                                                                                           NO
+Is your card a creature with a power greater than its toughness?                                  NO
+power@1                                                                                           NO
+Can your card let someone draw a card?                                                            NO
+cmc@1.0                                                                                           NO
+Does your card have a white border?                                                               NO
+Can this card be your commander?                                                                  NO
+toughness@4                                                                                       NO
+Does your card exile things?                                                                      YES
+rarity@mythic                                                                                     NO
+Does your card trigger an effect at the beginning of a phase?                                     NO
+cmc@6.0                                                                                           NO
+power@4                                                                                           NO
+Is your card a double-faced card?                                                                 NO
+Does your card cause you or an opponent to discard a card                                         NO
+Does your card give an effect to creatures you control?                                           NO
+Does your card have an attack trigger?                                                            NO
+Does your card deal with counters of any kind?                                                    NO
+Can your card sacrifice itself?                                                                   NO
+------------------------------------------------------------------------------------------------  ---
+
+Test #1063 for Plummet FAILED after 40 questions.
+Questions | Answers
+------------------------------------------------------------------------------------------------  ---
+Does your card reference its own name in its bottom text?                                         NO
+Does your card contain flavor text?                                                               YES
+rarity@common                                                                                     YES
+rarity@rare                                                                                       NO
+Does your card have a triggered ability (has the words 'when' or 'whenever' in its effect text)?  NO
+rarity@uncommon                                                                                   NO
+Is your card a permanent?                                                                         NO
+Does your card have an activated ability, or create a token with an activated ability?            NO
+Is your card a creature with a power equal to its toughness?                                      NO
+cmc@3.0                                                                                           NO
+cmc@2.0                                                                                           YES
+Does your card do something when it enters the battlefield or comes into play?:                   NO
+cmc@4.0                                                                                           NO
+power@2                                                                                           NO
+Does your card create an effect that lasts 'until end of turn'?                                   NO
+Is your card a creature with a power less than its toughness?                                     NO
+Is your card used as removal?                                                                     YES
+toughness@2                                                                                       NO
+cmc@5.0                                                                                           NO
+toughness@3                                                                                       NO
+toughness@1                                                                                       NO
+power@3                                                                                           NO
+Is your card a creature with a power greater than its toughness?                                  NO
+power@1                                                                                           NO
+Can your card let someone draw a card?                                                            NO
+cmc@1.0                                                                                           NO
+Does your card have a white border?                                                               NO
+Can this card be your commander?                                                                  NO
+toughness@4                                                                                       NO
+Does your card exile things?                                                                      NO
+rarity@mythic                                                                                     NO
+Does your card trigger an effect at the beginning of a phase?                                     NO
+cmc@6.0                                                                                           NO
+power@4                                                                                           NO
+Is your card a double-faced card?                                                                 NO
+Does your card cause you or an opponent to discard a card                                         NO
+Does your card give an effect to creatures you control?                                           NO
+Does your card have an attack trigger?                                                            NO
+Does your card deal with counters of any kind?                                                    NO
+Can your card sacrifice itself?                                                                   NO
+------------------------------------------------------------------------------------------------  ---
+
+Test #1064 for Daring Apprentice SUCCEEDED after 14 questions.
+Questions | Answers
+------------------------------------------------------------------------------------------------  ---
+Does your card reference its own name in its bottom text?                                         YES
+Does your card contain flavor text?                                                               YES
+rarity@common                                                                                     NO
+rarity@rare                                                                                       YES
+Does your card have a triggered ability (has the words 'when' or 'whenever' in its effect text)?  NO
+rarity@uncommon                                                                                   NO
+Is your card a permanent?                                                                         YES
+Does your card have an activated ability, or create a token with an activated ability?            YES
+Is your card a creature with a power equal to its toughness?                                      YES
+cmc@3.0                                                                                           YES
+cmc@2.0                                                                                           NO
+Does your card do something when it enters the battlefield or comes into play?:                   NO
+cmc@4.0                                                                                           NO
+power@2                                                                                           NO
+------------------------------------------------------------------------------------------------  ---
+
+Test #1065 for Artillerize SUCCEEDED after 17 questions.
+Questions | Answers
+------------------------------------------------------------------------------------------------  ---
+Does your card reference its own name in its bottom text?                                         YES
+Does your card contain flavor text?                                                               YES
+rarity@common                                                                                     YES
+rarity@rare                                                                                       NO
+Does your card have a triggered ability (has the words 'when' or 'whenever' in its effect text)?  NO
+rarity@uncommon                                                                                   NO
+Is your card a permanent?                                                                         NO
+Does your card have an activated ability, or create a token with an activated ability?            NO
+Is your card a creature with a power equal to its toughness?                                      NO
+cmc@3.0                                                                                           NO
+cmc@2.0                                                                                           NO
+Does your card do something when it enters the battlefield or comes into play?:                   NO
+cmc@4.0                                                                                           YES
+power@2                                                                                           NO
+Does your card create an effect that lasts 'until end of turn'?                                   NO
+Is your card a creature with a power less than its toughness?                                     NO
+Is your card used as removal?                                                                     NO
+------------------------------------------------------------------------------------------------  ---
+
+Test #1066 for Naya Charm SUCCEEDED after 10 questions.
+Questions | Answers
+------------------------------------------------------------------------------------------------  ---
+Does your card reference its own name in its bottom text?                                         YES
+Does your card contain flavor text?                                                               YES
+rarity@common                                                                                     NO
+rarity@rare                                                                                       NO
+Does your card have a triggered ability (has the words 'when' or 'whenever' in its effect text)?  NO
+rarity@uncommon                                                                                   YES
+Is your card a permanent?                                                                         NO
+Does your card have an activated ability, or create a token with an activated ability?            NO
+Is your card a creature with a power equal to its toughness?                                      NO
+cmc@3.0                                                                                           YES
+------------------------------------------------------------------------------------------------  ---
+
+Test #1067 for Mighty Leap FAILED after 40 questions.
+Questions | Answers
+------------------------------------------------------------------------------------------------  ---
+Does your card reference its own name in its bottom text?                                         NO
+Does your card contain flavor text?                                                               YES
+rarity@common                                                                                     YES
+rarity@rare                                                                                       NO
+Does your card have a triggered ability (has the words 'when' or 'whenever' in its effect text)?  NO
+rarity@uncommon                                                                                   NO
+Is your card a permanent?                                                                         NO
+Does your card have an activated ability, or create a token with an activated ability?            NO
+Is your card a creature with a power equal to its toughness?                                      NO
+cmc@3.0                                                                                           NO
+cmc@2.0                                                                                           YES
+Does your card do something when it enters the battlefield or comes into play?:                   NO
+cmc@4.0                                                                                           NO
+power@2                                                                                           NO
+Does your card create an effect that lasts 'until end of turn'?                                   YES
+Is your card a creature with a power less than its toughness?                                     NO
+Is your card used as removal?                                                                     NO
+toughness@2                                                                                       NO
+cmc@5.0                                                                                           NO
+toughness@3                                                                                       NO
+toughness@1                                                                                       NO
+power@3                                                                                           NO
+Is your card a creature with a power greater than its toughness?                                  NO
+power@1                                                                                           NO
+Can your card let someone draw a card?                                                            NO
+cmc@1.0                                                                                           NO
+Does your card have a white border?                                                               NO
+Can this card be your commander?                                                                  NO
+toughness@4                                                                                       NO
+Does your card exile things?                                                                      NO
+rarity@mythic                                                                                     NO
+Does your card trigger an effect at the beginning of a phase?                                     NO
+cmc@6.0                                                                                           NO
+power@4                                                                                           NO
+Is your card a double-faced card?                                                                 NO
+Does your card cause you or an opponent to discard a card                                         NO
+Does your card give an effect to creatures you control?                                           NO
+Does your card have an attack trigger?                                                            NO
+Does your card deal with counters of any kind?                                                    NO
+Can your card sacrifice itself?                                                                   NO
+------------------------------------------------------------------------------------------------  ---
+
+Test #1068 for Shorikai, Genesis Engine SUCCEEDED after 17 questions.
+Questions | Answers
+------------------------------------------------------------------------------------------------  ---
+Does your card reference its own name in its bottom text?                                         YES
+Does your card contain flavor text?                                                               NO
+rarity@common                                                                                     NO
+rarity@rare                                                                                       NO
+Does your card have a triggered ability (has the words 'when' or 'whenever' in its effect text)?  NO
+rarity@uncommon                                                                                   NO
+Is your card a permanent?                                                                         YES
+Does your card have an activated ability, or create a token with an activated ability?            YES
+Is your card a creature with a power equal to its toughness?                                      NO
+cmc@3.0                                                                                           NO
+cmc@2.0                                                                                           NO
+Does your card do something when it enters the battlefield or comes into play?:                   NO
+cmc@4.0                                                                                           YES
+power@2                                                                                           NO
+Does your card create an effect that lasts 'until end of turn'?                                   NO
+Is your card a creature with a power less than its toughness?                                     NO
+Is your card used as removal?                                                                     NO
+------------------------------------------------------------------------------------------------  ---
+
+Test #1069 for Ancient Ziggurat FAILED after 40 questions.
+Questions | Answers
+------------------------------------------------------------------------------------------------  ---
+Does your card reference its own name in its bottom text?                                         NO
+Does your card contain flavor text?                                                               YES
+rarity@common                                                                                     NO
+rarity@rare                                                                                       YES
+Does your card have a triggered ability (has the words 'when' or 'whenever' in its effect text)?  NO
+rarity@uncommon                                                                                   YES
+Is your card a permanent?                                                                         YES
+Does your card have an activated ability, or create a token with an activated ability?            YES
+Is your card a creature with a power equal to its toughness?                                      NO
+cmc@3.0                                                                                           NO
+cmc@2.0                                                                                           NO
+Does your card do something when it enters the battlefield or comes into play?:                   NO
+cmc@4.0                                                                                           NO
+power@2                                                                                           NO
+Does your card create an effect that lasts 'until end of turn'?                                   NO
+Is your card a creature with a power less than its toughness?                                     NO
+Is your card used as removal?                                                                     NO
+toughness@2                                                                                       NO
+cmc@5.0                                                                                           NO
+toughness@3                                                                                       NO
+toughness@1                                                                                       NO
+power@3                                                                                           NO
+Is your card a creature with a power greater than its toughness?                                  NO
+power@1                                                                                           NO
+Can your card let someone draw a card?                                                            NO
+cmc@1.0                                                                                           NO
+Does your card have a white border?                                                               NO
+Can this card be your commander?                                                                  NO
+toughness@4                                                                                       NO
+Does your card exile things?                                                                      NO
+rarity@mythic                                                                                     NO
+Does your card trigger an effect at the beginning of a phase?                                     NO
+cmc@6.0                                                                                           NO
+power@4                                                                                           NO
+Is your card a double-faced card?                                                                 NO
+Does your card cause you or an opponent to discard a card                                         NO
+Does your card give an effect to creatures you control?                                           NO
+Does your card have an attack trigger?                                                            NO
+Does your card deal with counters of any kind?                                                    NO
+Can your card sacrifice itself?                                                                   NO
+------------------------------------------------------------------------------------------------  ---
+
+Test #1070 for Dwarven Demolition Team SUCCEEDED after 14 questions.
+Questions | Answers
+------------------------------------------------------------------------------------------------  ---
+Does your card reference its own name in its bottom text?                                         NO
+Does your card contain flavor text?                                                               YES
+rarity@common                                                                                     NO
+rarity@rare                                                                                       NO
+Does your card have a triggered ability (has the words 'when' or 'whenever' in its effect text)?  NO
+rarity@uncommon                                                                                   YES
+Is your card a permanent?                                                                         YES
+Does your card have an activated ability, or create a token with an activated ability?            YES
+Is your card a creature with a power equal to its toughness?                                      YES
+cmc@3.0                                                                                           YES
+cmc@2.0                                                                                           NO
+Does your card do something when it enters the battlefield or comes into play?:                   NO
+cmc@4.0                                                                                           NO
+power@2                                                                                           NO
+------------------------------------------------------------------------------------------------  ---
+
+Test #1071 for Black Market SUCCEEDED after 23 questions.
+Questions | Answers
