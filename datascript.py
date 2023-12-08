@@ -500,5 +500,5 @@ def setup():
             print(f'SKIPPING {file_operation}...')
 
 # setup()
-# QuestionBank.write_cardsdata_live_csv()
-QuestionBank.upload_cardsdata_live_s3()
+QuestionBank.write_cardsdata_live_csv()
+# QuestionBank.upload_cardsdata_live_s3()

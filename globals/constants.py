@@ -2,18 +2,18 @@ import pandas as pd
 import boto3
 import botocore
 
-BUCKET_NAME = 'magikinator'
-KEY = 'cardsdata_live.csv'
-PATH_TO_DOWNLOAD_TO = 'data/files/cardsdata_live.csv'
+# BUCKET_NAME = 'magikinator'
+# KEY = 'cardsdata_live.csv'
+# PATH_TO_DOWNLOAD_TO = 'data/files/cardsdata_live.csv'
 
-try:
-    s3 = boto3.resource('s3')
-    s3.Bucket(BUCKET_NAME).download_file(KEY, PATH_TO_DOWNLOAD_TO)
-except botocore.exceptions.ClientError as e:
-    if e.response['Error']['Code'] == "404":
-        print("The object does not exist.")
-    else:
-        raise
+# try:
+#     s3 = boto3.resource('s3')
+#     s3.Bucket(BUCKET_NAME).download_file(KEY, PATH_TO_DOWNLOAD_TO)
+# except botocore.exceptions.ClientError as e:
+#     if e.response['Error']['Code'] == "404":
+#         print("The object does not exist.")
+#     else:
+#         raise
 
 cardcsv_dataframe = pd.read_csv('./data/files/cardsdata_live.csv')
 cardcsv_dataframe.index = cardcsv_dataframe["Name"]
