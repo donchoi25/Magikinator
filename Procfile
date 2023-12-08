@@ -1,2 +1,2 @@
 web: gunicorn app:app
-startup: python datascript.py
+worker: sh -c 'python datascript.py'
