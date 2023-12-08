@@ -4,10 +4,10 @@ import botocore
 
 BUCKET_NAME = 'magikinator'
 KEY = 'cardsdata_live.csv'
-PATH_TO_DOWNLOAD_TO = '../data/files/cardsdata_live.csv'
+PATH_TO_DOWNLOAD_TO = 'data/files/cardsdata_live.csv'
 
 try:
-    s3 = boto3.client('s3')
+    s3 = boto3.resource('s3')
     s3.Bucket(BUCKET_NAME).download_file(KEY, PATH_TO_DOWNLOAD_TO)
 except botocore.exceptions.ClientError as e:
     if e.response['Error']['Code'] == "404":
