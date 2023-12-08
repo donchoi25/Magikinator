@@ -11,6 +11,7 @@ import numpy as np
 import json
 import os.path
 import csv
+import boto3
 import operator
 from datetime import date
 from urllib.request import urlopen
@@ -394,6 +395,11 @@ class QuestionBank:
             writer.writerows(card_rows)
             csvfile.close()
 
+    def upload_cardsdata_live_s3():
+        s3 = boto3.resource('s3')
+        BUCKET = "magikinator"
+        s3.Bucket(BUCKET).upload_file(CARDDATA_LIVE_CSV_FILENAME, 'cardsdata_live.csv')
+
     def write_cardsimages_live_csv():
         print("Creating List of images for all cards")
         if os.path.exists(CARDDATA_IMAGE_LIVE_CSV_FILENAME):
@@ -493,6 +499,6 @@ def setup():
         else:
             print(f'SKIPPING {file_operation}...')
 
-
-setup()
-QuestionBank.write_cardsdata_live_csv()
+# setup()
+# QuestionBank.write_cardsdata_live_csv()
+QuestionBank.upload_cardsdata_live_s3()
