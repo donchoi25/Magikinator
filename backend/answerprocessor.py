@@ -14,9 +14,10 @@ class AnswerProcessor:
         entropy = -1 * np.sum(ne.evaluate("cardprobVector * log(cardprobVector)"))
 
         maxIndex = np.argmax(cardprobVector)
-
+        maxIndices = np.argpartition(cardprobVector, -5)[-5:]
         # maxProb = probVector[maxIndex]
         maxCard = CARD_DATA_FINAL[maxIndex]
+        maxCards = [CARD_DATA_FINAL[index] for index in maxIndices]
         # print("Current suspected card: " + maxCard)
 
         # questionList.append(newQuestion)
@@ -25,5 +26,5 @@ class AnswerProcessor:
         # print("Answer Processed")
 
         #return the answer if entropy is low enough
-        found_potential_card = len(questionList) >= QUESTION_LIMIT_FINAL or entropy < 0.01
-        return (maxCard, cardentropy, found_potential_card)
+        found_potential_card = len(questionList) >= QUESTION_LIMIT_FINAL
+        return (maxCard, cardentropy, found_potential_card, maxCards)

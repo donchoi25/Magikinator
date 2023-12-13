@@ -18,6 +18,8 @@ from urllib.request import urlopen
 from data.models.cardmodel import CardModel
 from scryfallscript import ask_all_questions
 import psutil
+import math
+from collections import Counter
 
 # ====================================================================
 #                       DOWNLOADING DATA
@@ -92,17 +94,9 @@ def countNumberOfCards():
 """
 In memory representation of a card.
 """
-class Card:
-    RELEVANT_ATTRIBUTES = ['id', 'oracle_id', 'name', 
-                        'released_at', 'mana_cost', 
-                        'cmc', 'type_line', 'oracle_text',
-                        'power', 'toughness', 'colors', 
-                        'color_identity', 'keywords', 
-                        'legalities', 'set', 'rarity',
-                        'artist', 'flavor_text']
-    
+class Card:    
     ATTRIBUTES_THAT_VARY_BETWEEN_PRINTINGS = [
-        'set', 'rarity', 'flavor_text', 'artist'
+        'rarity', #flavor_text
     ]
     
     def __init__(self, card_str):
@@ -118,24 +112,22 @@ class Card:
         self.toughness = card_str.get('toughness')
         self.colors = [color.lower() for color in card_str.get('colors')] if card_str.get('colors') else []
         self.color_identity = card_str.get('color_identity')
-        self.keywords = card_str.get('keywords')
+        self.keywords = list(map(lambda keyword: keyword.lower(), card_str.get('keywords')))
         self.legalities = card_str.get('legalities')
-        self.produced_mana = card_str.get('produced_mana')
         self.image_uris = card_str.get('image_uris').get('normal') if card_str.get('image_uris') else "" 
         self.artist = [card_str.get('artist')]
         self.set = [card_str.get('set')]
-        self.rarity = [card_str.get('rarity')]
         self.flavor_text = [card_str.get('flavor_text')]
+        self.produced_mana = list(map(lambda keyword: keyword.lower(), card_str.get('produced_mana') if card_str.get('produced_mana') else []))
+        # For rarity specifically, we want to scale the value to the # of cards printed at rare, uncommon, etc...
+        self.rarity = Counter({card_str.get('rarity'): 1})
 
-    # meld attributes that vary between printings
-    
+    # meld attributes that vary between printings (rarity)
     def combine_cards(self, other_card):
         for attr in Card.ATTRIBUTES_THAT_VARY_BETWEEN_PRINTINGS:
             self_attr = getattr(self, attr)
             other_attr = getattr(other_card, attr)
-            for val in other_attr:
-                if val not in self_attr:
-                    self_attr.append(val)
+            self_attr += other_attr
             # print("CUR CARD: " + self.name + " OTHER CARD: " + other_card.name)
             # print(getattr(self, attr))
 
@@ -155,9 +147,14 @@ class Card:
         elif attribute == "produced_mana":
             return self.is_card_produced_mana(expected_value)
         elif attribute == "artist":
-            return self.is_card_by_artist(expected_value) 
+            return self.is_card_by_artist(expected_value)
+        elif attribute == "flavor_text":
+            return self.is_card_flavor_text(expected_value)
         else:
             return False
+
+    def is_card_flavor_text(self):
+        return any(self.flavor_text)
 
     def is_card_this_type(self, suspected_type):
         if not self.type_line:
@@ -177,13 +174,8 @@ class Card:
     def is_card_this_keyword(self, suspected_keyword):
         if not self.keywords:
             return False
-        match = suspected_keyword.lower() in self.keywords
-        # if match:
-        #     print("SUSPECTED KEYWORD: " + suspected_keyword)
-        #     print(self.keywords)
-        return match
+        return suspected_keyword.lower() in self.keywords
 
-    
     def is_card_this_rarity(self, suspected_rarity):
         if not self.rarity:
             return False
@@ -197,7 +189,7 @@ class Card:
     def is_card_produced_mana(self, suspected_mana):
         if not self.produced_mana:
             return False
-        return suspected_mana in self.produced_mana
+        return suspected_mana.lower() in self.produced_mana
 
     def is_card_by_artist(self, suspected_artist):
         if not suspected_artist:
@@ -239,11 +231,22 @@ class QuestionBank:
 
     }
 
+    RELEVANT_ATTRIBUTES = ['id', 'oracle_id', 'name', 
+                    'released_at', 'mana_cost', 
+                    'cmc', 'type_line', 'oracle_text',
+                    'power', 'toughness', 'colors', 
+                    'color_identity', 'keywords', 
+                    'legalities', 'set', 'rarity',
+                    'artist', 'flavor_text', 'produced_mana']
+
 ### Generate all MATCH QUESTIONS for Card Attributes that can be seen on the card itself.
-    MATCH_COLUMNS = ["power", "toughness", "mana_cost"]
+    MATCH_COLUMNS = ["power", "toughness", "cmc", "mana_cost"]
 
 ### Generate All MATCH_AT_LEAST Questions for Card Attributes that need enumeration
-    MATCH_AT_LEAST = ["type_line", "color_identity", "keywords"]
+    MATCH_AT_LEAST = ["type_line", "color_identity", "keywords", "rarity", "produced_mana"]
+
+### Generate All Questions for Card Attributes that vary between printings
+    MATCH_COLUMNS_VARY_PRINTINGS = ["rarity"]
     
     def generateMatchQuestionsForCardAttributes(all_cards):
         map_attribute_to_range_arr = {} # column --> set(values)
@@ -308,34 +311,6 @@ class QuestionBank:
         
         return questions_arr
     
-    def answerDefaultAnswersForCardAttributes(all_cards):
-        default_questions = QuestionBank.generateMatchQuestionsForCardAttributes(all_cards)
-        question_ans_map = {} # Question (CMC#6) : { Card A : True / False, Card B: True / False, etc }
-        for question in default_questions:
-            question_ans_map[question] = {}
-            question_attribute, question_expected_value = question.split("@")
-            for card in all_cards:
-                attr = getattr(card, question_attribute)
-                if attr:
-                    question_ans_map[question][card.name] = str(attr) == str(question_expected_value)
-                else:
-                    question_ans_map[question][card.name] = False
-        return question_ans_map
-    
-    def answerMatchAtLeastAnswersForCardAttributes(all_cards):
-        default_questions = QuestionBank.generateMatchAtLeastQuestionsForCardAttributes(all_cards)
-        question_ans_map = {} # Question (CMC#6) : { Card A : True / False, Card B: True / False, etc }
-        for question in default_questions:
-            question_ans_map[question] = {}
-            question_attribute, question_expected_value = question.split("@")
-            for card in all_cards:
-                match = card.does_card_match_attribute(question_attribute, question_expected_value)
-                question_ans_map[question][card.name] = match
-                # if match:
-                #     print("QUESTION: " + question)
-                #     print("ATTRIBUTE: " + str(getattr(card, question_attribute)))
-        return question_ans_map
-    
     def write_cardsdata_live_csv():
         if os.path.exists(CARDDATA_LIVE_CSV_FILENAME):
             os.remove(CARDDATA_LIVE_CSV_FILENAME)
@@ -356,6 +331,7 @@ class QuestionBank:
             question_column_fields.append(f'{scry_q}#YES')
             question_column_fields.append(f'{scry_q}#NO')
             question_column_fields.append(f'{scry_q}#MAYBE')
+        print("Generated all scryfall questions!")
         
         with open(CARDDATA_LIVE_CSV_FILENAME, 'a', encoding='utf-8') as csvfile:
             writer = csv.DictWriter(csvfile, fieldnames=question_column_fields)
@@ -374,9 +350,17 @@ class QuestionBank:
                         elif question_attribute in QuestionBank.MATCH_AT_LEAST:
                             correct = card.does_card_match_attribute(question_attribute, question_expected_value)
 
-                    card_row[f'{question}#YES'] = CORRECT_VALUE if correct else INCORRECT_VALUE
-                    card_row[f'{question}#NO'] = INCORRECT_VALUE if correct else CORRECT_VALUE
-                    card_row[f'{question}#MAYBE'] = MAYBE_VALUE
+                    # For Rarity
+                    if question_attribute in Card.ATTRIBUTES_THAT_VARY_BETWEEN_PRINTINGS:
+                        scaled_correct_value = int((attr[question_expected_value] / sum(attr.values())) * 100)
+                        scaled_incorrect_value = 100 - scaled_correct_value
+                        card_row[f'{question}#YES'] = scaled_correct_value if correct else scaled_incorrect_value
+                        card_row[f'{question}#NO'] = scaled_incorrect_value if correct else scaled_correct_value
+                        card_row[f'{question}#MAYBE'] = MAYBE_VALUE
+                    else:
+                        card_row[f'{question}#YES'] = CORRECT_VALUE if correct else INCORRECT_VALUE
+                        card_row[f'{question}#NO'] = INCORRECT_VALUE if correct else CORRECT_VALUE
+                        card_row[f'{question}#MAYBE'] = MAYBE_VALUE
 
                 for question, cards in scryfall_questions_map.items():
                     correct = card.name.lower() in cards
@@ -426,62 +410,6 @@ class QuestionBank:
             writer.writerows(card_rows)
             csvfile.close()
 
-# TODO: Might need to migrate how we approach answering attributes with list values
-    def old_write_cardsdata_live_csv():
-        all_cards = convertCardDataJsonToCards()
-        combined_answers = QuestionBank.answerDefaultAnswersForCardAttributes(all_cards)
-        match_answers = QuestionBank.answerMatchAtLeastAnswersForCardAttributes(all_cards)
-        combined_answers.update(match_answers)
-
-        card_rows = []
-        questions = ["Name"]
-        for column in combined_answers.keys():
-            questions.append(f'{column}#YES')
-            questions.append(f'{column}#NO')
-            questions.append(f'{column}#MAYBE')
-
-        # SCRYFALL QUESTIONS
-        print("ASKING SCRYFALL QUESTIONS")
-        scryfall_answers = ask_all_questions()
-        print("DONE ASKING SCRYFALL QUESTIONS")
-        for scry_q in scryfall_answers.keys():
-            questions.append(f'{scry_q}#YES')
-            questions.append(f'{scry_q}#NO')
-            questions.append(f'{scry_q}#MAYBE')
-
-        for card in all_cards:
-            card_row = {}
-            card_row["Name"] = card.name
-            for question in combined_answers.keys():
-                question_attr, question_value = question.split("@")
-                correct = combined_answers[question][card.name]
-                if isinstance(getattr(card, question), list):
-                    print(card + " " + question)
-                    print(len(getattr(card, question)))
-                    card_row[f'{question}#YES'] = 95 / len(getattr(card, question)) if correct else (100 - (95 / len(getattr(card, question))))
-                    card_row[f'{question}#NO'] = (100 - (95 / len(getattr(card, question)))) if correct else 95 / len(getattr(card, question))
-                    card_row[f'{question}#MAYBE'] = 2
-                else:
-                    card_row[f'{question}#YES'] = 90 if correct else 5
-                    card_row[f'{question}#NO'] = 5 if correct else 95
-                    card_row[f'{question}#MAYBE'] = 2
-
-            for question, cards in scryfall_answers.items():
-                # print("QUESTION: " + question)
-                # print("CARDS: " + str(cards))
-                correct = card.name.lower() in cards
-                # if correct:
-                    # print("CARD NAME: " + card.name + " Question: " + question)
-                card_row[f'{question}#YES'] = 95 if correct else 5
-                card_row[f'{question}#NO'] = 5 if correct else 95
-                card_row[f'{question}#MAYBE'] = 2
-
-            card_rows.append(card_row)
-        
-        with open('./data/files/cardsdata_live.csv', 'w', encoding='utf-8') as csvfile:
-            writer = csv.DictWriter(csvfile, fieldnames=questions)
-            writer.writeheader()
-            writer.writerows(card_rows)
 
 # ====================================================================
 #                       RUNNING THIS SCRIPT
@@ -500,5 +428,5 @@ def setup():
             print(f'SKIPPING {file_operation}...')
 
 # setup()
-# QuestionBank.write_cardsdata_live_csv()
-QuestionBank.upload_cardsdata_live_s3()
+QuestionBank.write_cardsdata_live_csv()
+# QuestionBank.upload_cardsdata_live_s3()

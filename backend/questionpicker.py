@@ -27,7 +27,7 @@ class QuestionPicker:
         # print("Finding best question...")
         # print("Best questions so far have included: " + str(questionList))
         bestQuestion = ('invalid', float('inf'))
-    
+        bestQuestionCandidates = []
         prevtime = time.time()
         for question in self.allQs:
             if question in questionList:
@@ -62,9 +62,12 @@ class QuestionPicker:
             #print((question, totalEntropy))
             #save the question that creates the lowest entropy
             if totalEntropy < bestQuestion[1]:
+                bestQuestionCandidates.append(bestQuestion[0])
                 bestQuestion = (question, totalEntropy)
         # print("Time to find question: " + str(time.time() - prevtime))
         # self.allQs.remove(bestQuestion[0])
         # print("Best question Found: " + str(bestQuestion[0]))
 
+        # print(bestQuestionCandidates)
+        # print('\n')
         return bestQuestion[0]

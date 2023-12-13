@@ -4,12 +4,15 @@ from globals.constants import cardcsv_dataframe as df
 import os.path
 
 # Files to save test data to
-TEST_CARDS_PATH = "./data/files/test/simulate_game_allcards.txt"
+TEST_CARDS_PATH = "./data/files/test/simulate_game_allcards_5.txt"
 LAST_CARD_PATH = "./data/files/test/last_card.txt"
+QUESTIONS_PATH = "./data/files/questions_analysis.txt"
+FAILED_PATH = "./data/files/failed_cards.txt"
 
 # Testing parameters
 CARD_LIMIT_PER_RUN = float('inf')
 HOW_OFTEN_TO_SAVE = 4
+MAX_QUESTIONS_TO_ASK = 50
 
 # Saving Progress (Optional)
 SPECIFIC_CARD_TO_START_FROM = None
@@ -42,27 +45,42 @@ def simulateGameForAllCards(print_to_console=False):
     # If we have a valid card to continue from, we'll iterate to that card before continuing our tests.
 
     skip_to_continue = True
+    
+    # We append a delimiter here, in order to parse through the text file later for analysis
+    delimiter_list = ['@'] * MAX_QUESTIONS_TO_ASK
     with open(TEST_CARDS_PATH, 'a') as file:
         for name, card_row in df.iterrows():
             if continuing_card != None and skip_to_continue:
                 if name.lower() == continuing_card.lower():
                     skip_to_continue = False
-                index += 1    
-                continue
+                    index += 1
+                else:
+                    index += 1    
+                    continue
             
             response = simulateQuestionsForCard(name, card_row)
-            success = response[2] == name
+            success = response[0] == name
+            minor_success = len(response[5]) > 0
 
             print(f"Test #{str(index)} for {name} {'SUCCEEDED' if success else 'FAILED'} after {str(len(response[0]))} questions.\n")
+            if not success and minor_success:
+                print(f"Minor Success, as {name} was found in top cards in rounds {', '.join(minor_success)}.\n")
             if print_to_console:
-                print(f"Questions | Answers\n")
-                print(tabulate(zip(response[0], response[1])))
+                print(f"Suspected Card | Question | Answer | Best Cards \n")
+                print(tabulate(zip(response[0], delimiter_list, response[1], response[2], response[3])))
 
             file.write('\n')
             file.write(f"Test #{str(index)} for {name} {'SUCCEEDED' if success else 'FAILED'} after {str(len(response[0]))} questions.\n")
-            file.write(f"Questions | Answers\n")
-            file.write(tabulate(zip(response[0], response[1])))
+            if not success and minor_success:
+                file.write(f"Minor Success, as {name} was found in top cards in rounds {', '.join(minor_success)}.\n")
+            file.write(f"Suspected Card | Question | Answer | Best Cards \n")
+            file.write(tabulate(zip(response[0], delimiter_list, response[1], response[2], response[3])))
             file.write('\n')
+
+            if not success:
+                with open(FAILED_PATH, 'a') as f:
+                    f.write(f"{name} | {response[2][-1]}\n")
+                    f.close()
 
             index += 1
             if index % HOW_OFTEN_TO_SAVE == 0:
@@ -78,17 +96,25 @@ def simulateGameForAllCards(print_to_console=False):
         file.close()
 
 def simulateQuestionsForCard(card_name, card_data):
-    MAX_QUESTIONS_TO_ASK = 40
     questions_asked = []
     answers_given = []
-    response = (None, 1, None)
+    cards_guessed = []
+    best_cards_guessed = []
+    cached_entropy_vector = 1
+    was_seen = []
+    response = (None, cached_entropy_vector, None)
     while response[0] != card_name and len(questions_asked) < MAX_QUESTIONS_TO_ASK:
-        bestQuestion = frontEnd.askQuestion(questions_asked, 1)
+        bestQuestion = frontEnd.askQuestion(questions_asked, cached_entropy_vector)
         answer = getAnswerForCard(card_data, bestQuestion)
-        response = frontEnd.responseAnswer(questions_asked, bestQuestion, answer, response[1])
+        response = frontEnd.responseAnswer(questions_asked, bestQuestion, answer, cached_entropy_vector)
+        cached_entropy_vector = response[1]
         questions_asked.append(bestQuestion)
         answers_given.append(answer)
-    return (questions_asked, answers_given, response[0])
+        cards_guessed.append(response[0])
+        best_cards_guessed.append(response[3])
+        if card_name in best_cards_guessed:
+            was_seen.append(len(questions_asked))
+    return (response[0], questions_asked, answers_given, cards_guessed, best_cards_guessed, was_seen)
 
 def getAnswerForCard(card_data, question):
     ANSWERS = ["YES", "NO", "MAYBE"]
@@ -96,9 +122,12 @@ def getAnswerForCard(card_data, question):
     best_answer_val = float("-inf")
     for answer in ANSWERS:
         answer_val = card_data[question + "#" + answer]
-        if answer_val > best_answer_val:
+        if answer_val >= best_answer_val:
             best_answer = answer
             best_answer_val = answer_val
     return best_answer
+
+def get_most_common_questions():
+    return
         
 simulateGameForAllCards()

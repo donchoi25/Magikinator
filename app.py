@@ -39,7 +39,7 @@ def guess_card():
 
         most_recent_question = previous_questions[-1]
         most_recent_answer = previous_answers[-1]
-        guessed_card, cachethisentropy, foundpotentialcard = frontEnd.responseAnswer(previous_questions, most_recent_question, most_recent_answer, prev_entropy_vector)
+        guessed_card, cachethisentropy, foundpotentialcard, bestCards = frontEnd.responseAnswer(previous_questions, most_recent_question, most_recent_answer, prev_entropy_vector)
         
         bestQuestion = frontEnd.askQuestion(previous_questions, cachethisentropy)
         cachethisentropy = json.dumps(cachethisentropy.tolist())
@@ -49,7 +49,8 @@ def guess_card():
             "bestQuestion": bestQuestion,
             "entropyValue": cachethisentropy,
             "found": foundpotentialcard,
-            "guessedCard": guessed_card
+            "guessedCard": guessed_card,
+            "bestCards": bestCards
         }
         response = jsonify(data)
         return response
