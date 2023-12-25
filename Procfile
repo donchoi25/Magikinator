@@ -1,2 +1,1 @@
-web: gunicorn app:app --timeout 400
-worker: sh -c 'python datascript.py'
+web: gunicorn app:app --timeout 300

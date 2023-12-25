@@ -4,7 +4,7 @@ from globals.constants import QUESTION_DATA_FINAL
 from globals.constants import TOTAL_CARDS_FINAL
 from globals.constants import POSSIBLE_ANSWERS_FINAL
 from globals.constants import TOTALS_MAP_FINAL
-from globals.constants import COL_NUMPY_DICT_FINAL
+from globals.constants import cardcsv_dataframe
 import time
 import numpy as np
 import numexpr as ne
@@ -51,7 +51,7 @@ class QuestionPicker:
             
             #calculate the new probabilities for each card if we add the new answer for the current question
             for ans in POSSIBLE_ANSWERS_FINAL:
-                columnVector = COL_NUMPY_DICT_FINAL[question + "#" + ans]
+                columnVector = cardcsv_dataframe[question + "#" + ans].to_numpy() / 100
                 newProbVector, _ = BeyesCalcInst.calculateCardProb(columnVector, cachedEntropyVector)
                 entropy_map[ans] = -1 * np.sum(ne.evaluate("newProbVector * log(newProbVector)"))
                 
