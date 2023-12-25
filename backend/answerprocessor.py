@@ -18,7 +18,7 @@ class AnswerProcessor:
         maxIndex = np.argmax(cardprobVector)
         maxCard = CARD_DATA_FINAL[maxIndex]
         while maxCard in rejected_cards:
-            cardprobVector = np.delete(cardprobVector, maxIndex)
+            cardprobVector[maxIndex] = 0
             maxIndex = np.argmax(cardprobVector)
             maxCard = CARD_DATA_FINAL[maxIndex]
 
