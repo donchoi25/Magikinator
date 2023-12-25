@@ -243,7 +243,7 @@ class QuestionBank:
     MATCH_COLUMNS = ["power", "toughness", "cmc", "mana_cost"]
 
 ### Generate All MATCH_AT_LEAST Questions for Card Attributes that need enumeration
-    MATCH_AT_LEAST = ["color_identity", "keywords"]
+    MATCH_AT_LEAST = ["type_line", "color_identity", "keywords", "rarity"]
 
 ### Generate All Questions for Card Attributes that vary between printings
     MATCH_COLUMNS_VARY_PRINTINGS = ["rarity"]
