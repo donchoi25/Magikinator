@@ -20,6 +20,7 @@ TEST_SEARCHES = {
     "Is your card an land?": "t:land",
     "Is your card an planeswalker?": "t:planeswalker",
     "Is your card an sorcery?": "t:sorcery",
+    "Is your card a token?": "t:token",
     "Is your card a world enchantment or enchant world?":"t:world",
     "Is your card an aura or enchant creature?": "t:aura",
     "Is your card a saga?": "t:saga",
