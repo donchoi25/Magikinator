@@ -7,7 +7,7 @@ import numpy as np
 import numexpr as ne
 
 class AnswerProcessor:
-    def processAnswer(self, questionList, newQuestion, newAnswer, cachedEntropyValue=1):
+    def processAnswer(self, questionList, newQuestion, newAnswer, rejected_cards, cachedEntropyValue=1):
         # print("Processing Answer...")
 
         columnVector = cardcsv_dataframe[newQuestion + "#" + newAnswer].to_numpy() / 100
@@ -16,9 +16,14 @@ class AnswerProcessor:
         entropy = -1 * np.sum(ne.evaluate("cardprobVector * log(cardprobVector)"))
 
         maxIndex = np.argmax(cardprobVector)
+        maxCard = CARD_DATA_FINAL[maxIndex]
+        while maxCard in rejected_cards:
+            cardprobVector.pop(maxIndex)
+            maxIndex = np.argmax(cardprobVector)
+            maxCard = CARD_DATA_FINAL[maxIndex]
+
         maxIndices = np.argpartition(cardprobVector, -5)[-5:]
         # maxProb = probVector[maxIndex]
-        maxCard = CARD_DATA_FINAL[maxIndex]
         maxCards = [CARD_DATA_FINAL[index] for index in maxIndices]
         # print("Current suspected card: " + maxCard)
 
@@ -29,4 +34,4 @@ class AnswerProcessor:
 
         #return the answer if entropy is low enough
         found_potential_card = len(questionList) >= QUESTION_LIMIT_FINAL
-        return (maxCard, cardentropy, found_potential_card, maxCards, entropy)
+        return (maxCard, cardentropy, found_potential_card, maxCards, entropy, rejected_cards)

@@ -105,7 +105,7 @@ def simulateQuestionsForCard(card_name, card_data):
     while response[0] != card_name and len(questions_asked) < MAX_QUESTIONS_TO_ASK:
         bestQuestion = frontEnd.askQuestion(questions_asked, cached_entropy_vector)
         answer = getAnswerForCard(card_data, bestQuestion)
-        response = frontEnd.responseAnswer(questions_asked, bestQuestion, answer, cached_entropy_vector)
+        response = frontEnd.responseAnswer(questions_asked, bestQuestion, answer, cached_entropy_vector, [])
         cached_entropy_vector = response[1]
         questions_asked.append(bestQuestion)
         answers_given.append(answer)
