@@ -4,7 +4,7 @@ from globals.constants import cardcsv_dataframe as df
 import os.path
 
 # Files to save test data to
-TEST_CARDS_PATH = "./data/files/test/simulate_game_allcards_5.txt"
+TEST_CARDS_PATH = "./data/files/test/simulate_game_allcards.txt"
 LAST_CARD_PATH = "./data/files/test/last_card.txt"
 QUESTIONS_PATH = "./data/files/questions_analysis.txt"
 FAILED_PATH = "./data/files/failed_cards.txt"
@@ -13,7 +13,6 @@ FAILED_PATH = "./data/files/failed_cards.txt"
 CARD_LIMIT_PER_RUN = float('inf')
 HOW_OFTEN_TO_SAVE = 4
 MAX_QUESTIONS_TO_ASK = 50
-
 # Saving Progress (Optional)
 SPECIFIC_CARD_TO_START_FROM = None
 
@@ -62,24 +61,24 @@ def simulateGameForAllCards(print_to_console=False):
             success = response[0] == name
             minor_success = len(response[5]) > 0
 
-            print(f"Test #{str(index)} for {name} {'SUCCEEDED' if success else 'FAILED'} after {str(len(response[0]))} questions.\n")
+            print(f"Test #{str(index)} for {name} {'SUCCEEDED' if success else 'FAILED'} after {str(len(response[1]))} questions.\n")
             if not success and minor_success:
                 print(f"Minor Success, as {name} was found in top cards in rounds {', '.join(minor_success)}.\n")
             if print_to_console:
-                print(f"Suspected Card | Question | Answer | Best Cards \n")
-                print(tabulate(zip(response[0], delimiter_list, response[1], response[2], response[3])))
+                print(f"Question | Answer | Cards Guessed | Best Cards Guessed \n")
+                print(tabulate(zip(response[1], response[2], response[3], response[4])))
 
             file.write('\n')
-            file.write(f"Test #{str(index)} for {name} {'SUCCEEDED' if success else 'FAILED'} after {str(len(response[0]))} questions.\n")
+            file.write(f"Test #{str(index)} for {name} {'SUCCEEDED' if success else 'FAILED'} after {str(len(response[1]))} questions.\n")
             if not success and minor_success:
                 file.write(f"Minor Success, as {name} was found in top cards in rounds {', '.join(minor_success)}.\n")
-            file.write(f"Suspected Card | Question | Answer | Best Cards \n")
-            file.write(tabulate(zip(response[0], delimiter_list, response[1], response[2], response[3])))
+            file.write(f"Question | Answer | Cards Guessed | Best Cards Guessed \n")
+            file.write(tabulate(zip(response[1], response[2], response[3], response[4])))
             file.write('\n')
 
             if not success:
                 with open(FAILED_PATH, 'a') as f:
-                    f.write(f"{name} | {response[2][-1]}\n")
+                    f.write(f"{name} | {response[3][-1]}\n")
                     f.close()
 
             index += 1
