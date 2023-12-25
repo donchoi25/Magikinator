@@ -234,7 +234,7 @@ class QuestionBank:
     RELEVANT_ATTRIBUTES = ['id', 'oracle_id', 'name', 
                     'released_at', 'mana_cost', 
                     'cmc', 'type_line', 'oracle_text',
-                    'power', 'toughness', 'colors', 
+                    'power', 'toughness', 'colors',
                     'color_identity', 'keywords', 
                     'legalities', 'set', 'rarity',
                     'artist', 'flavor_text', 'produced_mana']

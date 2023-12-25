@@ -15,7 +15,7 @@ import botocore
 #     else:
 #         raise
 
-cardcsv_dataframe = pd.read_csv('../data/files/cardsdata_live.csv')
+cardcsv_dataframe = pd.read_csv('./data/files/cardsdata_live.csv')
 cardcsv_dataframe.index = cardcsv_dataframe["Name"]
 cardcsv_dataframe = cardcsv_dataframe.iloc[: , 1:]
 import os, psutil; print(psutil.Process(os.getpid()).memory_info().rss / 1024 ** 2)
