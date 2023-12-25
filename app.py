@@ -45,7 +45,7 @@ def guess_card():
         
         bestQuestion = frontEnd.askQuestion(previous_questions, cachethisentropy)
         cachethisentropy = json.dumps(cachethisentropy.tolist())
-        rejectedCards = json.dumps(rejectedCards.tolist())
+        rejectedCards = json.dumps(rejectedCards)
         foundpotentialcard = json.dumps(bool(foundpotentialcard))
 
         data = {
