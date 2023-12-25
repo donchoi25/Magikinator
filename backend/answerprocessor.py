@@ -29,4 +29,4 @@ class AnswerProcessor:
 
         #return the answer if entropy is low enough
         found_potential_card = len(questionList) >= QUESTION_LIMIT_FINAL
-        return (maxCard, cardentropy, found_potential_card, maxCards)
+        return (maxCard, cardentropy, found_potential_card, maxCards, entropy)
