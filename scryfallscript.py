@@ -108,6 +108,11 @@ TEST_SEARCHES = {
     "Is your card a wrath?": "function:wrath",
     
     # Oracletext QUERIES
+    "Does your card care about white spells being cast?": "o:when o:'cast a white spell'",
+    "Does your card care about black spells being cast?": "o:when o:'cast a black spell'",
+    "Does your card care about red spells being cast?": "o:when o:'cast a red spell'",
+    "Does your card care about blue spells being cast?": "o:when o:'cast a blue spell'",
+    "Does your card care about green spells being cast?": "o:when o:'cast a green spell'",
     "Does your card make you the monarch?": "o:'you become the monarch'",
     "Does your card regenerate itself?": "o:'regenerate ~'",
     "Does your card trigger when it dies?": "o:'when ~ dies'",
