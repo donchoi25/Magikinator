@@ -15,23 +15,24 @@ class AnswerProcessor:
         cardprobVector, cardentropy = BeyesCalcInst.calculateCardProb(columnVector, cachedEntropyValue)
         entropy = -1 * np.sum(ne.evaluate("cardprobVector * log(cardprobVector)"))
 
-        maxIndex = np.argmax(cardprobVector)
-        maxCard = CARD_DATA_FINAL[maxIndex]
-        while maxCard in rejected_cards:
-            cardprobVector[maxIndex] = 0
-            maxIndex = np.argmax(cardprobVector)
-            maxCard = CARD_DATA_FINAL[maxIndex]
+        maxIndices = np.argpartition(cardprobVector, -1 * max(5, len(rejected_cards) + 1))[-1 * (max(5, len(rejected_cards) + 1)):]
+        maxCards = [[CARD_DATA_FINAL[index], cardprobVector[index]] for index in maxIndices]
+        maxCards.sort(key=lambda x: -1 * x[1])
+        maxCards = [card[0] for card in maxCards]
+        
+        maxCard = None
+        for card in maxCards:
+            if card not in rejected_cards:
+                maxCard = card
+                break
 
-        maxIndices = np.argpartition(cardprobVector, -5)[-5:]
-        # maxProb = probVector[maxIndex]
-        maxCards = [CARD_DATA_FINAL[index] for index in maxIndices]
         # print("Current suspected card: " + maxCard)
-
         # questionList.append(newQuestion)
-
         # print("Current Entropy: " + str(entropy))
         # print("Answer Processed")
 
-        #return the answer if entropy is low enough
+        # Return the answer if entropy is low enough
+        # Return the answer if the entropy difference between the highest card and the next card has a large enough gap
+        
         found_potential_card = len(questionList) >= QUESTION_LIMIT_FINAL
-        return (maxCard, cardentropy, found_potential_card, maxCards, entropy, rejected_cards)
+        return (maxCard, cardentropy, found_potential_card, maxCards[:5], entropy, rejected_cards)
