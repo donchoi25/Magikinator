@@ -33,8 +33,14 @@ TEST_SEARCHES = {
     "Is your card a bondland?": "is:bondland",
     "Is your card a tronland?": "is:tron",
     "Is your card a fastland?": "is:fastland",
+    "Is your card a slowland?": "is:slowland",
+    "Is your card a land with type locus?": "is:land type:locus",
+    "Is your card a land with type cave?": "is:land type:cave",
+    "Is your card a land with type lair?": "is:land type:lair",
+    "Is your card a land with type mine?": "is:land type:mine",
     "Is your card a gate land?": "t:gate",
     "Is your card on the reserved list?": "is:reserved",
+    "Is your card a basic land?": "type:land type:basic",
     "Is your card a split card?": "is:split",
     "Can your card be in a party? (Rogue, Warrior, Wizard, Cleric, Monk)": "is:party",
     "Can your card be your commander?": "is:commander",
@@ -66,6 +72,7 @@ TEST_SEARCHES = {
     "Is your card an instant that deals damage?": "t:instant o:'deal'",
     "Is your card a sorcery that deals damage?": "t:sorcery o:'deal'",
     "Is your card an emblem?": "t:emblem",
+    "Is your card a land that produces colorless mana?": "type:land produces:c",
     "Is your card an equipment that gives equipped creature first strike?": "t:equipment o:' first strike'",
     "Is your card an equipment that gives equipped creature trample?": "t:equipment o:' trample'",
     "Is your card an equipment that gives equipped creature haste?": "t:equipment o:' haste'",
@@ -79,6 +86,7 @@ TEST_SEARCHES = {
     "Is your card a phenomenon?": "t:phenomenon",
     "Is your card an eldrazi?": "o:eldrazi or t:eldrazi",
     "Is your card phyrexian?": "o:phyrexian or t:phyrexian or is:phyrexian",
+    "Is your card a land that produces "
     
     # Color QUERIES
     "Is your card red?": "c:r",
@@ -156,7 +164,6 @@ TEST_SEARCHES = {
     "Does your card grant haste?": "o:'gains haste'",
     "Does your card grant shroud?": "o:'gains shroud'",
     "Does your card grant double strike?": "o:'gains double strike'",
-    "Does your card target creatures?": 'o:target o:creature',
     "Does your card increase the power/toughness of creatures you control?": "o:creatures o:'you control get'",
     "Does your card counter noncreature spells?": "o:counter o:target o:'noncreature spell'",
     "Does your card counter creature spells?": "o:counter o:target o:'creature spell'",
@@ -169,7 +176,7 @@ TEST_SEARCHES = {
     "Does your card return things to library?": "o:'return target' o:library",
     "Does your card care about same names?": "o:'same name'",
     "Does your card  activate by sacrificing something?": "o:sacrifice o:':'",
-    "Does your card target multiple players?": "o:different o:players",
+    "Does your card affect multiple players?": "o:different o:players",
     "Does your card only activate if something is true?": "o:'activate only'",
     "Does your card have a you-may ability?": "o:'you may'",
     "Does your card prevent damage from white sources?": "o:prevent o:damage o:'white source'",
@@ -243,6 +250,13 @@ TEST_SEARCHES = {
     "Does your card have an ability that targets instants?": "o:target o:' instant'",
     "Does your card have an ability that targets sorceries?": "o:target o:' sorcery'",
     "Does your card have an ability that targets equipment?": "o:target o:' equipment'",
+    "Does your card have an effect that deals exactly 1 damage to a permanent or player?": "o:'deals 1' o:damage",
+    "Does your card have an effect that deals exactly 2 damage to a permanent or player?": "o:'deals 2' o:damage",
+    "Does your card have an effect that deals exactly 3 damage to a permanent or player?": "o:'deals 3' o:damage",
+    "Does your card have an effect that deals exactly 4 damage to a permanent or player?": "o:'deals 4' o:damage",
+    "Does your card have an effect that deals exactly 5 damage to a permanent or player?": "o:'deals 5' o:damage",
+    "Does your card have an effect that deals exactly 6 damage to a permanent or player?": "o:'deals 6' o:damage",
+    "Does your card have an effect that deals exactly 7 damage to a permanent or player?": "o:'deals 6' o:damage",
     
     
     # Oracletag QUERIES
@@ -261,6 +275,8 @@ TEST_SEARCHES = {
     "Does your card art include an axe?": "art:axe",
     "Does your card art include Liliana the PlanesWalker?": "art:liliana",
     "Does your card art feature Elspeth the PlanesWalker?": "art:elspeth",
+    "Does your card art feature an island, the ocean, or a character in water?": "art:island or art:ocean or art:water",
+    "Does your card art feature a desert, or a character in the desert?": "art:desert",
 
     # Banned QUERIES
     "Is your card banned in commander?": "banned:commander",
@@ -325,11 +341,16 @@ TEST_SEARCHES = {
     "Does your card have a casting restriction?": "oracletag:casting-restriction",
     "Does your card have a cast trigger?": "oracletag:cast-trigger",
     "Does your card care about monarchs?": "oracletag:monarch",
+    "Does your card a non land card that generates mana or treasures?": "oracletag:mana-producer",
     
     # Set QUERIES
     "Is your card from an un-set?": "set:und OR set:ust OR set:unh OR set:ugl OR set:unf",
+    
+    # Type QUERIES
+    "Is your card an enchantment with type Aura": ""
     # ### TAGGER ART QUESTIONS
 }
+
 def get_top_phrases():
     TOP_PHRASE_LIMIT = 50
     i = 0
@@ -383,3 +404,5 @@ def ask_all_questions():
         # print("Answered with " + str(len(cards_returned)) + " cards returned.")
         questions_cards_map[question_text] = cards_returned
     return questions_cards_map
+
+### Gathering and answering scryfall queries ###

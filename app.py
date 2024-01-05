@@ -54,7 +54,7 @@ def guess_card():
         data = {
             "bestQuestion": bestQuestion,
             "entropyVector": cachethisentropy,
-            "found": foundpotentialcard,
+            "foundACard": foundpotentialcard,
             "guessedCard": guessed_card,
             "bestCardCandidates": bestCards,
             "entropyNumber": entropyVal,

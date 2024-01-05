@@ -18,14 +18,22 @@ class AnswerProcessor:
         maxIndices = np.argpartition(cardprobVector, -1 * max(5, len(rejected_cards) + 1))[-1 * (max(5, len(rejected_cards) + 1)):]
         maxCards = [[CARD_DATA_FINAL[index], cardprobVector[index]] for index in maxIndices]
         maxCards.sort(key=lambda x: -1 * x[1])
-        maxCards = [card[0] for card in maxCards]
         
         maxCard = None
-        for card in maxCards:
-            if card not in rejected_cards:
+        entropy_difference = 0
+        # We are not guessing the card, when the entropy value for our highest card is greater than another candidate by a large 
+        # enough factor.
+        for i in range(len(maxCards)):
+            card = maxCards[i]
+            if card[0] not in rejected_cards:
                 maxCard = card
+                if i + 1 < len(maxCards) - 1:
+                    entropy_difference = maxCards[i + 1][1] - maxCard[1]
+                    # This is the new threshold for whether we want to take a stab at guessing the card
                 break
 
+        maxCards = [card[0] for card in maxCards]
+        maxCard = maxCard[0]
         # print("Current suspected card: " + maxCard)
         # questionList.append(newQuestion)
         # print("Current Entropy: " + str(entropy))
@@ -33,6 +41,7 @@ class AnswerProcessor:
 
         # Return the answer if entropy is low enough
         # Return the answer if the entropy difference between the highest card and the next card has a large enough gap
+        print(entropy_difference)
         
-        found_potential_card = len(questionList) >= QUESTION_LIMIT_FINAL
+        found_potential_card = len(questionList) >= QUESTION_LIMIT_FINAL or entropy_difference != 0
         return (maxCard, cardentropy, found_potential_card, maxCards[:5], entropy, rejected_cards)
