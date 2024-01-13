@@ -2,6 +2,5 @@ data/files/cardsdata.json
 data/files/cardsdata_range.json
 data/files/cardsdata_csv
 data/files/test/
-data/files/*
 data/files/failed_cards.txt
 **/__pycache__/

@@ -178,7 +178,7 @@ ALL_SEARCHES = {
     "Does your card prevent damage from green sources?": ["o:prevent o:damage o:'green source'"],
     "Does your card make things lose all abilities?": ["o:'loses all abilities'"],
     "Does your card produce mana only for certain abilities?": ["o:'spend this mana only' o:activate"],
-    "Does your card destroy lands?": ["o:'destroy target land' or o:'destroy all lands' or o:''"],  # Ghost Quarters
+    "Does your card destroy lands?": ["o:'destroy target land' or o:'destroy all lands'"],  # Ghost Quarters
     "Does your card have an activated ability?": ["o:':' or o:equip or o:'{X}'"],
     "Can your card create additional combat phases?": ["o:additional o:combat o:phase"],
     "Does your card enchant creatures to grant vigilance?": ["o:'enchanted creature' o:vigilance"],
