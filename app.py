@@ -23,9 +23,9 @@ def guess_card():
             "bestQuestion": bestQuestion,
             "entropyVector": 1,
             "found": False,
-            "guessedCard": "Fury Sliver",
+            "guessedCard": "Warm Welcome",
             "entropyNumber": 1,
-            "bestCardCandidates": ["Fury Sliver", "Fury Sliver", "Fury Sliver", "Fury Sliver", "Fury Sliver"]
+            "bestCardCandidates": ["Warm Welcome", "Warm Welcome", "Warm Welcome", "Warm Welcome", "Warm Welcome"]
         }
         response = jsonify(data)
         return response
@@ -62,6 +62,11 @@ def guess_card():
         }
         response = jsonify(data)
         return response
+
+@app.route('/update_guess', methods = ["POST"])
+@cross_origin(origin='*', headers='Content-Type')
+def update_card_frequency():
+    return
 
 if __name__ == "__main__":
     app.run()

@@ -41,7 +41,6 @@ class AnswerProcessor:
 
         # Return the answer if entropy is low enough
         # Return the answer if the entropy difference between the highest card and the next card has a large enough gap
-        print(entropy_difference)
-        
-        found_potential_card = len(questionList) >= QUESTION_LIMIT_FINAL or entropy_difference != 0
+        # print(entropy_difference)
+        found_potential_card = len(questionList) >= QUESTION_LIMIT_FINAL or (entropy_difference != 0 and entropy < 0.001)
         return (maxCard, cardentropy, found_potential_card, maxCards[:5], entropy, rejected_cards)

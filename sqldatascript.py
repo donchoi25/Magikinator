@@ -10,7 +10,7 @@ from scryfallscript import ask_all_questions
 
 CARDDATA_JSON_FILENAME = "./data/files/cardsdata.json"
 SCRYFALL_DEFAULTCARDS_JSON_URL = "https://data.scryfall.io/default-cards/default-cards-20230830090607.json"
-
+CARDSDATA_LIVE_FILENAME = "./data/files/cardsdata_live.csv"
 
 def create_connection(database_name=""):
     try:
