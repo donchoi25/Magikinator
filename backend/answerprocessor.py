@@ -2,7 +2,8 @@ from backend.beyestheoremcalc import BeyesCalcInst
 from globals.constants import CARD_DATA_FINAL
 from globals.constants import QUESTION_LIMIT_FINAL
 # from globals.constants import COL_NUMPY_DICT_FINAL
-from globals.constants import cardcsv_dataframe
+# from globals.constants import cardcsv_dataframe
+from globals.constants import CARD_DATA_COLUMNS
 import numpy as np
 import numexpr as ne
 
@@ -10,7 +11,7 @@ class AnswerProcessor:
     def processAnswer(self, questionList, newQuestion, newAnswer, rejected_cards, cachedEntropyValue=1):
         # print("Processing Answer...")
 
-        columnVector = cardcsv_dataframe[newQuestion + "#" + newAnswer].to_numpy() / 100
+        columnVector = np.array(CARD_DATA_COLUMNS[newQuestion + "#" + newAnswer]) / 100
         # COL_NUMPY_DICT_FINAL[newQuestion + "#" + newAnswer]
         cardprobVector, cardentropy = BeyesCalcInst.calculateCardProb(columnVector, cachedEntropyValue)
         entropy = -1 * np.sum(ne.evaluate("cardprobVector * log(cardprobVector)"))
